@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="org.hibernate.tutorial.jpa">
+        <class>webshop.service.models.Address</class>
+        <class>webshop.service.models.Category</class>
+        <class>webshop.service.models.Customer</class>
+        <class>webshop.service.models.AbstractImage</class>
+        <class>webshop.service.models.Product</class>
+        <class>webshop.service.models.ProductReview</class>
+        <class>webshop.service.models.ProductProperty</class>
+        <class>webshop.service.models.Retailer</class>
+        <class>webshop.service.models.AbstractUser</class>
+        <class>webshop.service.models.Image</class>
+        <class>webshop.service.models.ProductImage</class>
+        <properties>
+            <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:h2:~/test"/>
+            <property name="hibernate.connection.autocommit" value="false"/>
+            <property name="hibernate.connection.username" value="sa"/>
+            <property name="hibernate.connection.password" value=""/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.connection.CharSet" value="utf8"/>
+            <property name="hibernate.connection.characterEncoding" value="utf8"/>
+            <property name="hibernate.connection.useUnicode" value="true"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="javax.persistence.sql-load-script-source" value="META-INF/data.sql"/>
+
+            <!-- use encache provider-->
+            <!--<property name="hibernate.cache.region.factory_class"-->
+            <!--value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>-->
+            <!--<property name="hibernate.javax.cache.provider" value="org.ehcache.jsr107.EhcacheCachingProvider"/>-->
+            <!--&lt;!&ndash;use second level cache&ndash;&gt;-->
+            <!--<property name="hibernate.cache.use_second_level_cache" value="true"/>-->
+            <!--&lt;!&ndash;use 3rd level cache&ndash;&gt;-->
+            <!--<property name="hibernate.cache.use_query_cache" value="true"/>-->
+        </properties>
+    </persistence-unit>
+</persistence>
