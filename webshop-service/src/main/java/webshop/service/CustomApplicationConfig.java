@@ -3,6 +3,7 @@ package webshop.service;
 
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import webshop.persistence.Context;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +14,7 @@ public class CustomApplicationConfig extends ResourceConfig {
 	{
 		packages("webshop.service.resources");
 
-		register(new DependencyBinder());
+		register(new DependencyBinder(Context.Memory));
 
 		register(new CorsFilter());
 
