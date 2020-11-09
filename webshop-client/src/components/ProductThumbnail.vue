@@ -8,7 +8,7 @@
            class="grey lighten-3"
            max-height="300"
            min-height="270"
-           v-bind:src='product.images == null? "" : product.images[0].url'>
+           v-bind:src='product.images == null? "@/assets/shoppingcart-logo.svg" : product.images[0].url'>
         <router-link :to="{name: 'editProduct' , params: {id:this.product.id}}">
           <v-btn icon>
             <v-icon>

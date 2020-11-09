@@ -3,6 +3,7 @@ package webshop.service.resources;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.jvnet.hk2.annotations.Service;
+import webshop.logic.ProductLogic;
 import webshop.persistence.HibernateProxyTypeAdapter;
 import webshop.service.gsonExclusionStrategies.IgnoreAddress;
 import webshop.service.models.Product;
@@ -20,6 +21,8 @@ public class ProductResource {
 
     @Inject
     private IProductRepository repository;
+
+    private ProductLogic logic= new ProductLogic();
 
     private GsonBuilder gsonBuilder;
 
@@ -68,7 +71,7 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}/reviews")
     public Response CreateReviewOnProductById(@PathParam("product_id") String id, ProductReview review){
-        repository.CreateReviewById(id, review);
+        logic.CreateReview(id,review);
         return Response.status(Response.Status.CREATED).build();
     }
 

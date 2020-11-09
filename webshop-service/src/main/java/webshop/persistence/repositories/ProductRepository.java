@@ -55,7 +55,10 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public List<ProductReview> GetAllReviewsOnProductById(String id) {
-        return null;
+        String sql = "SELECT * FROM reviews WHERE product_id = ?1";
+        Query query = entityManager.createNativeQuery(sql, ProductReview.class);
+        query.setParameter(1, id);
+        return query.getResultList();
     }
 
     @Override
@@ -71,7 +74,7 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public List<Category> GetAllCategories() {
-        return entityManager.createQuery("FROM Category", Category.class).getResultList();
+        return entityManager.createNativeQuery("FROM Category", Category.class).getResultList();
     }
 
     @Override

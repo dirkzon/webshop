@@ -42,6 +42,12 @@ export default new Router({
             name: 'search',
             component: () =>
                 import("./views/SearchProducts")
-        }
+        },
+        {
+            path: '/cart',
+            name: 'shoppingCart',
+            component: () =>
+                import("./views/ViewCart")
+        },
     ]
 })

@@ -21,20 +21,20 @@
     </router-link>
     <v-spacer></v-spacer>
     <v-text-field
+        @keydown.enter="Search"
         label="Search for products"
         dark
         bottom
         v-model="searchQuery"
     ></v-text-field>
-    <router-link :to="{name: 'search' , query: {query : searchQuery}}">
-      <v-btn icon
+      <v-btn v-on:click="Search"
+             icon
              fab
              small>
         <v-icon color="white">
           search
         </v-icon>
       </v-btn>
-    </router-link>
     <v-spacer></v-spacer>
     <router-link :to="{name: 'viewAccount'}">
       <v-btn small
@@ -49,23 +49,32 @@
         </v-badge>
       </v-btn>
     </router-link>
-    <v-btn small
-           class="mx-2 my-2"
-           fab
-           color="secondary">
-      <v-icon large>
-        shopping_cart
-      </v-icon>
-    </v-btn>
+    <router-link :to="{name: 'shoppingCart'}">
+      <v-btn small
+             class="mx-2 my-2"
+             fab
+             color="secondary">
+        <v-icon large>
+          shopping_cart
+        </v-icon>
+      </v-btn>
+    </router-link>
   </v-app-bar>
 </template>
 
 <script>
+import router from "@/router";
+
 export default {
   name: "TopBar",
   data() {
     return {
       searchQuery: ""
+    }
+  },
+  methods:{
+    Search: function () {
+      router.push({name: 'search' , query: {query : this.searchQuery}})
     }
   }
 }

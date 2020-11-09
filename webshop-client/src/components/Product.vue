@@ -50,6 +50,7 @@
               </v-tooltip>
             </v-subheader>
             <v-btn
+                @click="AddProductToCart"
                 class="mx-2 my-2"
                 color="secondary">
               <v-icon dark>
@@ -75,6 +76,19 @@ export default {
   components: {Reviews, Rating},
   props: {
     product: Object
+  },
+  methods:{
+    AddProductToCart:function () {
+      var cart = localStorage.getItem("cart");
+      cart = (cart) ? JSON.parse(cart): [];
+      if(cart.includes(this.product.id)){
+        alert("product is already in cart")
+      }else{
+        cart.push(this.product.id);
+      }
+      localStorage.setItem("cart",JSON.stringify(cart));
+      console.log(localStorage.getItem("cart"));
+    }
   }
 }
 </script>
