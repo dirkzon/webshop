@@ -16,6 +16,8 @@ public class CustomApplicationConfig extends ResourceConfig {
 
 		register(new DependencyBinder(Context.Memory));
 
+		register(AuthenticationFilter.class);
+
 		register(new CorsFilter());
 
 		register(new LoggingFeature(Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME),

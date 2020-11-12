@@ -11,6 +11,7 @@ export default {
   name: 'App',
   mounted() {
     localStorage.id = 'retailer:1'
+    localStorage.token = 'aGVuazp3YWNodHdvb3Jk'
     localStorage.cart = ''
   }
 }

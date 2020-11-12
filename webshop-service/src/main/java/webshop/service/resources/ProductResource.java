@@ -10,6 +10,7 @@ import webshop.service.models.Product;
 import webshop.service.models.ProductReview;
 import webshop.persistence.interfaces.IProductRepository;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -86,6 +87,7 @@ public class ProductResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @PermitAll
     @Path("/browse")
     public Response BrowseProducts(@QueryParam("min_price") int minPrice,
                                   @QueryParam("max_price") int maxPrice,
