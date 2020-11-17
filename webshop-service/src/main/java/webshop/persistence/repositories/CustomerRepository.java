@@ -1,11 +1,17 @@
 package webshop.persistence.repositories;
 
+import org.hibernate.Criteria;
 import webshop.persistence.interfaces.ICustomerRepository;
+import webshop.service.models.AbstractUser;
 import webshop.service.models.Customer;
+import webshop.service.models.ProductReview;
+import webshop.service.models.Retailer;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import java.util.List;
 
 public class CustomerRepository implements ICustomerRepository {
 
@@ -16,23 +22,44 @@ public class CustomerRepository implements ICustomerRepository {
         this.entityManager = emf.createEntityManager();
     }
 
+
     @Override
-    public Customer UpdateCustomerById(String id, Customer customer) {
-        return null;
+    public List<ProductReview> GetAllReviewsById(String id) {
+        String sql = "SELECT * FROM reviews WHERE customer_id = ?1";
+        Query query = entityManager.createNativeQuery(sql, ProductReview.class);
+        query.setParameter(1, id);
+        return query.getResultList();
     }
 
     @Override
-    public Customer GetCustomerById(String id) {
+    public AbstractUser GetUserById(String id) {
         return entityManager.find(Customer.class, id);
     }
 
     @Override
-    public Customer CreateNewCustomer(Customer customer) {
+    public AbstractUser UpdateUserById(String id, AbstractUser updatedUser) {
         return null;
     }
 
     @Override
-    public void RemoveCustomerById(String id) {
-        entityManager.remove(GetCustomerById(id));
+    public void RemoveUserById(String id) {
+
+    }
+
+    @Override
+    public AbstractUser CreateUser(AbstractUser newUser) {
+        return null;
+    }
+
+    @Override
+    public AbstractUser IsUserValid(String userName) {
+        String sql = "SELECT * FROM customers WHERE name = :name";
+        Query query = entityManager.createNativeQuery(sql, Customer.class);
+        query.setParameter("name", userName);
+        var result =  query.getResultList();
+        if (result.size() == 0){
+            return null;
+        }
+        return (Customer) result.get(0);
     }
 }

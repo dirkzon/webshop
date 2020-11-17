@@ -7,7 +7,7 @@
     <span>Total: {{this.totalPrice}}</span>
     <v-col no-gutters>
       <div v-bind:key="product.id" v-for="product in products">
-        <CartProduct v-bind:product="product"></CartProduct>
+        <CartProduct v-on:removeProduct="RemoveProduct($event)" v-bind:product="product"></CartProduct>
       </div>
     </v-col>
   </div>
@@ -39,13 +39,17 @@ export default {
           .then(response => this.products.push(response.data))
           .catch(error => alert(error))
     },
-    RemoveProduct: function (){
-
+    RemoveProduct: function (id){
+      var cart = localStorage.getItem("cart");
+      console.log(cart);
+      cart = (cart) ? JSON.parse(cart): [];
+      cart.remove(id);
+      localStorage.setItem("cart",JSON.stringify(cart));
     }
   },
   watch:{
     products: function () {
-      for(var product of this.products){
+      for(let product of this.products){
         this.totalPrice += product.price;
       }
     }

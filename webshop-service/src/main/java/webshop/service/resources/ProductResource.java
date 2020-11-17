@@ -3,7 +3,7 @@ package webshop.service.resources;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.jvnet.hk2.annotations.Service;
-import webshop.logic.ProductLogic;
+import webshop.logic.services.ProductLogic;
 import webshop.persistence.HibernateProxyTypeAdapter;
 import webshop.service.gsonExclusionStrategies.IgnoreAddress;
 import webshop.service.models.Product;

@@ -1,6 +1,8 @@
 package webshop.service;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import webshop.logic.interfaces.IAuthenticationService;
+import webshop.logic.services.AuthenticationService;
 import webshop.persistence.Context;
 import webshop.persistence.interfaces.*;
 import webshop.persistence.repositories.*;
@@ -10,7 +12,7 @@ import javax.persistence.Persistence;
 
 public class DependencyBinder extends AbstractBinder {
 
-    Context context;
+    private Context context;
 
     public DependencyBinder(Context context){
         this.context = context;
@@ -27,5 +29,7 @@ public class DependencyBinder extends AbstractBinder {
         }else if(context == Context.SQL){
             bind(Persistence.createEntityManagerFactory("hibernate.sql")).to(EntityManagerFactory.class);
         }
+
+        bind(AuthenticationService.class).to(IAuthenticationService.class);
     }
 }

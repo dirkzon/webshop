@@ -49,5 +49,11 @@ export default new Router({
             component: () =>
                 import("./views/ViewCart")
         },
+        {
+            path: "/login",
+            name: "login",
+            component: ()=>
+                import("./views/LogIn")
+        }
     ]
 })

@@ -6,11 +6,11 @@ INSERT INTO images(image_id, url, height, width) VALUES('image:1', 'https://cdn.
 INSERT INTO images(image_id, url, height, width) VALUES('image:2', 'https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg', 800, 800)
 
 --customers:
-INSERT INTO customers(customer_id, address_id, name, image_id, email, joined) VALUES('customer:1', 'address:1', 'peter', 'image:2', 'peter@outlook.com', '2019-7-05')
-INSERT INTO customers(customer_id, address_id, name, image_id, email, joined) VALUES('customer:2', 'address:1', 'henk', 'image:2', 'henk@hotmail.com', '2020-4-9')
+INSERT INTO customers(customer_id, address_id, name, password, image_id, email, joined) VALUES('customer:1', 'address:1', 'peter', 'password', 'image:2', 'peter@outlook.com', '2019-7-05')
+INSERT INTO customers(customer_id, address_id, name, password, image_id, email, joined) VALUES('customer:2', 'address:1', 'henk', '1234', 'image:2', 'henk@hotmail.com', '2020-4-9')
 
 --retailers:
-INSERT INTO retailers(retailer_id, rating, url, name, image_id, email, joined) VALUES('retailer:1', 4.5, 'testurl', 'john', 'image:2', 'john@gmail.com', '2020-3-11')
+INSERT INTO retailers(retailer_id, rating, url, name, password, image_id, email, joined) VALUES('retailer:1', 4.5, 'testurl', 'john', 'abcd', 'image:2', 'john@gmail.com', '2020-3-11')
 
 --catagories:
 INSERT INTO categories(category_id, name, image_id, url) VALUES('category:1', 'tech', 'image:1', 'testcategoryurl')

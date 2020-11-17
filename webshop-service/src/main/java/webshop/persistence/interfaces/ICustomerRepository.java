@@ -1,11 +1,10 @@
 package webshop.persistence.interfaces;
 
-import webshop.service.models.Customer;
+import webshop.service.models.ProductReview;
 
-public interface ICustomerRepository {
+import java.util.List;
 
-    Customer UpdateCustomerById(String id, Customer customer);
-    Customer GetCustomerById(String id);
-    Customer CreateNewCustomer(Customer customer);
-    void RemoveCustomerById(String id);
+public interface ICustomerRepository extends IUserRepository{
+
+    List<ProductReview> GetAllReviewsById(String id);
 }

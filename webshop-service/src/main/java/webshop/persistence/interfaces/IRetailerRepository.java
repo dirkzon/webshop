@@ -5,12 +5,8 @@ import webshop.service.models.Retailer;
 
 import java.util.List;
 
-public interface IRetailerRepository {
+public interface IRetailerRepository extends IUserRepository {
 
-    Retailer GetRetailerById(String id);
-    Retailer CreateRetailer(Retailer retailer);
-    void RemoveRetailerById(String id);
-    Retailer UpdateRetailerById(String id, Retailer retailer);
     List<Product> GetAllProductsInCatalog(String id);
     Product CreateNewProductInCatalog(String retailerId, Product product);
 }

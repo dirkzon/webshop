@@ -22,6 +22,7 @@ abstract public class AbstractUser {
     @Column(name = "joined")
     private LocalDate joined;
 
+    public String getId(){return getId();}
     public String getName(){return name;}
     public AbstractImage getAvatar(){return avatar;}
     public String getEMail(){return EMail;}

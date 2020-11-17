@@ -19,6 +19,7 @@ export default {
   },
 
   mounted() {
+    let token = localStorage.getItem("token")
     let url = String;
     let userId = localStorage.id;
     if(userId.includes("customer")){
@@ -27,7 +28,7 @@ export default {
       url = "http://localhost:4545/v1/retailers/" + userId;
     }
     axios
-        .get(url)
+        .get(url, {headers: {Authorization: `Bearer ${token}`}})
         .then(response => (this.user = response.data))
         .catch(error => alert(error))
   }

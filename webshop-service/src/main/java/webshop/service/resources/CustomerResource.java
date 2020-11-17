@@ -31,7 +31,7 @@ public class CustomerResource {
     @Path("/{customer_id}")
     public Response GetCustomerById(@PathParam("customer_id") String id){
         Gson gson = gsonBuilder.create();
-        var customer = repository.GetCustomerById(id);
+        var customer = repository.GetUserById(id);
         if(customer != null){
             return Response.ok(gson.toJson(customer)).build();
         }else{
@@ -45,7 +45,7 @@ public class CustomerResource {
     public Response CreateCustomer(Customer customer){
         Gson gson = gsonBuilder.create();
         if(customer != null){
-            var newCustomer = repository.CreateNewCustomer(customer);
+            var newCustomer = repository.CreateUser(customer);
             return Response.ok(gson.toJson(newCustomer)).build();
         }else{
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no customer given").build();
@@ -56,7 +56,7 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
     public Response RemoveCustomerById(@PathParam("customer_id") String id){
-        repository.RemoveCustomerById(id);
+        repository.RemoveUserById(id);
         return Response.ok().build();
     }
 
@@ -67,7 +67,7 @@ public class CustomerResource {
     public Response UpdateCustomerById(@PathParam("customer_id") String id, Customer customer){
         Gson gson = gsonBuilder.create();
         if(customer != null){
-            var updatedCustomer = repository.UpdateCustomerById(id, customer);
+            var updatedCustomer = repository.UpdateUserById(id, customer);
             return Response.ok(gson.toJson(updatedCustomer)).build();
         }else{
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no customer given").build();

@@ -4,6 +4,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -26,12 +27,14 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         final List<String> authorization = headers.get(AUTHORIZATION_PROPERTY);
 
-        if (authorization == null || authorization.isEmpty()) {
-            Response response = Response.status(Response.Status.UNAUTHORIZED).
-                    entity("Missing username and/or password.").build();
-            requestContext.abortWith(response);
-            return;
-        }
+
+
+        //if (authorization == null || authorization.isEmpty()) {
+        //    Response response = Response.status(Response.Status.UNAUTHORIZED).
+        //            entity("Missing username and/or password.").build();
+        //    requestContext.abortWith(response);
+        //    return;
+        //}
 
         final String encodedCredentials = authorization.get(0).replaceAll(AUTHENTICATION_SCHEME + " ", "");
 

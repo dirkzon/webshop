@@ -21,9 +21,10 @@ export default {
     }
   },
   mounted() {
-    axios
-        .get("http://localhost:4545/v1/retailers/retailer:1/catalog",
-            {headers:{'Authorization': 'Bearer' + localStorage.token}})
+    let token = localStorage.getItem("token")
+    alert(token)
+    axios.get('http://localhost:4545/v1/retailers/retailer:1/catalog',
+        {headers:{Authorization: 'Bearer ' + token}})
         .then(response => (this.products = response.data))
         .catch(error => alert(error))
   }

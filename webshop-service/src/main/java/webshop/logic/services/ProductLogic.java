@@ -1,4 +1,4 @@
-package webshop.logic;
+package webshop.logic.services;
 
 import webshop.persistence.interfaces.IProductRepository;
 import webshop.persistence.repositories.ProductRepository;

@@ -10,6 +10,9 @@
              style="filter: blur(0px)"
       />
       <v-card-title> {{this.product.name}} </v-card-title>
+    <v-btn v-on:click="removeProduct">
+
+    </v-btn>
   </v-card>
 </template>
 
@@ -19,5 +22,10 @@ export default {
   props: {
     product: Object
   },
+  methods:{
+    removeProduct: function () {
+      this.$emit('RemoveProduct', this.product.id)
+    }
+  }
 }
 </script>

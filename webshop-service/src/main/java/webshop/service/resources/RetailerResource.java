@@ -32,7 +32,7 @@ public class RetailerResource {
     @Path("/{retailer_id}")
     public Response GetRetailerById(@PathParam("retailer_id") String id){
         Gson gson = gsonBuilder.create();
-        var retailer = repository.GetRetailerById(id);
+        var retailer = repository.GetUserById(id);
         if(retailer != null){
             return Response.ok(gson.toJson(retailer)).build();
         }else{
@@ -45,7 +45,7 @@ public class RetailerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response CreateRetailer(Retailer retailer){
         Gson gson = gsonBuilder.create();
-        var newRetailer = repository.CreateRetailer(retailer);
+        var newRetailer = repository.CreateUser(retailer);
         return Response.ok(gson.toJson(newRetailer)).build();
     }
 
@@ -54,7 +54,7 @@ public class RetailerResource {
     @Path("/{retailer_id}")
     public Response RemoveRetailerById(@PathParam("retailer_id") String id){
         if(id != null){
-            repository.RemoveRetailerById(id);
+            repository.RemoveUserById(id);
             return Response.ok().build();
         }else{
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity("No id given").build();
@@ -68,7 +68,7 @@ public class RetailerResource {
     public Response UpdateRetailer(@PathParam("retailer_id") String id, Retailer retailer){
         Gson gson = gsonBuilder.create();
         if(id != null){
-            var updatedRetailer = repository.UpdateRetailerById(id, retailer);
+            var updatedRetailer = repository.UpdateUserById(id, retailer);
             return Response.ok(gson.toJson(updatedRetailer)).build();
         }else{
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity("No id given").build();

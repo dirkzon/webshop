@@ -36,8 +36,8 @@
         </v-icon>
       </v-btn>
     <v-spacer></v-spacer>
-    <router-link :to="{name: 'viewAccount'}">
-      <v-btn small
+      <v-btn v-on:click="redirect"
+            small
              class="mx-2 my-2"
              fab
              color="secondary">
@@ -48,7 +48,6 @@
           </v-icon>
         </v-badge>
       </v-btn>
-    </router-link>
     <router-link :to="{name: 'shoppingCart'}">
       <v-btn small
              class="mx-2 my-2"
@@ -75,6 +74,13 @@ export default {
   methods:{
     Search: function () {
       router.push({name: 'search' , query: {query : this.searchQuery}})
+    },
+    redirect: function (){
+      let token = localStorage.getItem('token')
+      if(token != null){
+        router.push('/account/me')
+      }
+      router.push('/login')
     }
   }
 }
