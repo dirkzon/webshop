@@ -7,11 +7,11 @@
 </template>
 
 <script>
+
 export default {
   name: 'App',
   mounted() {
     localStorage.id = 'retailer:1'
-    localStorage.token = ''
     localStorage.cart = ''
   }
 }

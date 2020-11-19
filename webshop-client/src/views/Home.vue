@@ -8,8 +8,8 @@
 <script>
 import ProductList from '@/components/ProductList'
 import TopBar from "@/components/TopBar";
-
 import axios from "axios";
+
 export default {
   components: {
     ProductList,
@@ -21,11 +21,8 @@ export default {
     }
   },
   mounted() {
-    let token = localStorage.getItem("token")
-    alert(token)
-    axios.get('http://localhost:4545/v1/retailers/retailer:1/catalog',
-        {headers:{Authorization: 'Bearer ' + token}})
-        .then(response => (this.products = response.data))
+    axios.get('http://localhost:4545/v1/retailers/retailer:1/catalog')
+        .then(response => this.products = response.data)
         .catch(error => alert(error))
   }
 }

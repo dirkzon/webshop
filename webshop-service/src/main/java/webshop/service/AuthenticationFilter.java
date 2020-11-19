@@ -1,8 +1,11 @@
 package webshop.service;
 
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.ResourceInfo;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import webshop.service.models.Roles;
+
+import javax.ws.rs.container.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
@@ -12,7 +15,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class AuthenticationFilter implements ContainerRequestFilter {
+public class AuthenticationFilter implements ContainerRequestFilter{
 
     @Context
     private ResourceInfo resourceInfo;
@@ -27,28 +30,29 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         final List<String> authorization = headers.get(AUTHORIZATION_PROPERTY);
 
-
-
-        //if (authorization == null || authorization.isEmpty()) {
-        //    Response response = Response.status(Response.Status.UNAUTHORIZED).
-        //            entity("Missing username and/or password.").build();
-        //    requestContext.abortWith(response);
-        //    return;
-        //}
+        if (authorization == null || authorization.isEmpty()) {
+            Response response = Response.status(Response.Status.UNAUTHORIZED).
+                    entity("Missing username and/or password.").build();
+            requestContext.abortWith(response);
+            return;
+        }
 
         final String encodedCredentials = authorization.get(0).replaceAll(AUTHENTICATION_SCHEME + " ", "");
 
-        String credentials = new String(Base64.getDecoder().decode(encodedCredentials.getBytes()));
+        Claims credentials;
 
-        final StringTokenizer tokenizer = new StringTokenizer(credentials, ":");
-        final String username = tokenizer.nextToken();
-        final String password = tokenizer.nextToken();
+        try{
+            credentials = Jwts.parser().setSigningKey("secret").parseClaimsJws(encodedCredentials).getBody();
+        }
+        catch (Exception e){
+            Response response = Response.status(Response.Status.UNAUTHORIZED).
+                    entity(e.getCause()).build();
+            requestContext.abortWith(response);
+            return;
+        }
 
-        //if (!isValidUser(username, password)) {
-        //    Response response = Response.status(Response.Status.UNAUTHORIZED).
-        //            entity("Invalid username and/or password.").build();
-        //    requestContext.abortWith(response);
-        //    return;
-        //}
+        final String id = credentials.getId();
+        final String username = credentials.getSubject();
+        final Roles role = Roles.valueOf(credentials.get("role").toString());
     }
 }

@@ -2,6 +2,7 @@ package webshop.logic.services;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.TextCodec;
 import webshop.logic.interfaces.IAuthenticationService;
 import webshop.persistence.interfaces.ICustomerRepository;
 import webshop.persistence.interfaces.IRetailerRepository;
@@ -60,6 +61,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .setId(user.getId())
                 .claim("role", role)
                 .setIssuedAt(new Date())
+                .signWith(SignatureAlgorithm.HS256, "secret")
                 .compact();
         return jwt;
     }

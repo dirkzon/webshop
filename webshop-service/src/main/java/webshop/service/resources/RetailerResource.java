@@ -8,6 +8,7 @@ import webshop.service.models.Product;
 import webshop.service.models.Retailer;
 import webshop.persistence.interfaces.IRetailerRepository;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -76,6 +77,7 @@ public class RetailerResource {
     }
 
     @GET
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}/catalog")
     public Response GetAllProductsInCatalog(@PathParam("retailer_id") String id){

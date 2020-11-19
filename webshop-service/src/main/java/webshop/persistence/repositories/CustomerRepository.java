@@ -53,7 +53,7 @@ public class CustomerRepository implements ICustomerRepository {
 
     @Override
     public AbstractUser IsUserValid(String userName) {
-        String sql = "SELECT * FROM customers WHERE name = :name";
+        String sql = "SELECT * FROM customers WHERE name = :name OR email = :name";
         Query query = entityManager.createNativeQuery(sql, Customer.class);
         query.setParameter("name", userName);
         var result =  query.getResultList();

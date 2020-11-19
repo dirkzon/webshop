@@ -56,7 +56,7 @@ public class RetailerRepository implements IRetailerRepository {
 
     @Override
     public AbstractUser IsUserValid(String userName) {
-        String sql = "SELECT * FROM retailers WHERE name = :name";
+        String sql = "SELECT * FROM retailers WHERE name = :name OR email = :name";
         Query query = entityManager.createNativeQuery(sql, Retailer.class);
         query.setParameter("name", userName);
         var result =  query.getResultList();

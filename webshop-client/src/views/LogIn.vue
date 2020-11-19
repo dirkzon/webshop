@@ -6,7 +6,7 @@
         <v-responsive :aspect-ratio="16/7" >
           <v-card-title>log in</v-card-title>
           <v-divider></v-divider>
-          <v-card-subtitle>username:</v-card-subtitle>
+          <v-card-subtitle>username or e-mail:</v-card-subtitle>
           <v-form
               v-model="valid">
           <v-text-field
@@ -77,7 +77,7 @@ export default {
           .get('http://localhost:4545/v1/authentication/', {
             headers: {'Authentication': token}
           })
-          .then(response => (localStorage.setItem('token', response.data),
+          .then(response => (axios.defaults.headers.common["Authorization"] = response.data,
           router.push("/"),
           console.log(response.data)))
           .catch(error => this.errormsg = `Could not log in: ${error.response.statusText}`)
