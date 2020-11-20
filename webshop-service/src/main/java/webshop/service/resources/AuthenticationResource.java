@@ -2,7 +2,7 @@ package webshop.service.resources;
 
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.IAuthenticationService;
-import webshop.logic.services.AuthenticationService;
+import webshop.service.filters.UseAuthenticationFilter;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
@@ -14,6 +14,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+
 @Path("/authentication")
 @Service
 public class AuthenticationResource {
@@ -23,6 +24,7 @@ public class AuthenticationResource {
 
     @GET
     @PermitAll
+    @UseAuthenticationFilter
     @Produces(MediaType.APPLICATION_JSON)
     public Response LogIn(@Context HttpHeaders httpHeaders){
         String test = httpHeaders.getHeaderString("Authentication");

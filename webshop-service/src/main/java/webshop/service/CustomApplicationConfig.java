@@ -4,6 +4,8 @@ package webshop.service;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import webshop.persistence.Context;
+import webshop.service.filters.AuthenticationFilter;
+import webshop.service.filters.AuthorisationFilter;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +25,7 @@ public class CustomApplicationConfig extends ResourceConfig {
 
 		register(new DependencyBinder(context));
 
+		register(new AuthorisationFilter());
 		register(new AuthenticationFilter());
 	}
 }

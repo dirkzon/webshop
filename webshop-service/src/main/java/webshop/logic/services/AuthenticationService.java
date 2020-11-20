@@ -29,7 +29,8 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     public String ValidateUser(String token){
-        String credentials = new String(Base64.getDecoder().decode(token.getBytes()));
+        final String encodedCredentials = token.replaceAll("Bearer ", "");
+        String credentials = new String(Base64.getDecoder().decode(encodedCredentials.getBytes()));
         final StringTokenizer tokenizer = new StringTokenizer(credentials, ":");
         final String username = tokenizer.nextToken();
         final String password = tokenizer.nextToken();

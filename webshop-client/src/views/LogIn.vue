@@ -75,7 +75,7 @@ export default {
       let token = btoa(`${this.username}:${this.password}`);
       axios
           .get('http://localhost:4545/v1/authentication/', {
-            headers: {'Authentication': token}
+            headers: {'Authentication': `Bearer ${token}`}
           })
           .then(response => (axios.defaults.headers.common["Authorization"] = response.data,
           router.push("/"),

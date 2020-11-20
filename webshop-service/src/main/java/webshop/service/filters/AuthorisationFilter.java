@@ -1,21 +1,24 @@
-package webshop.service;
+package webshop.service.filters;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import webshop.service.models.Roles;
 
-import javax.ws.rs.container.*;
+import javax.annotation.Priority;
+import javax.ws.rs.Priorities;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.Provider;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
-import java.util.StringTokenizer;
 
-public class AuthenticationFilter implements ContainerRequestFilter{
+@Provider
+@Priority(Priorities.AUTHORIZATION)
+public class AuthorisationFilter implements ContainerRequestFilter {
 
     @Context
     private ResourceInfo resourceInfo;
@@ -41,10 +44,9 @@ public class AuthenticationFilter implements ContainerRequestFilter{
 
         Claims credentials;
 
-        try{
+        try {
             credentials = Jwts.parser().setSigningKey("secret").parseClaimsJws(encodedCredentials).getBody();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Response response = Response.status(Response.Status.UNAUTHORIZED).
                     entity(e.getCause()).build();
             requestContext.abortWith(response);
