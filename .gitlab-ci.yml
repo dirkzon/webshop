@@ -1,9 +1,9 @@
 image: node:10.6.0
 
 stages:
+  - sonarqube
   - build
   - test
-  - sonarqube
 
 cache:
   paths:
