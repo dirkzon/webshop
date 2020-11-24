@@ -28,5 +28,5 @@ unit test:
 sonarqube:
   stage: sonarqube
   script:
-    - cd /webshop-service/
+    - cd C:\Users\dirkv\Documents\school\semester3\WebshopProject\Project\webshop-s3\webshop-service
     - ./gradlew sonarqube
