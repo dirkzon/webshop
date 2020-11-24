@@ -4,27 +4,21 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import webshop.service.models.Roles;
 
-import javax.annotation.Priority;
-import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.Provider;
-import java.io.IOException;
 import java.util.List;
 
-@Provider
-@Priority(Priorities.AUTHORIZATION)
 public class AuthorisationFilter implements ContainerRequestFilter {
 
     @Context
     private ResourceInfo resourceInfo;
 
     @Override
-    public void filter(ContainerRequestContext requestContext) throws IOException {
+    public void filter(ContainerRequestContext requestContext){
 
         final String AUTHORIZATION_PROPERTY = "Authorization";
         final String AUTHENTICATION_SCHEME = "Bearer";
@@ -40,7 +34,7 @@ public class AuthorisationFilter implements ContainerRequestFilter {
             return;
         }
 
-        final String encodedCredentials = authorization.get(0).replaceAll(AUTHENTICATION_SCHEME + " ", "");
+        final String encodedCredentials = authorization.get(0).replace(AUTHENTICATION_SCHEME + " ", "");
 
         Claims credentials;
 

@@ -60,7 +60,7 @@ public class RetailerRepository implements IRetailerRepository {
         Query query = entityManager.createNativeQuery(sql, Retailer.class);
         query.setParameter("name", userName);
         var result =  query.getResultList();
-        if (result.size() == 0){
+        if (result.isEmpty()){
             return null;
         }
         return (Retailer) result.get(0);

@@ -87,7 +87,6 @@ public class ProductResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @PermitAll
     @Path("/browse")
     public Response BrowseProducts(@QueryParam("min_price") int minPrice,
                                   @QueryParam("max_price") int maxPrice,

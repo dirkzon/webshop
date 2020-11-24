@@ -77,7 +77,6 @@ public class RetailerResource {
     }
 
     @GET
-    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}/catalog")
     public Response GetAllProductsInCatalog(@PathParam("retailer_id") String id){

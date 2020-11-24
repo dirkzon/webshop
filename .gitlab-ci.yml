@@ -3,6 +3,7 @@ image: node:10.6.0
 stages:
   - build
   - test
+  - sonarqube
 
 cache:
   paths:
@@ -23,3 +24,9 @@ unit test:
       - dist/
       - node_modules/
       - package.json
+
+sonarqube:
+  stage: sonarqube
+  script:
+    - cd /webshop-service/
+    - ./gradlew sonarqube

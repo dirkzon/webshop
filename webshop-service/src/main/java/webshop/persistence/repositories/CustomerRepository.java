@@ -57,7 +57,7 @@ public class CustomerRepository implements ICustomerRepository {
         Query query = entityManager.createNativeQuery(sql, Customer.class);
         query.setParameter("name", userName);
         var result =  query.getResultList();
-        if (result.size() == 0){
+        if (result.isEmpty()){
             return null;
         }
         return (Customer) result.get(0);
