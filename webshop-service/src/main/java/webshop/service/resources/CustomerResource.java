@@ -3,9 +3,10 @@ package webshop.service.resources;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.jvnet.hk2.annotations.Service;
+import webshop.logic.interfaces.ICustomerService;
 import webshop.persistence.HibernateProxyTypeAdapter;
+import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.Customer;
-import webshop.persistence.interfaces.ICustomerRepository;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -18,7 +19,7 @@ import javax.ws.rs.core.Response;
 public class CustomerResource {
 
     @Inject
-    private ICustomerRepository repository;
+    private ICustomerService service;
 
     private GsonBuilder gsonBuilder;
 
@@ -28,12 +29,13 @@ public class CustomerResource {
     }
 
     @GET
+    @UseAuthorisationFilter
     @RolesAllowed({"Customer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
     public Response GetCustomerById(@PathParam("customer_id") String id){
         Gson gson = gsonBuilder.create();
-        var customer = repository.GetUserById(id);
+        var customer = service.GetUserById(id);
         if(customer != null){
             return Response.ok(gson.toJson(customer)).build();
         }else{
@@ -42,12 +44,13 @@ public class CustomerResource {
     }
 
     @POST
+    @UseAuthorisationFilter
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response CreateCustomer(Customer customer){
         Gson gson = gsonBuilder.create();
         if(customer != null){
-            var newCustomer = repository.CreateUser(customer);
+            var newCustomer = service.CreateUser(customer);
             return Response.ok(gson.toJson(newCustomer)).build();
         }else{
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no customer given").build();
@@ -55,15 +58,17 @@ public class CustomerResource {
     }
 
     @DELETE
+    @UseAuthorisationFilter
     @RolesAllowed({"Customer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
     public Response RemoveCustomerById(@PathParam("customer_id") String id){
-        repository.RemoveUserById(id);
+        service.RemoveUserById(id);
         return Response.ok().build();
     }
 
     @PUT
+    @UseAuthorisationFilter
     @RolesAllowed({"Customer"})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -71,7 +76,7 @@ public class CustomerResource {
     public Response UpdateCustomerById(@PathParam("customer_id") String id, Customer customer){
         Gson gson = gsonBuilder.create();
         if(customer != null){
-            var updatedCustomer = repository.UpdateUserById(id, customer);
+            var updatedCustomer = service.UpdateUserById(id, customer);
             return Response.ok(gson.toJson(updatedCustomer)).build();
         }else{
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no customer given").build();

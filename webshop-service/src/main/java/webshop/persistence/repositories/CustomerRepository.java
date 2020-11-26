@@ -22,7 +22,6 @@ public class CustomerRepository implements ICustomerRepository {
         this.entityManager = emf.createEntityManager();
     }
 
-
     @Override
     public List<ProductReview> GetAllReviewsById(String id) {
         String sql = "SELECT * FROM reviews WHERE customer_id = ?1";

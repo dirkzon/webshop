@@ -2,16 +2,13 @@ package webshop.logic.services;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.TextCodec;
 import webshop.logic.interfaces.IAuthenticationService;
 import webshop.persistence.interfaces.ICustomerRepository;
 import webshop.persistence.interfaces.IRetailerRepository;
 import webshop.service.models.AbstractUser;
 import webshop.service.models.Roles;
 
-import javax.crypto.SecretKey;
 import javax.inject.Inject;
-import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.StringTokenizer;
@@ -29,7 +26,7 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     public String ValidateUser(String token){
-        final String encodedCredentials = token.replaceAll("Bearer ", "");
+        final String encodedCredentials = token.replace("Bearer ", "");
         String credentials = new String(Base64.getDecoder().decode(encodedCredentials.getBytes()));
         final StringTokenizer tokenizer = new StringTokenizer(credentials, ":");
         final String username = tokenizer.nextToken();

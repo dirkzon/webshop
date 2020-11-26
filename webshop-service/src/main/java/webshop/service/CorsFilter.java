@@ -18,7 +18,6 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
         // response filter method below.
         if (isPreflightRequest(request)) {
             request.abortWith(Response.ok().build());
-            return;
         }
     }
     /**

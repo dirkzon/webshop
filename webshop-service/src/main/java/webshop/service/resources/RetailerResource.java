@@ -3,13 +3,12 @@ package webshop.service.resources;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.jvnet.hk2.annotations.Service;
+import webshop.logic.interfaces.IRetailerService;
 import webshop.persistence.HibernateProxyTypeAdapter;
+import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.Product;
 import webshop.service.models.Retailer;
-import webshop.persistence.interfaces.IRetailerRepository;
-import webshop.service.models.Roles;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -21,7 +20,7 @@ import javax.ws.rs.core.Response;
 public class RetailerResource {
 
     @Inject
-    private IRetailerRepository repository;
+    private IRetailerService service;
 
     private GsonBuilder gsonBuilder;
 
@@ -31,11 +30,12 @@ public class RetailerResource {
     }
 
     @GET
+    @UseAuthorisationFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}")
     public Response GetRetailerById(@PathParam("retailer_id") String id){
         Gson gson = gsonBuilder.create();
-        var retailer = repository.GetUserById(id);
+        var retailer = service.GetUserById(id);
         if(retailer != null){
             return Response.ok(gson.toJson(retailer)).build();
         }else{
@@ -44,21 +44,23 @@ public class RetailerResource {
     }
 
     @POST
+    @UseAuthorisationFilter
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response CreateRetailer(Retailer retailer){
         Gson gson = gsonBuilder.create();
-        var newRetailer = repository.CreateUser(retailer);
+        var newRetailer = service.CreateUser(retailer);
         return Response.ok(gson.toJson(newRetailer)).build();
     }
 
     @DELETE
+    @UseAuthorisationFilter
     @RolesAllowed("Retailer")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}")
     public Response RemoveRetailerById(@PathParam("retailer_id") String id){
         if(id != null){
-            repository.RemoveUserById(id);
+            service.RemoveUserById(id);
             return Response.ok().build();
         }else{
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity("No id given").build();
@@ -66,6 +68,7 @@ public class RetailerResource {
     }
 
     @PUT
+    @UseAuthorisationFilter
     @RolesAllowed("Retailer")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -73,7 +76,7 @@ public class RetailerResource {
     public Response UpdateRetailer(@PathParam("retailer_id") String id, Retailer retailer){
         Gson gson = gsonBuilder.create();
         if(id != null){
-            var updatedRetailer = repository.UpdateUserById(id, retailer);
+            var updatedRetailer = service.UpdateUserById(id, retailer);
             return Response.ok(gson.toJson(updatedRetailer)).build();
         }else{
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity("No id given").build();
@@ -81,12 +84,13 @@ public class RetailerResource {
     }
 
     @GET
+    @UseAuthorisationFilter
     @RolesAllowed("Retailer")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}/catalog")
     public Response GetAllProductsInCatalog(@PathParam("retailer_id") String id){
         Gson gson = gsonBuilder.create();
-        var products = repository.GetAllProductsInCatalog(id);
+        var products = service.GetAllProductsInCatalog(id);
         if(products.size() == 0){
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no products found").build();
         }
@@ -94,13 +98,14 @@ public class RetailerResource {
     }
 
     @POST
+    @UseAuthorisationFilter
     @RolesAllowed("Retailer")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}/catalog")
     public Response CreateProductInCatalog(@PathParam("retailer_id") String id ,Product product){
         Gson gson = gsonBuilder.create();
-        var newProduct = repository.CreateNewProductInCatalog(id, product);
+        var newProduct = service.CreateNewProductInCatalog(id, product);
         return Response.ok(gson.toJson(newProduct)).build();
     }
 }

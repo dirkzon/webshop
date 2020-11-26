@@ -42,7 +42,7 @@ public class HibernateProxyTypeAdapter extends TypeAdapter<HibernateProxy> {
         // Get the TypeAdapter of the original class, to delegate the serialization
         TypeAdapter delegate = context.getAdapter(TypeToken.get(baseType));
         // Get a filled instance of the original class
-        Object unproxiedValue = ((HibernateProxy) value).getHibernateLazyInitializer()
+        Object unproxiedValue = (value).getHibernateLazyInitializer()
                 .getImplementation();
         // Serialize the value
         delegate.write(out, unproxiedValue);

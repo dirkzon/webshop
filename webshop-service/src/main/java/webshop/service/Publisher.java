@@ -21,9 +21,9 @@ class Publisher {
             CustomApplicationConfig customApplicationConfig = new CustomApplicationConfig();
 
             // create and start a grizzly server
-            HttpServer server = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, customApplicationConfig, true);
+            GrizzlyHttpServerFactory.createHttpServer(BASE_URI, customApplicationConfig, true);
 
-            System.out.println("Hosting resources at " + BASE_URI.toURL());
+            Logger.getGlobal().log(Level.CONFIG, "Hosting resources at " + BASE_URI.toURL());
 
         } catch (IOException ex) {
             Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,7 +1,7 @@
 package webshop.service.resources;
 
 import org.jvnet.hk2.annotations.Service;
-import webshop.persistence.interfaces.IReviewRepository;
+import webshop.logic.interfaces.IReviewService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 public class ReviewResource {
 
     @Inject
-    private IReviewRepository repository;
+    private IReviewService service;
 
     @DELETE
     @RolesAllowed("Customer")
@@ -25,7 +25,7 @@ public class ReviewResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response DeleteReviewById(@PathParam("review_id") String id){
         if(id != null){
-            repository.DeleteReviewById(id);
+            service.DeleteReviewById(id);
             return Response.ok().build();
         }else{
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity("No id given").build();
