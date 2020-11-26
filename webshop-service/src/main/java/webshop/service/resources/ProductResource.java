@@ -11,6 +11,7 @@ import webshop.service.models.ProductReview;
 import webshop.persistence.interfaces.IProductRepository;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -33,6 +34,7 @@ public class ProductResource {
     }
 
     @GET
+    @RolesAllowed({"Customer", "Retailer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
     public Response GetProductById(@PathParam("product_id") String id){
@@ -47,6 +49,7 @@ public class ProductResource {
     }
 
     @DELETE
+    @RolesAllowed("Retailer")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
     public Response DeleteProductById(@PathParam("product_id") String id){
@@ -55,6 +58,7 @@ public class ProductResource {
     }
 
     @PUT
+    @RolesAllowed("Retailer")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
@@ -68,6 +72,7 @@ public class ProductResource {
     }
 
     @POST
+    @RolesAllowed("Customer")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}/reviews")
@@ -77,6 +82,7 @@ public class ProductResource {
     }
 
     @GET
+    @RolesAllowed({"Customer", "Retailer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}/reviews")
     public Response GetAllReviewsOnProductById(@PathParam("product_id") String id){
@@ -86,6 +92,7 @@ public class ProductResource {
     }
 
     @GET
+    @RolesAllowed({"Customer", "Retailer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/browse")
     public Response BrowseProducts(@QueryParam("min_price") int minPrice,
@@ -103,6 +110,7 @@ public class ProductResource {
     }
 
     @GET
+    @RolesAllowed({"Customer", "Retailer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/categories")
     public Response GetAllCategories(@QueryParam("limit") int limit, @QueryParam("offset") int offset){
@@ -112,6 +120,7 @@ public class ProductResource {
     }
 
     @GET
+    @RolesAllowed({"Customer", "Retailer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/categories/{category_id}")
     public Response GetCategoryById(@PathParam("category_id") String id){

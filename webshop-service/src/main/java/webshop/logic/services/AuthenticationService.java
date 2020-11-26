@@ -57,13 +57,12 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     private String issueToken(AbstractUser user, Roles role){
-        String jwt = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(user.getName())
                 .setId(user.getId())
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, "secret")
                 .compact();
-        return jwt;
     }
 }

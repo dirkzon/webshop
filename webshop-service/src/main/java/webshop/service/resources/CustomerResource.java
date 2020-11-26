@@ -7,6 +7,7 @@ import webshop.persistence.HibernateProxyTypeAdapter;
 import webshop.service.models.Customer;
 import webshop.persistence.interfaces.ICustomerRepository;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -27,6 +28,7 @@ public class CustomerResource {
     }
 
     @GET
+    @RolesAllowed({"Customer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
     public Response GetCustomerById(@PathParam("customer_id") String id){
@@ -53,6 +55,7 @@ public class CustomerResource {
     }
 
     @DELETE
+    @RolesAllowed({"Customer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
     public Response RemoveCustomerById(@PathParam("customer_id") String id){
@@ -61,6 +64,7 @@ public class CustomerResource {
     }
 
     @PUT
+    @RolesAllowed({"Customer"})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")

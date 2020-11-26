@@ -7,8 +7,10 @@ import webshop.persistence.HibernateProxyTypeAdapter;
 import webshop.service.models.Product;
 import webshop.service.models.Retailer;
 import webshop.persistence.interfaces.IRetailerRepository;
+import webshop.service.models.Roles;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -51,6 +53,7 @@ public class RetailerResource {
     }
 
     @DELETE
+    @RolesAllowed("Retailer")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}")
     public Response RemoveRetailerById(@PathParam("retailer_id") String id){
@@ -63,6 +66,7 @@ public class RetailerResource {
     }
 
     @PUT
+    @RolesAllowed("Retailer")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}")
@@ -77,6 +81,7 @@ public class RetailerResource {
     }
 
     @GET
+    @RolesAllowed("Retailer")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}/catalog")
     public Response GetAllProductsInCatalog(@PathParam("retailer_id") String id){
@@ -89,6 +94,7 @@ public class RetailerResource {
     }
 
     @POST
+    @RolesAllowed("Retailer")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}/catalog")

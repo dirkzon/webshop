@@ -3,6 +3,7 @@ package webshop.service.resources;
 import org.jvnet.hk2.annotations.Service;
 import webshop.persistence.interfaces.IReviewRepository;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
@@ -19,6 +20,7 @@ public class ReviewResource {
     private IReviewRepository repository;
 
     @DELETE
+    @RolesAllowed("Customer")
     @Path("/{review_id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response DeleteReviewById(@PathParam("review_id") String id){
