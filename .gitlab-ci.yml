@@ -19,14 +19,6 @@ build site frontend:
     paths:
       - dist
 
-unit test frontend:
-  image: node:6
-  stage: test_frontend
-  script:
-    - cd C:\Users\dirkv\Documents\school\semester3\WebshopProject\Project\webshop-s3\webshop-client
-    - npm install --progress=false
-    - npm run unit
-
 build site backend:
   stage: build_backend
   script:
