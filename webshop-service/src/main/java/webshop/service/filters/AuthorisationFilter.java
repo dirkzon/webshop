@@ -2,8 +2,10 @@ package webshop.service.filters;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import webshop.service.injector.UserServiceInjector;
 
 import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
@@ -18,6 +20,9 @@ public class AuthorisationFilter implements ContainerRequestFilter {
 
     @Context
     private ResourceInfo resourceInfo;
+
+    @Inject
+    UserServiceInjector injector;
 
     @Override
     public void filter(ContainerRequestContext requestContext){
@@ -59,6 +64,9 @@ public class AuthorisationFilter implements ContainerRequestFilter {
             requestContext.abortWith(response);
             return;
         }
+
+        var service = injector.getImplementation(role);
+
     }
 
     private Boolean isUserAllowed(String role){

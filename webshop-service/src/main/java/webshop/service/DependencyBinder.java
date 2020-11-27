@@ -7,6 +7,7 @@ import webshop.persistence.interfaces.*;
 import webshop.persistence.repositories.*;
 
 import webshop.persistence.Context;
+import webshop.service.injector.UserServiceInjector;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -22,11 +23,17 @@ public class DependencyBinder extends AbstractBinder {
     @Override
     protected void configure(){
 
+        bindAsContract(UserServiceInjector.class);
+
         //services
         bind(ProductService.class).to(IProductService.class);
         bind(CustomerService.class).to(ICustomerService.class);
-        bind(RetailerService.class).to(IRetailerRepository.class);
+        bind(RetailerService.class).to(IRetailerService.class);
         bind(AuthenticationService.class).to(IAuthenticationService.class);
+
+        //bindings for dynamic injection
+        bind(CustomerService.class).named("Customer").to(IUserService.class);
+        bind(RetailerService.class).named("Retailer").to(IUserService.class);
 
         //repositories
         bind(ProductRepository.class).to(IProductRepository.class);

@@ -46,6 +46,9 @@ public class Product {
     @Transient
     private boolean reviewed;
 
+    @Transient
+    private boolean canEdit;
+
     @Column(name = "url")
     private String url;
 
@@ -65,6 +68,7 @@ public class Product {
     public Boolean getReviewed(){return reviewed;}
     public String getUrl(){return url;}
     public List<ProductProperty> getProductProperties(){return productProperties;}
+    public boolean canEdit(){return canEdit;}
 
     public void setName(String name) { this.name = name; }
     public void setId(String id) { this.id = id; }
@@ -79,4 +83,5 @@ public class Product {
     public void setReviewed(boolean reviewed) { this.reviewed = reviewed; }
     public void setUrl(String url) { this.url = url; }
     public void setProductProperties(List<ProductProperty> productProperties) { this.productProperties = productProperties; }
+    public void setCanEdit(boolean canEdit){this.canEdit = canEdit;}
 }

@@ -10,8 +10,12 @@ import java.util.List;
 
 public class CustomerService implements ICustomerService {
 
-    @Inject
     private ICustomerRepository repository;
+
+    @Inject
+    public CustomerService(ICustomerRepository repository){
+        this.repository = repository;
+    }
 
     @Override
     public List<ProductReview> GetAllReviewsById(String id) {

@@ -10,8 +10,12 @@ import java.util.List;
 
 public class RetailerService implements IRetailerService {
 
-    @Inject
     private IRetailerRepository repository;
+
+    @Inject
+    public RetailerService(IRetailerRepository repository){
+        this.repository = repository;
+    }
 
     @Override
     public List<Product> GetAllProductsInCatalog(String id) {
