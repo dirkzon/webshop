@@ -1,7 +1,7 @@
 image: node:10.6.0
 
 stages:
-  - build_fontend
+  - build_frontend
   - test_frontend
   - build_backend
   - test_backend
