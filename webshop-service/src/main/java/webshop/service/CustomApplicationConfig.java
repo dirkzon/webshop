@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 public class CustomApplicationConfig extends ResourceConfig {
 
 
-
 	public CustomApplicationConfig()
 	{
 		packages("webshop.service.resources");

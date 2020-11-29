@@ -11,9 +11,9 @@ import javax.ws.rs.core.Context;
 public class CustomerRepository implements ICustomerRepository {
 
     @Context
-    @Inject
     private EntityManager em;
 
+    @Inject
     public CustomerRepository(EntityManagerFactory entityManagerFactory){
         em = entityManagerFactory.createEntityManager();
     }

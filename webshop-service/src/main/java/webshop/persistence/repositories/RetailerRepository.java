@@ -8,15 +8,13 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import javax.ws.rs.core.Context;
 import java.util.List;
 
 public class RetailerRepository implements IRetailerRepository {
 
-    @Context
-    @Inject
     private EntityManager em;
 
+    @Inject
     public RetailerRepository(EntityManagerFactory entityManagerFactory){
         em = entityManagerFactory.createEntityManager();
     }

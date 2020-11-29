@@ -2,7 +2,9 @@ package webshop.service;
 
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import webshop.persistence.interfaces.ICustomerRepository;
+import webshop.persistence.interfaces.IRetailerRepository;
 import webshop.persistence.repositories.CustomerRepository;
+import webshop.persistence.repositories.RetailerRepository;
 import webshop.service.models.*;
 
 import javax.persistence.EntityManager;
