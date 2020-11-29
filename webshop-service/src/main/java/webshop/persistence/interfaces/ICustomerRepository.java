@@ -5,5 +5,7 @@ import webshop.service.models.Customer;
 public interface ICustomerRepository {
 
     Customer saveCustomer(Customer customer);
-    Customer findCustomerById(int id);
+    Customer getCustomerById(int id);
+    void removeCustomer(Customer customer);
+    Customer updateCustomer(Customer customer);
 }

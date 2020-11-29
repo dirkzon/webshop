@@ -10,7 +10,8 @@ public class Retailer {
 
     public Retailer(){}
 
-    public Retailer(Account account, Image avatar) {
+    public Retailer(int id, Account account, Image avatar) {
+        this.id = id;
         this.account = account;
         this.avatar = avatar;
     }

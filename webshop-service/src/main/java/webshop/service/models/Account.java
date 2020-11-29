@@ -1,12 +1,13 @@
 package webshop.service.models;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "UserAccounts")
+@SelectBeforeUpdate
+@Table(name = "accounts")
 public class Account  {
 
     public Account(){}
@@ -19,8 +20,7 @@ public class Account  {
     }
 
     @Id
-    @GeneratedValue(generator = "incrementor")
-    @GenericGenerator(name = "incrementor", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 

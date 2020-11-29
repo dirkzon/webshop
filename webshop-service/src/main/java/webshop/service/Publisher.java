@@ -1,6 +1,8 @@
 package webshop.service;
 
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import webshop.persistence.interfaces.ICustomerRepository;
+import webshop.persistence.repositories.CustomerRepository;
 import webshop.service.models.*;
 
 import javax.persistence.EntityManager;
@@ -30,6 +32,8 @@ class Publisher {
             GrizzlyHttpServerFactory.createHttpServer(BASE_URI, customApplicationConfig, true);
 
             Logger.getGlobal().log(Level.CONFIG, "Hosting resources at " + BASE_URI.toURL());
+
+            ////===++++++++++++++++++++++++++++++++++++++++++++++++++===////
 
         } catch (IOException ex) {
             System.out.println(ex);

@@ -10,15 +10,15 @@ public class Customer {
 
     public Customer(){}
 
-    public Customer(Account account, Address address, Image avatar) {
+    public Customer(int id,Account account, Address address, Image avatar) {
+        this.id = id;
         this.account = account;
         this.address = address;
         this.avatar = avatar;
     }
 
     @Id
-    @GeneratedValue(generator = "incrementor")
-    @GenericGenerator(name = "incrementor", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 

@@ -15,8 +15,7 @@ public class Image {
     }
 
     @Id
-    @GeneratedValue(generator = "incrementor")
-    @GenericGenerator(name = "incrementor", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
