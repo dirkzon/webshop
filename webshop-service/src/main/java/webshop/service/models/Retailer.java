@@ -10,8 +10,9 @@ public class Retailer {
 
     public Retailer(){}
 
-    public Retailer(Account account) {
+    public Retailer(Account account, Image avatar) {
         this.account = account;
+        this.avatar = avatar;
     }
 
     @Id
@@ -25,6 +26,12 @@ public class Retailer {
             referencedColumnName = "id",
             foreignKey=@ForeignKey(name = "retailer_account_id"))
     private Account account;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id",
+            referencedColumnName = "id",
+            foreignKey=@ForeignKey(name = "retailer_avatar_id"))
+    private Image avatar;
 
     public int getId() {
         return id;
@@ -40,5 +47,13 @@ public class Retailer {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Image getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
     }
 }

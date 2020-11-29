@@ -1,5 +1,6 @@
 package webshop.service.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -40,9 +41,10 @@ public class Review {
             foreignKey=@ForeignKey(name = "review_customer_id"))
     private Customer customer;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id",
-            referencedColumnName = "id",
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "prod_id",
+            referencedColumnName = "product_id",
             foreignKey=@ForeignKey(name = "review_product_id"))
     private Product product;
 

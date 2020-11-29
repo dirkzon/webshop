@@ -1,6 +1,9 @@
 package webshop.service;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import webshop.persistence.interfaces.ICustomerRepository;
+import webshop.persistence.repositories.CustomerRepository;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -14,6 +17,9 @@ public class DependencyBinder extends AbstractBinder {
 
     @Override
     protected void configure(){
+
+        //repos
+        bind(CustomerRepository.class).to(ICustomerRepository.class);
 
         //context
         if(context == "Memory"){

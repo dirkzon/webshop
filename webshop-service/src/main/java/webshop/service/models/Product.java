@@ -12,19 +12,20 @@ public class Product {
 
     public Product(){}
 
-    public Product(String name, Double price, String description, LocalDate created, Retailer retailer, Double rating) {
+    public Product(String name, Double price, String description, LocalDate created, Retailer retailer, Double rating, Image image) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.created = created;
         this.retailer = retailer;
         this.rating = rating;
+        this.image = image;
     }
 
     @Id
     @GeneratedValue(generator = "incrementor")
     @GenericGenerator(name = "incrementor", strategy = "increment")
-    @Column(name = "id")
+    @Column(name = "product_id")
     private int id;
 
     @Column(name = "name")
@@ -48,8 +49,16 @@ public class Product {
     @Column(name = "rating")
     private Double rating;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OneToMany(mappedBy="product",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Review> reviews;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id",
+            referencedColumnName = "id",
+            foreignKey=@ForeignKey(name = "product_image_id"))
+    private Image image;
 
     public int getId() {
         return id;
@@ -113,5 +122,13 @@ public class Product {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

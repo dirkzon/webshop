@@ -10,9 +10,10 @@ public class Customer {
 
     public Customer(){}
 
-    public Customer(Account account, Address address) {
+    public Customer(Account account, Address address, Image avatar) {
         this.account = account;
         this.address = address;
+        this.avatar = avatar;
     }
 
     @Id
@@ -32,6 +33,12 @@ public class Customer {
             referencedColumnName = "id",
             foreignKey=@ForeignKey(name = "customer_address_id"))
     private Address address;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id",
+            referencedColumnName = "id",
+            foreignKey=@ForeignKey(name = "customer_avatar_id"))
+    private Image avatar;
 
     public int getId() {
         return id;
@@ -55,5 +62,13 @@ public class Customer {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Image getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
     }
 }

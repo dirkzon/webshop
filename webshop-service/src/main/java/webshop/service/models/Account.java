@@ -11,12 +11,11 @@ public class Account  {
 
     public Account(){}
 
-    public Account(String username, String password, UserRole role, LocalDate joined, Image avatar) {
+    public Account(String username, String password, UserRole role, LocalDate joined) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.joined = joined;
-        this.avatar = avatar;
     }
 
     @Id
@@ -37,12 +36,6 @@ public class Account  {
 
     @Column(name = "joined")
     private LocalDate joined;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "avatar_id",
-            referencedColumnName = "id",
-            foreignKey=@ForeignKey(name = "user_avatar_id"))
-    private Image avatar;
 
     public int getId() {
         return id;
@@ -82,13 +75,5 @@ public class Account  {
 
     public void setJoined(LocalDate joined) {
         this.joined = joined;
-    }
-
-    public Image getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Image avatar) {
-        this.avatar = avatar;
     }
 }
