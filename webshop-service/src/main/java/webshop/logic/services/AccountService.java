@@ -28,4 +28,8 @@ public class AccountService implements IAccountService {
         }
         return null;
     }
+
+    public String createToken(Account account){
+        return "soon to be implemented";
+    }
 }
