@@ -1,6 +1,6 @@
 package webshop.service.models;
 
-public enum Roles {
+public enum  UserRole {
     Customer,
-    Retailer,
+    Retailer
 }

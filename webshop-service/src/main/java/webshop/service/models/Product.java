@@ -1,87 +1,117 @@
 package webshop.service.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "products")
 public class Product {
 
+    public Product(){}
+
+    public Product(String name, Double price, String description, LocalDate created, Retailer retailer, Double rating) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.created = created;
+        this.retailer = retailer;
+        this.rating = rating;
+    }
+
     @Id
-    @Column(name = "product_id")
-    private String id;
+    @GeneratedValue(generator = "incrementor")
+    @GenericGenerator(name = "incrementor", strategy = "increment")
+    @Column(name = "id")
+    private int id;
 
     @Column(name = "name")
     private String name;
 
-
     @Column(name = "price")
     private Double price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "product_category_id"))
-    private Category category;
-
     @Column(name = "description")
     private String description;
-
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "product")
-    private List<ProductImage> images;
 
     @Column(name = "created")
     private LocalDate created;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "retailer_id", foreignKey = @ForeignKey(name = "product_retailer_id"))
+    @JoinColumn(name = "retailer_id",
+            referencedColumnName = "id",
+            foreignKey=@ForeignKey(name = "product_retailer_id"))
     private Retailer retailer;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private List<ProductReview> reviews;
 
     @Column(name = "rating")
     private Double rating;
 
-    @Transient
-    private boolean reviewed;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<Review> reviews;
 
-    @Transient
-    private boolean canEdit;
+    public int getId() {
+        return id;
+    }
 
-    @Column(name = "url")
-    private String url;
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    @Transient
-    private List<ProductProperty> productProperties;
+    public String getName() {
+        return name;
+    }
 
-    public String getName(){return name;}
-    public String getId(){return id;}
-    public Double getPrice(){return price;}
-    public Category getCategory(){return category;}
-    public String getDescription(){return description;}
-    public List<ProductImage> getImages(){return images;}
-    public LocalDate getCreated(){return created;}
-    public Retailer getRetailer(){return retailer;}
-    public List<ProductReview> getReviews(){return reviews;}
-    public Double getRating(){return rating;}
-    public Boolean getReviewed(){return reviewed;}
-    public String getUrl(){return url;}
-    public List<ProductProperty> getProductProperties(){return productProperties;}
-    public boolean canEdit(){return canEdit;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setName(String name) { this.name = name; }
-    public void setId(String id) { this.id = id; }
-    public void setPrice(Double price) { this.price = price; }
-    public void setCategory(Category category) { this.category = category; }
-    public void setDescription(String description) { this.description = description; }
-    public void setImages(List<ProductImage> images) { this.images = images; }
-    public void setCreated(LocalDate created) { this.created = created; }
-    public void setRetailer(Retailer retailer) { this.retailer = retailer; }
-    public void setReviews(List<ProductReview> reviews) { this.reviews = reviews; }
-    public void setRating(Double rating) { this.rating = rating; }
-    public void setReviewed(boolean reviewed) { this.reviewed = reviewed; }
-    public void setUrl(String url) { this.url = url; }
-    public void setProductProperties(List<ProductProperty> productProperties) { this.productProperties = productProperties; }
-    public void setCanEdit(boolean canEdit){this.canEdit = canEdit;}
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDate getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDate created) {
+        this.created = created;
+    }
+
+    public Retailer getRetailer() {
+        return retailer;
+    }
+
+    public void setRetailer(Retailer retailer) {
+        this.retailer = retailer;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 }

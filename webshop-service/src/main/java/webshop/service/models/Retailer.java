@@ -1,26 +1,44 @@
 package webshop.service.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "retailers")
-public class Retailer extends AbstractUser {
+public class Retailer {
+
+    public Retailer(){}
+
+    public Retailer(Account account) {
+        this.account = account;
+    }
 
     @Id
-    @Column(name = "retailer_id")
-    private String id;
+    @GeneratedValue(generator = "incrementor")
+    @GenericGenerator(name = "incrementor", strategy = "increment")
+    @Column(name = "id")
+    private int id;
 
-    @Column(name = "rating")
-    private Double rating;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id",
+            referencedColumnName = "id",
+            foreignKey=@ForeignKey(name = "retailer_account_id"))
+    private Account account;
 
-    @Column(name = "url")
-    private String url;
+    public int getId() {
+        return id;
+    }
 
-    public String getId() { return id; }
-    public Double getRating() { return rating; }
-    public String getUrl() { return url; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public void setId(String id) { this.id = id; }
-    public void setRating(Double rating) { this.rating = rating; }
-    public void setUrl(String url) { this.url = url; }
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }
