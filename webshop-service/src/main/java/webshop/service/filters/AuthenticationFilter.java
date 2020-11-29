@@ -23,7 +23,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     @Inject
     private IAccountService accountService;
 
-
     @Override
     public void filter(ContainerRequestContext requestContext){
         final String AUTHORIZATION_PROPERTY = "Authentication";
@@ -33,18 +32,18 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         final List<String> authorization = headers.get(AUTHORIZATION_PROPERTY);
 
-        //if (authorization == null || authorization.isEmpty()) {
-        //    Response response = Response.status(Response.Status.UNAUTHORIZED).
-        //            entity("Missing username and/or password.").build();
-        //    requestContext.abortWith(response);
-        //    return;
-        //}
+        if (authorization == null || authorization.isEmpty()) {
+            Response response = Response.status(Response.Status.UNAUTHORIZED).
+                    entity("Missing username and/or password.").build();
+            requestContext.abortWith(response);
+            return;
+        }
 
-        //final String encodedCredentials = authorization.get(0).replace(AUTHENTICATION_SCHEME + " ", "");
-//
-        //String credentials = new String(Base64.getDecoder().decode(encodedCredentials.getBytes()));
-//
-        //final StringTokenizer tokenizer = new StringTokenizer(credentials, ":");
+        final String encodedCredentials = authorization.get(0).replace(AUTHENTICATION_SCHEME + " ", "");
+
+        String credentials = new String(Base64.getDecoder().decode(encodedCredentials.getBytes()));
+
+        final StringTokenizer tokenizer = new StringTokenizer(credentials, ":");
         final String username = "john";
         final String password = "abcd";
 

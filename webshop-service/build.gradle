@@ -50,6 +50,9 @@ dependencies {
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
 
+    // https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-core-spi
+    compile group: 'org.jboss.resteasy', name: 'resteasy-core-spi', version: '4.4.2.Final'
+
     // https://mvnrepository.com/artifact/org.mockito/mockito-core
     implementation 'org.mockito:mockito-core:3.6.0'
 
