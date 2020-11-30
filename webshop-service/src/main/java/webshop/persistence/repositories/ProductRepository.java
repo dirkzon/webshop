@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ProductRepository implements IProductRepository {
 
-    private EntityManager em;
+    final private EntityManager em;
 
     @Inject
     public ProductRepository(EntityManagerFactory entityManagerFactory){
@@ -29,6 +29,7 @@ public class ProductRepository implements IProductRepository {
     @Override
     public void removeProduct(Product product){
         em.getTransaction().begin();
+        for(Review review : product.getReviews()){ review.setCustomer(null); }
         em.remove(product);
         em.getTransaction().commit();
     }
@@ -56,7 +57,7 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public List<Product> browseProducts(BrowseVars fields){
+    public List browseProducts(BrowseVars fields){
         String sql = "SELECT * FROM products Where name LIKE CONCAT('%',:search_query,'%') " +
                 "And price > :min_price " +
                 "And price < :max_price ";

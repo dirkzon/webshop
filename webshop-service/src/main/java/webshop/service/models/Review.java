@@ -35,7 +35,7 @@ public class Review {
     @Column(name = "created")
     private LocalDate created;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "customer_id",
             referencedColumnName = "id",
             foreignKey=@ForeignKey(name = "review_customer_id"))
@@ -43,7 +43,7 @@ public class Review {
 
     //Field must not get serialized, will create infinite recursion
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "prod_id",
             referencedColumnName = "product_id",
             foreignKey=@ForeignKey(name = "review_product_id"))

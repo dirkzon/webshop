@@ -28,7 +28,7 @@ public class CustomerResource {
         if(customer != null){
             return Response.ok(customer).build();
         }else{
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("id was not valid").build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("No customer could be found").build();
         }
     }
 
@@ -52,7 +52,7 @@ public class CustomerResource {
     @Path("/{customer_id}")
     public Response RemoveCustomerById(@PathParam("customer_id") int id){
         if(service.removeCustomerById(id)){
-            return Response.ok().build();
+            return Response.ok("Customer with id:" + id + " has been removed").build();
         }
         return Response.status(Response.Status.BAD_REQUEST).entity("Could not remove customer").build();
     }
