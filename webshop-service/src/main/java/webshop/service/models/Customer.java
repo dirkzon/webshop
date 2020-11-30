@@ -1,8 +1,7 @@
 package webshop.service.models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -22,23 +21,25 @@ public class Customer {
     @Column(name = "id")
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval=true)
     @JoinColumn(name = "account_id",
             referencedColumnName = "id",
             foreignKey=@ForeignKey(name = "customer_account_id"))
     private Account account;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "address_id",
             referencedColumnName = "id",
             foreignKey=@ForeignKey(name = "customer_address_id"))
     private Address address;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval=true)
     @JoinColumn(name = "avatar_id",
             referencedColumnName = "id",
             foreignKey=@ForeignKey(name = "customer_avatar_id"))
     private Image avatar;
+
+
 
     public int getId() {
         return id;

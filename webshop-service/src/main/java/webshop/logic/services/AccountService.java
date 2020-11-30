@@ -24,6 +24,7 @@ public class AccountService implements IAccountService {
     public Account isAccountValid(String details, String password){
         if(details.isEmpty() && password.isEmpty()) return null;
         List<Account> accounts = repository.getAccountByDetails(details);
+        if(accounts.isEmpty()) return null;
         for(Account account : accounts){
             if(account.getPassword().equals(password)){
                 return account;

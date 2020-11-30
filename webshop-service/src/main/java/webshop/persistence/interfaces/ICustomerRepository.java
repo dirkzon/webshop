@@ -7,5 +7,5 @@ public interface ICustomerRepository {
     Customer saveCustomer(Customer customer);
     Customer getCustomerById(int id);
     void removeCustomer(Customer customer);
-    Customer updateCustomer(Customer customer);
+    Customer updateCustomerById(int id, Customer customer);
 }

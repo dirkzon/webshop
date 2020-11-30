@@ -1,5 +1,6 @@
 package webshop.logic.services;
 
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import webshop.logic.interfaces.IRetailerService;
@@ -27,6 +28,7 @@ class RetailerServiceTests {
     @BeforeAll
     static void setUpRetailerServiceMock(){
         repository = mock(IRetailerRepository.class);
+        service = new RetailerService(repository);
 
         List<Retailer> retailers = new ArrayList<>();
 
@@ -44,12 +46,6 @@ class RetailerServiceTests {
         when(repository.updateRetailer(any(Retailer.class))).thenReturn(retailers.get(0));
         when(repository.getProductsInCatalog(0)).thenReturn(products);
         when(repository.createNewProductInCatalog(any(int.class), any(Product.class))).thenReturn(products.get(0));
-    }
-
-    //arrange for all tests
-    @BeforeAll
-    static void setUpRetailerService(){
-        service = new RetailerService(repository);
     }
 
     @Test

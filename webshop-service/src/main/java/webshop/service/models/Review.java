@@ -1,6 +1,6 @@
 package webshop.service.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -41,12 +41,13 @@ public class Review {
             foreignKey=@ForeignKey(name = "review_customer_id"))
     private Customer customer;
 
-    @JsonIgnore
+    //Field must not get serialized, will create infinite recursion
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "prod_id",
             referencedColumnName = "product_id",
             foreignKey=@ForeignKey(name = "review_product_id"))
-    private Product product;
+    @JsonIgnore private Product product;
 
     public int getId() {
         return id;
@@ -88,10 +89,12 @@ public class Review {
         this.customer = customer;
     }
 
+    @JsonIgnore
     public Product getProduct() {
         return product;
     }
 
+    @JsonIgnore
     public void setProduct(Product product) {
         this.product = product;
     }

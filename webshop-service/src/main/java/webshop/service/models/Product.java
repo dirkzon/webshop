@@ -1,5 +1,8 @@
 package webshop.service.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -50,6 +53,7 @@ public class Product {
     @Column(name = "rating")
     private Double rating;
 
+    @JsonManagedReference
     @OneToMany(mappedBy="product",
             cascade = CascadeType.ALL,
             orphanRemoval = true)

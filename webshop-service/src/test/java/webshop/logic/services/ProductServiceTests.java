@@ -19,4 +19,9 @@ class ProductServiceTests {
     @Test
     void createReviewOnProduct() {
     }
+
+    @Test
+    void browseProducts(){
+
+    }
 }

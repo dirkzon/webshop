@@ -1,6 +1,7 @@
 package webshop.logic.services;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import webshop.logic.interfaces.ICustomerService;
 import webshop.persistence.interfaces.ICustomerRepository;
@@ -24,8 +25,9 @@ class CustomerServiceTests {
     @BeforeAll
     static void setUpCustomerServiceMock(){
         repository = mock(ICustomerRepository.class);
+        service = new CustomerService(repository);
 
-        List<Customer> customers = new ArrayList<Customer>();
+        List<Customer> customers = new ArrayList<>();
 
         customers.add(new Customer(0, new Account("henk", "1234", UserRole.Customer, LocalDate.parse("2018-10-02")),
                 new Address("NL", "street", 15),
@@ -43,13 +45,7 @@ class CustomerServiceTests {
 
         when(repository.getCustomerById(0)).thenReturn(customers.get(0));
         when(repository.saveCustomer(any(Customer.class))).thenReturn(testCustomer);
-        when(repository.updateCustomer(any(Customer.class))).thenReturn(testCustomer);
-    }
-
-    //arrange for all tests
-    @BeforeAll
-    static void setUpCustomerService(){
-        service = new CustomerService(repository);
+        when(repository.updateCustomerById(3, any(Customer.class))).thenReturn(testCustomer);
     }
 
     //getCustomersById
@@ -144,7 +140,7 @@ class CustomerServiceTests {
         updatedCustomer.setAvatar(new Image("testurl"));
         updatedCustomer.setId(3);
         //act
-        Customer customer = service.updateCustomerById(updatedCustomer);
+        Customer customer = service.updateCustomerById(3, updatedCustomer);
         //assert
         assertEquals(updatedCustomer.getId(), customer.getId());
     }
@@ -157,7 +153,7 @@ class CustomerServiceTests {
         updatedCustomer.setAvatar(new Image("testurl"));
         updatedCustomer.setId(3);
         //act
-        Customer customer = service.updateCustomerById(updatedCustomer);
+        Customer customer = service.updateCustomerById(3, updatedCustomer);
         //assert
         assertEquals(null, customer);
     }
@@ -170,7 +166,7 @@ class CustomerServiceTests {
         updatedCustomer.setAvatar(new Image("testurl"));
         updatedCustomer.setId(3);
         //act
-        Customer customer = service.updateCustomerById(updatedCustomer);
+        Customer customer = service.updateCustomerById(3, updatedCustomer);
         //assert
         assertEquals(null, customer);
     }
@@ -183,7 +179,7 @@ class CustomerServiceTests {
         updatedCustomer.setAccount(new Account("piet", "letmein", UserRole.Customer, LocalDate.parse("2015-11-29")));
         updatedCustomer.setId(3);
         //act
-        Customer customer = service.updateCustomerById(updatedCustomer);
+        Customer customer = service.updateCustomerById(3, updatedCustomer);
         //assert
         assertEquals(null, customer);
     }
@@ -196,7 +192,7 @@ class CustomerServiceTests {
         updatedCustomer.setAccount(new Account("piet", "letmein", UserRole.Customer, LocalDate.parse("2015-11-29")));
         updatedCustomer.setId(-2);
         //act
-        Customer customer = service.updateCustomerById(updatedCustomer);
+        Customer customer = service.updateCustomerById(3, updatedCustomer);
         //assert
         assertEquals(null, customer);
     }

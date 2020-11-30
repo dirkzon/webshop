@@ -10,7 +10,6 @@ import javax.ws.rs.core.Context;
 
 public class CustomerRepository implements ICustomerRepository {
 
-    @Context
     private EntityManager em;
 
     @Inject
@@ -38,9 +37,9 @@ public class CustomerRepository implements ICustomerRepository {
     }
 
     @Override
-    public Customer updateCustomer(Customer customer){
+    public Customer updateCustomerById(int id, Customer customer){
         em.getTransaction().begin();
-        Customer customerToUpdate = getCustomerById(customer.getId());
+        Customer customerToUpdate = getCustomerById(id);
         customerToUpdate.setAddress(customer.getAddress());
         customerToUpdate.setAvatar(customer.getAvatar());
         customerToUpdate.setAccount(customer.getAccount());

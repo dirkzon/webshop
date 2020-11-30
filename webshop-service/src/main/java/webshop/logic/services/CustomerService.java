@@ -4,6 +4,7 @@ import webshop.logic.interfaces.ICustomerService;
 import webshop.persistence.interfaces.ICustomerRepository;
 import webshop.service.models.Customer;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import java.time.LocalDate;
 
@@ -12,7 +13,8 @@ public class CustomerService implements ICustomerService {
     @Context
     private ICustomerRepository repository;
 
-    public CustomerService(ICustomerRepository repository){
+    @Inject
+    public CustomerService(ICustomerRepository repository) {
         this.repository = repository;
     }
 
@@ -31,12 +33,12 @@ public class CustomerService implements ICustomerService {
         return null;
     }
 
-    public Customer updateCustomerById(Customer customer){
+    public Customer updateCustomerById(int id, Customer customer){
         if(customer.getAccount() != null &&
                 customer.getAvatar() != null &&
                 customer.getAddress() != null &&
                 customer.getId() >= 0){
-            return repository.updateCustomer(customer);
+            return repository.updateCustomerById(id, customer);
         }
         return null;
     }
