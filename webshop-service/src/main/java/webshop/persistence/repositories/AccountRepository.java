@@ -29,6 +29,8 @@ public class AccountRepository implements IAccountRepository {
         return result;
     }
 
+    //could be improved if i find a way to make a bidirectional mapping
+    //between customer,retailer and account, But this also works.
     public int getUserIdFromAccountId(int id, UserRole role){
         String sql;
         if(role == UserRole.Customer){
@@ -36,9 +38,9 @@ public class AccountRepository implements IAccountRepository {
         }else{
             sql = "SELECT id FROM retailers WHERE account_id = :id";
         }
-        Query query = em.createNativeQuery(sql, int.class);
+        Query query = em.createNativeQuery(sql);
         query.setParameter("id", id);
-        List<Integer> result =  query.getResultList();
-        return result.get(0);
+        var result =  query.getResultList();
+        return (int) result.get(0);
     }
 }

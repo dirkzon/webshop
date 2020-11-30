@@ -44,8 +44,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         String credentials = new String(Base64.getDecoder().decode(encodedCredentials.getBytes()));
 
         final StringTokenizer tokenizer = new StringTokenizer(credentials, ":");
-        final String username = "john";
-        final String password = "abcd";
+        final String username = tokenizer.nextToken();
+        final String password = tokenizer.nextToken();
 
         Account account = accountService.isAccountValid(username, password);
         if(account == null){

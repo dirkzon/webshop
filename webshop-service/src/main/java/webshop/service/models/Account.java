@@ -1,5 +1,6 @@
 package webshop.service.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class Account  {
     @Column(name = "user_name")
     private String username;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
