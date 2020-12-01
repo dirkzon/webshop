@@ -28,7 +28,6 @@ public class Account  {
     @Column(name = "user_name")
     private String username;
 
-    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -55,10 +54,12 @@ public class Account  {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonIgnore
     public void setPassword(String password) {
         this.password = password;
     }
@@ -78,4 +79,5 @@ public class Account  {
     public void setJoined(LocalDate joined) {
         this.joined = joined;
     }
+
 }

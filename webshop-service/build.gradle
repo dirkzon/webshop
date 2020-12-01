@@ -35,8 +35,8 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.+'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.+'
 
-    //google/gson: A Java serialization/deserialization library to convert Java Objects into JSON and back
-    implementation 'com.google.code.gson:gson:2.8.6'
+    // https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-binding
+    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-binding', version: '2.27'
 
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.22'

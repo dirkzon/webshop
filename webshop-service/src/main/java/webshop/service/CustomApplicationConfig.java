@@ -1,6 +1,5 @@
 package webshop.service;
 
-
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import webshop.service.filters.AuthenticationFilter;
