@@ -20,7 +20,7 @@ public class CustomApplicationConfig extends ResourceConfig {
 
 		register(new CorsFilter());
 
-		register(new DependencyBinder("SQL"));
+		register(new DependencyBinder("Memory"));
 
 		register(new AuthorisationFilter());
 		register(new AuthenticationFilter());

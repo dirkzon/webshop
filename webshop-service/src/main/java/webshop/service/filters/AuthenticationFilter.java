@@ -14,6 +14,9 @@ import java.util.Base64;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import static webshop.service.filters.Constants.ACCOUNT_PROPERTY;
+import static webshop.service.filters.Constants.AUTHENTICATION_SCHEME;
+
 @UseAuthenticationFilter
 public class AuthenticationFilter implements ContainerRequestFilter {
 
@@ -26,7 +29,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext){
         final String AUTHORIZATION_PROPERTY = "Authentication";
-        final String AUTHENTICATION_SCHEME = "Bearer";
 
         final MultivaluedMap<String, String> headers = requestContext.getHeaders();
 
@@ -55,6 +57,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             return;
         }
 
-        requestContext.setProperty("account", account);
+        requestContext.setProperty(ACCOUNT_PROPERTY, account);
+
     }
 }

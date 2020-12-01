@@ -16,8 +16,12 @@ import javax.ws.rs.core.Response;
 @Service
 public class RetailerResource {
 
+    private final IRetailerService service;
+
     @Inject
-    private IRetailerService service;
+    public RetailerResource(IRetailerService service){
+        this.service = service;
+    }
 
     @GET
     @UseAuthorisationFilter

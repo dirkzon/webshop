@@ -18,8 +18,12 @@ import java.util.List;
 @Service
 public class ProductResource {
 
+    private final IProductService service;
+
     @Inject
-    IProductService service;
+    public ProductResource(IProductService service){
+        this.service = service;
+    }
 
     @GET
     @UseAuthorisationFilter

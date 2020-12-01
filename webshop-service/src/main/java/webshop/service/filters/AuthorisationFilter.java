@@ -13,6 +13,8 @@ import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.List;
 
+import static webshop.service.filters.Constants.AUTHENTICATION_SCHEME;
+
 @UseAuthorisationFilter
 public class AuthorisationFilter implements ContainerRequestFilter {
 
@@ -23,7 +25,6 @@ public class AuthorisationFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext){
 
         final String AUTHORIZATION_PROPERTY = "Authorization";
-        final String AUTHENTICATION_SCHEME = "Bearer";
 
         final MultivaluedMap<String, String> headers = requestContext.getHeaders();
 
@@ -49,8 +50,6 @@ public class AuthorisationFilter implements ContainerRequestFilter {
             return;
         }
 
-        final String id = credentials.getId();
-        final String username = credentials.getSubject();
         final String role = credentials.get("role").toString();
 
         if(!isUserAllowed(role)){

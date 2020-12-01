@@ -15,8 +15,12 @@ import javax.ws.rs.core.Response;
 @Service
 public class CustomerResource {
 
+    private final ICustomerService service;
+
     @Inject
-    private ICustomerService service;
+    public CustomerResource(ICustomerService service){
+        this.service = service;
+    }
 
     @GET
     @UseAuthorisationFilter
