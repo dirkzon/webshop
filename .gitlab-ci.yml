@@ -1,33 +1,45 @@
 image: node:10.6.0
 
 stages:
+  - build_frontend
+  - test_frontend
+  - build_backend
+  - test_backend
   - sonarqube
-  - build
-  - test
 
-cache:
-  paths:
-    - node_modules/
-
-build site:
-  stage: build
+build site frontend:
+  image: node:6
+  stage: build_frontend
   script:
+    - cd C:\Users\dirkv\IdeaProjects\redesign\webshop-s3\webshop-client
     - npm install --progress=false
     - npm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist
 
-unit test:
-  stage: test
+build site backend:
+  stage: build_backend
   script:
-    - npm test
+    - cd C:\Users\dirkv\IdeaProjects\redesign\webshop-s3\webshop-service
+    - ./gradlew assemble
   artifacts:
     paths:
-      - dist/
-      - node_modules/
-      - package.json
+      - build/libs/*.jar
+    expire_in: 1 week
+  only:
+    - master
+
+unit test backend:
+  stage: test_backend
+  script:
+    - cd C:\Users\dirkv\IdeaProjects\redesign\webshop-s3\webshop-service
+    - ./gradlew check
 
 sonarqube:
   stage: sonarqube
   script:
-    - cd C:\Users\dirkv\Documents\school\semester3\WebshopProject\Project\webshop-s3\webshop-service
+    - cd C:\Users\dirkv\IdeaProjects\redesign\webshop-s3\webshop-service
     - ls
     - .\gradlew sonarqube
