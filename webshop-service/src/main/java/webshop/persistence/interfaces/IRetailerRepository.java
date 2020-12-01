@@ -9,7 +9,7 @@ public interface IRetailerRepository {
     Retailer saveRetailer(Retailer retailer);
     Retailer getRetailerById(int id);
     void removeRetailer(Retailer retailer);
-    Retailer updateRetailer(Retailer retailer);
+    Retailer updateRetailerById(int id, Retailer retailer);
     List<Product> getProductsInCatalog(int id);
     Product createNewProductInCatalog(int id, Product product);
 }

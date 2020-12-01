@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -59,7 +60,7 @@ class AccountServiceTests {
         //act
         var account = service.isAccountValid("", "abcd");
         //assert
-        assertEquals(account, null);
+        assertNull(account);
     }
 
     @Test
@@ -69,7 +70,7 @@ class AccountServiceTests {
         //act
         var account = service.isAccountValid("peter", "");
         //assert
-        assertEquals(account, null);
+        assertNull(account);
     }
 
     @Test
@@ -79,6 +80,6 @@ class AccountServiceTests {
         //act
         var account = service.isAccountValid("", "");
         //assert
-        assertEquals(account, null);
+        assertNull(account);
     }
 }

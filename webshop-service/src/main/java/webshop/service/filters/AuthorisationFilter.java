@@ -62,11 +62,10 @@ public class AuthorisationFilter implements ContainerRequestFilter {
             requestContext.abortWith(response);
             return;
         }
-
-
     }
 
     private Boolean isUserAllowed(String role){
+        if(!resourceInfo.getResourceMethod().isAnnotationPresent(RolesAllowed.class)) return true;
         String[] allowedRoles = resourceInfo.getResourceMethod().getAnnotation(RolesAllowed.class).value();
         return Arrays.asList(allowedRoles).contains(role);
     }

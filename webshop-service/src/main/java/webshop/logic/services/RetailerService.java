@@ -35,11 +35,11 @@ public class RetailerService implements IRetailerService {
     }
 
     @Override
-    public Retailer updateRetailer(Retailer retailer){
+    public Retailer updateRetailerById(int id, Retailer retailer){
         if(retailer.getAccount() != null &&
                 retailer.getAvatar() != null &&
                 retailer.getId() >= 0){
-            return repository.updateRetailer(retailer);
+            return repository.updateRetailerById(id, retailer);
         }
         return null;
     }

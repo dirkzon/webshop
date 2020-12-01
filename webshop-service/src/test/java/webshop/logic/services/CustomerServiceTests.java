@@ -1,7 +1,6 @@
 package webshop.logic.services;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import webshop.logic.interfaces.ICustomerService;
 import webshop.persistence.interfaces.ICustomerRepository;
@@ -12,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -45,7 +45,7 @@ class CustomerServiceTests {
 
         when(repository.getCustomerById(0)).thenReturn(customers.get(0));
         when(repository.saveCustomer(any(Customer.class))).thenReturn(testCustomer);
-        when(repository.updateCustomerById(3, any(Customer.class))).thenReturn(testCustomer);
+        when(repository.updateCustomerById(anyInt(), any(Customer.class))).thenReturn(testCustomer);
     }
 
     //getCustomersById
@@ -76,7 +76,7 @@ class CustomerServiceTests {
         //act
         Customer customer = service.getCustomerById(-5);
         //assert
-        assertEquals(null, customer);
+        assertNull(customer);
     }
 
     //saveCustomer
@@ -102,7 +102,7 @@ class CustomerServiceTests {
         //act
         Customer customer = service.saveCustomer(newCustomer);
         //assert
-        assertEquals(null, customer);
+        assertNull(customer);
     }
 
     @Test
@@ -114,7 +114,7 @@ class CustomerServiceTests {
         //act
         Customer customer = service.saveCustomer(newCustomer);
         //assert
-        assertEquals(null, customer);
+        assertNull(customer);
     }
 
     @Test
@@ -126,7 +126,7 @@ class CustomerServiceTests {
         //act
         Customer customer = service.saveCustomer(newCustomer);
         //assert
-        assertEquals(null, customer);
+        assertNull(customer);
     }
 
     //updateCustomerById
@@ -155,7 +155,7 @@ class CustomerServiceTests {
         //act
         Customer customer = service.updateCustomerById(3, updatedCustomer);
         //assert
-        assertEquals(null, customer);
+        assertNull(customer);
     }
 
     @Test
@@ -168,7 +168,7 @@ class CustomerServiceTests {
         //act
         Customer customer = service.updateCustomerById(3, updatedCustomer);
         //assert
-        assertEquals(null, customer);
+        assertNull(customer);
     }
 
     @Test
@@ -181,7 +181,7 @@ class CustomerServiceTests {
         //act
         Customer customer = service.updateCustomerById(3, updatedCustomer);
         //assert
-        assertEquals(null, customer);
+        assertNull(customer);
     }
 
     @Test
@@ -194,7 +194,7 @@ class CustomerServiceTests {
         //act
         Customer customer = service.updateCustomerById(3, updatedCustomer);
         //assert
-        assertEquals(null, customer);
+        assertNull(customer);
     }
 
     //removeCustomerById
@@ -204,7 +204,7 @@ class CustomerServiceTests {
         //arrange
 
         //act
-        Boolean bool = service.removeCustomerById(-4);
+        var bool = service.removeCustomerById(-4);
         //assert
         assertFalse(bool);
     }

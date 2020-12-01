@@ -42,7 +42,8 @@ public class ProductService implements IProductService {
                 product.getImage() == null ||
                 product.getPrice() == null ||
                 product.getPrice() < 0 ||
-                id == 0) {
+                id == 0 ||
+                product.getRetailer() == null) {
             return null;
         }
         return repository.updateProductById(id, product);
@@ -52,9 +53,8 @@ public class ProductService implements IProductService {
     public Review createReviewOnProductById(int id, Review review){
         if(review.getBody() == null ||
                 review.getCustomer() == null ||
-                review.getProduct() == null ||
                 review.getRating() == 0 ||
-                id == 0){
+                id <= 0){
             return null;
         }
         review.setCreated(LocalDate.now());

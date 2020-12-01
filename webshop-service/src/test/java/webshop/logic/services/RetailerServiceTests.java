@@ -1,6 +1,5 @@
 package webshop.logic.services;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import webshop.logic.interfaces.IRetailerService;
@@ -13,7 +12,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.TestCase.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -43,7 +44,7 @@ class RetailerServiceTests {
 
         when(repository.getRetailerById(0)).thenReturn(retailers.get(0));
         when(repository.saveRetailer(any(Retailer.class))).thenReturn(retailer1);
-        when(repository.updateRetailer(any(Retailer.class))).thenReturn(retailers.get(0));
+        when(repository.updateRetailerById(anyInt(), any(Retailer.class))).thenReturn(retailers.get(0));
         when(repository.getProductsInCatalog(0)).thenReturn(products);
         when(repository.createNewProductInCatalog(any(int.class), any(Product.class))).thenReturn(products.get(0));
     }
@@ -65,7 +66,7 @@ class RetailerServiceTests {
         //act
         Retailer retailer = service.getRetailerById(-3);
         //assert
-        assertEquals(null, retailer);
+        assertNull(retailer);
     }
 
     @Test
@@ -88,7 +89,7 @@ class RetailerServiceTests {
         //act
         Retailer retailer = service.saveRetailer(newRetailer);
         //assert
-        assertEquals(null, retailer);
+        assertNull(retailer);
     }
 
     @Test
@@ -99,7 +100,7 @@ class RetailerServiceTests {
         //act
         Retailer retailer = service.saveRetailer(newRetailer);
         //assert
-        assertEquals(null, retailer);
+        assertNull(retailer);
     }
 
     @Test
@@ -110,7 +111,7 @@ class RetailerServiceTests {
         updatedRetailer.setAvatar(new Image("testurl"));
         updatedRetailer.setId(0);
         //act
-        Retailer retailer = service.updateRetailer(updatedRetailer);
+        Retailer retailer = service.updateRetailerById(0,updatedRetailer);
         //assert
         assertEquals(updatedRetailer.getId(), retailer.getId());
     }
@@ -122,9 +123,9 @@ class RetailerServiceTests {
         updatedRetailer.setAvatar(new Image("testurl"));
         updatedRetailer.setId(0);
         //act
-        Retailer retailer = service.updateRetailer(updatedRetailer);
+        Retailer retailer = service.updateRetailerById(0,updatedRetailer);
         //assert
-        assertEquals(null, retailer);
+        assertNull(retailer);
     }
 
     @Test
@@ -134,9 +135,9 @@ class RetailerServiceTests {
         updatedRetailer.setAccount(new Account("john", "abcd", UserRole.Retailer, LocalDate.parse("2018-10-02")));
         updatedRetailer.setId(0);
         //act
-        Retailer retailer = service.updateRetailer(updatedRetailer);
+        Retailer retailer = service.updateRetailerById(0,updatedRetailer);
         //assert
-        assertEquals(null, retailer);
+        assertNull(retailer);
     }
 
     @Test
@@ -147,9 +148,9 @@ class RetailerServiceTests {
         updatedRetailer.setAvatar(new Image("testurl"));
         updatedRetailer.setId(-2);
         //act
-        Retailer retailer = service.updateRetailer(updatedRetailer);
+        Retailer retailer = service.updateRetailerById(0,updatedRetailer);
         //assert
-        assertEquals(null, retailer);
+        assertNull(retailer);
     }
 
     @Test
@@ -157,7 +158,7 @@ class RetailerServiceTests {
         //arrange
 
         //act
-        Boolean bool = service.removeRetailerById(-4);
+        var bool = service.removeRetailerById(-4);
         //assert
         assertFalse(bool);
     }
@@ -203,7 +204,7 @@ class RetailerServiceTests {
         //act
         Product product = service.createNewProduct(0, newProduct);
         //assert
-        assertEquals(null, product);
+        assertNull(product);
     }
 
     @Test
@@ -217,7 +218,7 @@ class RetailerServiceTests {
         //act
         Product product = service.createNewProduct(0, newProduct);
         //assert
-        assertEquals(null, product);
+        assertNull(product);
     }
 
     @Test
@@ -231,7 +232,7 @@ class RetailerServiceTests {
         //act
         Product product = service.createNewProduct(0, newProduct);
         //assert
-        assertEquals(null, product);
+        assertNull(product);
     }
 
     @Test
@@ -245,6 +246,6 @@ class RetailerServiceTests {
         //act
         Product product = service.createNewProduct(0, newProduct);
         //assert
-        assertEquals(null, product);
+        assertNull(product);
     }
 }

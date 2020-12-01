@@ -40,9 +40,9 @@ public class RetailerRepository implements IRetailerRepository {
     }
 
     @Override
-    public Retailer updateRetailer(Retailer retailer){
+    public Retailer updateRetailerById(int id, Retailer retailer){
         em.getTransaction().begin();
-        Retailer customerToUpdate = getRetailerById(retailer.getId());
+        Retailer customerToUpdate = getRetailerById(id);
         customerToUpdate.setAvatar(retailer.getAvatar());
         customerToUpdate.setAccount(retailer.getAccount());
         em.getTransaction().commit();
