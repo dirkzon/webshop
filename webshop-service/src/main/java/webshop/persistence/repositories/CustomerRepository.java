@@ -10,7 +10,7 @@ import javax.persistence.EntityManagerFactory;
 
 public class CustomerRepository implements ICustomerRepository {
 
-    private EntityManager em;
+    private final EntityManager em;
 
     @Inject
     public CustomerRepository(EntityManagerFactory entityManagerFactory){

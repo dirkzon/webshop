@@ -1,5 +1,5 @@
-insert into accounts(id, joined, password, role, user_name) values('1', '2018-10-02', 'abcd', 'Retailer', 'john')
-insert into accounts(id, joined, password, role, user_name) values('2', '2020-03-18', '1234', 'Customer', 'henk')
+insert into accounts(id, joined, password, role, user_name) values('1', '2018-10-02', 'abcd', 'RETAILER', 'john')
+insert into accounts(id, joined, password, role, user_name) values('2', '2020-03-18', '1234', 'CUSTOMER', 'henk')
 
 insert into addresses(id, country, house_number, street_name) values('1', 'NL', '12', 'street')
 

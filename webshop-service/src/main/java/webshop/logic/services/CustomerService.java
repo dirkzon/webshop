@@ -5,13 +5,11 @@ import webshop.persistence.interfaces.ICustomerRepository;
 import webshop.service.models.Customer;
 
 import javax.inject.Inject;
-import javax.ws.rs.core.Context;
 import java.time.LocalDate;
 
 public class CustomerService implements ICustomerService {
 
-    @Context
-    private ICustomerRepository repository;
+    private final ICustomerRepository repository;
 
     @Inject
     public CustomerService(ICustomerRepository repository) {

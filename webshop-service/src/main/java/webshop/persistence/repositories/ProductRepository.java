@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ProductRepository implements IProductRepository {
 
-    final private EntityManager em;
+    private final EntityManager em;
 
     @Inject
     public ProductRepository(EntityManagerFactory entityManagerFactory){

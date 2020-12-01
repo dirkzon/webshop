@@ -3,7 +3,6 @@ package webshop.service;
 import javax.ws.rs.container.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
-import java.io.IOException;
 
 @Provider
 @PreMatching
@@ -12,7 +11,7 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
      * Method for ContainerRequestFilter.
      */
     @Override
-    public void filter(ContainerRequestContext request) throws IOException {
+    public void filter(ContainerRequestContext request){
         // If it's a preflight request, we abort the request with
         // a 200 status, and the CORS headers are added in the
         // response filter method below.
@@ -32,8 +31,7 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
      * Method for ContainerResponseFilter.
      */
     @Override
-    public void filter(ContainerRequestContext request, ContainerResponseContext response)
-            throws IOException {
+    public void filter(ContainerRequestContext request, ContainerResponseContext response) {
         // if there is no Origin header, then it is not a
         // cross origin request. We don't do anything.
         if (request.getHeaderString("Origin") == null) {

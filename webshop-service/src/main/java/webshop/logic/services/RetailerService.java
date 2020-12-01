@@ -5,15 +5,15 @@ import webshop.persistence.interfaces.IRetailerRepository;
 import webshop.service.models.Product;
 import webshop.service.models.Retailer;
 
-import javax.ws.rs.core.Context;
+import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.List;
 
 public class RetailerService implements IRetailerService {
 
-    @Context
-    private IRetailerRepository repository;
+    private final IRetailerRepository repository;
 
+    @Inject
     public RetailerService(IRetailerRepository repository){
         this.repository = repository;
     }

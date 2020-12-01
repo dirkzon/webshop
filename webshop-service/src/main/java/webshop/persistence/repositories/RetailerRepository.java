@@ -12,7 +12,7 @@ import java.util.List;
 
 public class RetailerRepository implements IRetailerRepository {
 
-    private EntityManager em;
+    private final EntityManager em;
 
     @Inject
     public RetailerRepository(EntityManagerFactory entityManagerFactory){

@@ -4,6 +4,13 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
     <persistence-unit name="hibernate.memory">
+        <class>webshop.service.models.Account</class>
+        <class>webshop.service.models.Customer</class>
+        <class>webshop.service.models.Retailer</class>
+        <class>webshop.service.models.Address</class>
+        <class>webshop.service.models.Product</class>
+        <class>webshop.service.models.Image</class>
+        <class>webshop.service.models.Review</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>

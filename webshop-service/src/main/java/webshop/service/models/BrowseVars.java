@@ -1,7 +1,5 @@
 package webshop.service.models;
 
-import java.lang.reflect.Field;
-
 public class BrowseVars {
 
     public BrowseVars(){}

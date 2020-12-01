@@ -2,11 +2,8 @@ package webshop.service.filters;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import webshop.logic.interfaces.IAccountService;
-import webshop.logic.services.AccountService;
 
 import javax.annotation.security.RolesAllowed;
-import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
@@ -60,7 +57,6 @@ public class AuthorisationFilter implements ContainerRequestFilter {
             Response response = Response.status(Response.Status.FORBIDDEN).
                     entity("You do not have the right role(s).").build();
             requestContext.abortWith(response);
-            return;
         }
     }
 

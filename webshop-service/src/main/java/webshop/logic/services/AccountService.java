@@ -7,14 +7,12 @@ import webshop.persistence.interfaces.IAccountRepository;
 import webshop.service.models.Account;
 
 import javax.inject.Inject;
-import javax.ws.rs.core.Context;
 import java.util.Date;
 import java.util.List;
 
 public class AccountService implements IAccountService {
 
-    @Context
-    private IAccountRepository repository;
+    private final IAccountRepository repository;
 
     @Inject
     public AccountService(IAccountRepository repository){

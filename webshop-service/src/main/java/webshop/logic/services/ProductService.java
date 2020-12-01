@@ -7,14 +7,12 @@ import webshop.service.models.Product;
 import webshop.service.models.Review;
 
 import javax.inject.Inject;
-import javax.ws.rs.core.Context;
 import java.time.LocalDate;
 import java.util.List;
 
 public class ProductService implements IProductService {
 
-    @Context
-    private IProductRepository repository;
+    private final IProductRepository repository;
 
     @Inject
     public ProductService(IProductRepository repository){

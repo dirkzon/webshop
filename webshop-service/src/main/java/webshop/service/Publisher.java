@@ -24,10 +24,7 @@ class Publisher {
 
             Logger.getGlobal().log(Level.CONFIG, "Hosting resources at " + BASE_URI.toURL());
 
-            ////===++++++++++++++++++++++++++++++++++++++++++++++++++===////
-
         } catch (IOException ex) {
-            System.out.println(ex);
             Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

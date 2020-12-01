@@ -12,7 +12,7 @@ import java.util.List;
 
 public class AccountRepository implements IAccountRepository {
 
-    private EntityManager em;
+    private final EntityManager em;
 
     @Inject
     public AccountRepository(EntityManagerFactory entityManagerFactory){
@@ -24,7 +24,7 @@ public class AccountRepository implements IAccountRepository {
         String sql = "SELECT * FROM accounts WHERE user_name = :details";
         Query query = em.createNativeQuery(sql, Account.class);
         query.setParameter("details", details);
-        List<Account> result =  query.getResultList();
+        List result =  query.getResultList();
         if (result.isEmpty()) return null;
         return result;
     }
@@ -33,7 +33,7 @@ public class AccountRepository implements IAccountRepository {
     //between customer,retailer and account, But this also works.
     public int getUserIdFromAccountId(int id, UserRole role){
         String sql;
-        if(role == UserRole.Customer){
+        if(role == UserRole.CUSTOMER){
             sql = "SELECT id FROM customers WHERE account_id = :id";
         }else{
             sql = "SELECT id FROM retailers WHERE account_id = :id";

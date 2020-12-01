@@ -11,7 +11,7 @@ import javax.persistence.Persistence;
 
 public class DependencyBinder extends AbstractBinder {
 
-    private String context;
+    private final String context;
 
     public DependencyBinder(String context){
         this.context = context;
@@ -33,9 +33,9 @@ public class DependencyBinder extends AbstractBinder {
         bind(ProductService.class).to(IProductService.class);
 
         //context
-        if(context == "Memory"){
+        if(context.equals("Memory")){
             bind(Persistence.createEntityManagerFactory("hibernate.memory")).to(EntityManagerFactory.class);
-        }else if(context == "SQL"){
+        }else if(context.equals("SQL")){
             bind(Persistence.createEntityManagerFactory("hibernate.sql")).to(EntityManagerFactory.class);
         }
     }
