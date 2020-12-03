@@ -27,7 +27,7 @@ public class RetailerResource {
     @UseAuthorisationFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}")
-    public Response GetRetailerById(@PathParam("retailer_id") int id){
+    public Response getRetailerById(@PathParam("retailer_id") int id){
         var retailer = service.getRetailerById(id);
         if(retailer != null){
             return Response.ok(retailer).build();
@@ -36,10 +36,9 @@ public class RetailerResource {
     }
 
     @POST
-    @UseAuthorisationFilter
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response CreateRetailer(Retailer retailer){
+    public Response createRetailer(Retailer retailer){
         if(retailer != null) {
             var newRetailer = service.saveRetailer(retailer);
             return Response.ok(newRetailer).build();
@@ -52,7 +51,7 @@ public class RetailerResource {
     @RolesAllowed("Retailer")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}")
-    public Response RemoveRetailerById(@PathParam("retailer_id") int id){
+    public Response removeRetailerById(@PathParam("retailer_id") int id){
         if(service.removeRetailerById(id)){
             return Response.ok("Retailer with id:" + id + " has been removed").build();
         }else{
@@ -66,7 +65,7 @@ public class RetailerResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}")
-    public Response UpdateRetailer(@PathParam("retailer_id") int id, Retailer retailer){
+    public Response updateRetailer(@PathParam("retailer_id") int id, Retailer retailer){
         if(retailer != null){
             var updatedRetailer = service.updateRetailerById(id, retailer);
             return Response.ok(updatedRetailer).build();
@@ -80,7 +79,7 @@ public class RetailerResource {
     @RolesAllowed({"Retailer", "Customer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}/catalog")
-    public Response GetAllProductsInCatalog(@PathParam("retailer_id") int id){
+    public Response getAllProductsInCatalog(@PathParam("retailer_id") int id){
         var products = service.getAllProductsInCatalog(id);
         if(!products.isEmpty()){
             return Response.ok(products).build();
@@ -94,7 +93,7 @@ public class RetailerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}/catalog")
-    public Response CreateProductInCatalog(@PathParam("retailer_id") int id , Product product){
+    public Response createProductInCatalog(@PathParam("retailer_id") int id , Product product){
         var newProduct = service.createNewProduct(id, product);
         return Response.ok(newProduct).build();
     }

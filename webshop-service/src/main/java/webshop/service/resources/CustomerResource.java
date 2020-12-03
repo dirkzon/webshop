@@ -27,7 +27,7 @@ public class CustomerResource {
     @RolesAllowed({"Customer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
-    public Response GetCustomerById(@PathParam("customer_id") int id){
+    public Response getCustomerById(@PathParam("customer_id") int id){
         var customer = service.getCustomerById(id);
         if(customer != null){
             return Response.ok(customer).build();
@@ -37,10 +37,9 @@ public class CustomerResource {
     }
 
     @POST
-    @UseAuthorisationFilter
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response CreateCustomer(Customer customer){
+    public Response createCustomer(Customer customer){
         if(customer != null){
             var newCustomer = service.saveCustomer(customer);
             return Response.ok(newCustomer).build();
@@ -54,7 +53,7 @@ public class CustomerResource {
     @RolesAllowed({"Customer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
-    public Response RemoveCustomerById(@PathParam("customer_id") int id){
+    public Response removeCustomerById(@PathParam("customer_id") int id){
         if(service.removeCustomerById(id)){
             return Response.ok("Customer with id:" + id + " has been removed").build();
         }
@@ -67,7 +66,7 @@ public class CustomerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
-    public Response UpdateCustomerById(@PathParam("customer_id") int id, Customer customer){
+    public Response updateCustomerById(@PathParam("customer_id") int id, Customer customer){
         if(customer != null){
             var updatedCustomer = service.updateCustomerById(id, customer);
             return Response.ok(updatedCustomer).build();

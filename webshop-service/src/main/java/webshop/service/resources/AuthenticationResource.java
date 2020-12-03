@@ -34,7 +34,7 @@ public class AuthenticationResource {
     @GET
     @UseAuthenticationFilter
     @Produces(MediaType.APPLICATION_JSON)
-    public Response LogIn(){
+    public Response logIn(){
         Account account = (Account) request.getProperty("account");
         String token = service.createToken(account);
         AuthenticationData data = new AuthenticationData(token, account.getRole(), LocalDateTime.now());

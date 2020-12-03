@@ -34,6 +34,7 @@
             </v-icon>
             Log in
           </v-btn>
+          <router-link :to="{name: 'createAccount'}">
           <v-btn
               @click="test()"
               class="mx-2 my-2"
@@ -43,6 +44,7 @@
             </v-icon>
             Create account
           </v-btn>
+          </router-link>
           </v-form>
         </v-responsive>
       </v-card>

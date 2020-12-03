@@ -54,6 +54,12 @@ export default new Router({
             name: "login",
             component: ()=>
                 import("./views/LogIn")
-        }
+        },
+        {
+            path: '/account/new',
+            name:'createAccount',
+            component: ()=>
+                import("./views/CreateAccount")
+        },
     ]
 })
