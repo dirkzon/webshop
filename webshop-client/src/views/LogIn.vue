@@ -72,14 +72,13 @@ export default {
   },
   methods:{
     LogIn: function () {
-      let token = btoa(`${this.username}:${this.password}`);
+      let oath_token = btoa(`${this.username}:${this.password}`);
       axios
-          .get('http://localhost:4545/v1/authentication/', {
-            headers: {'Authentication': `Bearer ${token}`}
+          .get('http://localhost:4545/v2/authentication/', {
+            headers: {'Authentication': `Bearer ${oath_token}`}
           })
-          .then(response => (axios.defaults.headers.common["Authorization"] = response.data,
-          router.push("/"),
-          console.log(response.data)))
+          .then(response => (axios.defaults.headers.common["Authorization"] = `${response.data.token_type} ${response.data.access_token}`));
+          router.push("/")
           .catch(error => this.errormsg = `Could not log in: ${error.response.statusText}`)
     }
   }

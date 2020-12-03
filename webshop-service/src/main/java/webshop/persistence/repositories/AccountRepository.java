@@ -21,7 +21,7 @@ public class AccountRepository implements IAccountRepository {
 
     @Override
     public List<Account> getAccountByDetails(String details){
-        String sql = "SELECT * FROM accounts WHERE user_name = :details";
+        String sql = "SELECT * FROM accounts WHERE user_name = :details OR email = :details";
         Query query = em.createNativeQuery(sql, Account.class);
         query.setParameter("details", details);
         List result =  query.getResultList();
@@ -33,7 +33,7 @@ public class AccountRepository implements IAccountRepository {
     //between customer,retailer and account, But this also works.
     public int getUserIdFromAccountId(int id, UserRole role){
         String sql;
-        if(role == UserRole.CUSTOMER){
+        if(role == UserRole.Customer){
             sql = "SELECT id FROM customers WHERE account_id = :id";
         }else{
             sql = "SELECT id FROM retailers WHERE account_id = :id";

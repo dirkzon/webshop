@@ -21,7 +21,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://localhost:4545/v1/retailers/retailer:1/catalog')
+    axios.get('http://localhost:4545/v2/retailers/1/catalog')
         .then(response => this.products = response.data)
         .catch(error => alert(error))
   }

@@ -30,13 +30,13 @@ class AccountServiceTests {
 
         List<Account> accounts = new ArrayList<>();
 
-        Account a1 = new Account("peter", "abcd", UserRole.CUSTOMER, LocalDate.parse("2017-11-26"));
+        Account a1 = new Account("peter", "abcd","peter@mail.nl" , UserRole.Customer, LocalDate.parse("2017-11-26"));
         a1.setId(1);
         accounts.add(a1);
-        Account a2 = new Account("henk", "password", UserRole.CUSTOMER, LocalDate.parse("2019-03-21"));
+        Account a2 = new Account("henk", "password","henk@gmail.com", UserRole.Customer, LocalDate.parse("2019-03-21"));
         a2.setId(2);
         accounts.add(a2);
-        Account a3 = new Account("john", "1234", UserRole.RETAILER, LocalDate.parse("2020-05-30"));
+        Account a3 = new Account("john", "1234","john@outlook.com", UserRole.Retailer, LocalDate.parse("2020-05-30"));
         a3.setId(3);
         accounts.add(a3);
 

@@ -15,11 +15,16 @@ import javax.ws.rs.core.Response;
 import webshop.service.models.Account;
 import webshop.service.models.AuthenticationData;
 
+import java.time.LocalDateTime;
+
 @Path("/authentication")
 @Service
 public class AuthenticationResource {
 
     private final IAccountService service;
+
+    @Context
+    ContainerRequestContext request;
 
     @Inject
     public AuthenticationResource(IAccountService service){
@@ -29,10 +34,10 @@ public class AuthenticationResource {
     @GET
     @UseAuthenticationFilter
     @Produces(MediaType.APPLICATION_JSON)
-    public Response LogIn(@Context ContainerRequestContext request){
+    public Response LogIn(){
         Account account = (Account) request.getProperty("account");
         String token = service.createToken(account);
-        AuthenticationData data = new AuthenticationData(token, account.getRole());
+        AuthenticationData data = new AuthenticationData(token, account.getRole(), LocalDateTime.now());
         return Response.ok(data).build();
     }
 }

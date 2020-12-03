@@ -33,9 +33,9 @@ class ProductServiceTests {
 
         Image image = new Image("testurl");
 
-        Retailer retailer1 = new Retailer(0, new Account("john", "abcd", UserRole.RETAILER, LocalDate.parse("2018-10-02")),image );
+        Retailer retailer1 = new Retailer(0, new Account("john", "abcd", "mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),image );
 
-        Customer customer = new Customer(0, new Account("henk", "1234", UserRole.CUSTOMER, LocalDate.parse("2018-10-02")),
+        Customer customer = new Customer(0, new Account("henk", "1234","mail",  UserRole.Customer, LocalDate.parse("2018-10-02")),
                 new Address("NL", "street", 15), image);
 
         products.add(new Product(1, "tv", 200.0, "description tv", LocalDate.parse("2020-01-08"),retailer1,2.5, image));
@@ -89,7 +89,7 @@ class ProductServiceTests {
         updatedProduct.setDescription("description");
         updatedProduct.setName("product name");
         updatedProduct.setPrice(10.50);
-        updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd", UserRole.RETAILER, LocalDate.parse("2018-10-02")),new Image("image_url")));
+        updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),new Image("image_url")));
 
         //act
        Product product = service.updateProductById(1, updatedProduct);
@@ -105,7 +105,7 @@ class ProductServiceTests {
         updatedProduct.setDescription("description");
         updatedProduct.setName("product name");
         updatedProduct.setPrice(10.50);
-        updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd", UserRole.RETAILER, LocalDate.parse("2018-10-02")),new Image("image_url")));
+        updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),new Image("image_url")));
 
         //act
         Product product = service.updateProductById(1, updatedProduct);
@@ -121,7 +121,7 @@ class ProductServiceTests {
         updatedProduct.setImage(new Image("url"));
         updatedProduct.setName("product name");
         updatedProduct.setPrice(10.50);
-        updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd", UserRole.RETAILER, LocalDate.parse("2018-10-02")),new Image("image_url")));
+        updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),new Image("image_url")));
 
         //act
        Product product = service.updateProductById(1, updatedProduct);
@@ -139,7 +139,7 @@ class ProductServiceTests {
         updatedProduct.setPrice(10.50);
 
         //act
-       updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd", UserRole.RETAILER, LocalDate.parse("2018-10-02")),new Image("image_url")));
+       updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),new Image("image_url")));
         Product product = service.updateProductById(1, updatedProduct);
         //assert
         assertNull(product);
@@ -153,7 +153,7 @@ class ProductServiceTests {
         updatedProduct.setImage(new Image("url"));
         updatedProduct.setDescription("description");
         updatedProduct.setName("product name");
-        updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd", UserRole.RETAILER, LocalDate.parse("2018-10-02")),new Image("image_url")));
+        updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),new Image("image_url")));
 
         //act
         Product product = service.updateProductById(1, updatedProduct);

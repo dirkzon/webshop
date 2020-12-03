@@ -1,17 +1,52 @@
 package webshop.service.models;
 
+import java.time.LocalDateTime;
 
 import static webshop.service.filters.Constants.AUTHENTICATION_SCHEME;
 
 public class AuthenticationData {
 
-    public AuthenticationData(String access_token, UserRole scope) {
+    public AuthenticationData(String access_token, UserRole scope, LocalDateTime created) {
         this.access_token = access_token;
         this.scope = scope;
         token_type = AUTHENTICATION_SCHEME;
+        this.created = created.toString();
     }
 
-    public String access_token;
-    public String token_type;
-    public UserRole scope;
+    private String access_token;
+    private String token_type;
+    private UserRole scope;
+    private String created;
+
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
+    }
+
+    public String getToken_type() {
+        return token_type;
+    }
+
+    public void setToken_type(String token_type) {
+        this.token_type = token_type;
+    }
+
+    public UserRole getScope() {
+        return scope;
+    }
+
+    public void setScope(UserRole scope) {
+        this.scope = scope;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
 }

@@ -13,8 +13,9 @@ public class Account  {
 
     public Account(){}
 
-    public Account(String username, String password, UserRole role, LocalDate joined) {
+    public Account(String username, String email, String password, UserRole role, LocalDate joined) {
         this.username = username;
+        this.email = email;
         this.password = password;
         this.role = role;
         this.joined = joined;
@@ -27,6 +28,9 @@ public class Account  {
 
     @Column(name = "user_name")
     private String username;
+
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "password")
     private String password;
@@ -80,4 +84,11 @@ public class Account  {
         this.joined = joined;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
