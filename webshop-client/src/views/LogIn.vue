@@ -53,37 +53,32 @@
 </template>
 
 <script>
-import axios from "axios";
-import router from "@/router";
+import accountService from "@/services/account-service";
 
-export default {
+export default{
   name: "LogIn",
-  data(){
-    return{
+  data() {
+    return {
       username: "",
       userNameRules: [
         v => !!v || 'Name is required'
       ],
       password: "",
-      passwordRules:[
-          v => !!v || 'Password is required'
+      passwordRules: [
+        v => !!v || 'Password is required'
       ],
       valid: false,
-      errormsg:"",
+      errormsg: "",
     }
   },
-  methods:{
-    LogIn: function () {
-      let oath_token = btoa(`${this.username}:${this.password}`);
-      axios
-          .get('http://localhost:4545/v2/authentication/', {
-            headers: {'Authentication': `Bearer ${oath_token}`}
-          })
-          .then(response => (axios.defaults.headers.common["Authorization"] = `${response.data.token_type} ${response.data.access_token}`));
-          router.push("/")
-          .catch(error => this.errormsg = `Could not log in: ${error.response.statusText}`)
+  methods: {
+    LogIn: async function(){
+      const response = await accountService.login(this.username, this.password);
+      let token = `${response.token_type} ${response.access_token}`
+      alert(token)
     }
-  }
+}
+
 }
 </script>
 

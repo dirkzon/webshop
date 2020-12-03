@@ -14,42 +14,6 @@ export default new Router({
                 import("./views/Home")
         },
         {
-            path:'/product/:id',
-            name:'product',
-            component: () =>
-                import("./views/ViewProduct")
-        },
-        {
-            path: '/product/:id/edit',
-            name: 'editProduct',
-            component: ()=>
-                import("./views/EditProduct")
-        },
-        {
-            path: '/account/me',
-            name: 'viewAccount',
-            component: () =>
-                import("./views/ViewAccount")
-        },
-        {
-            path: '/product/new',
-            name: 'createProduct',
-            component:() =>
-                import("./views/CreateProduct")
-        },
-        {
-            path: '/search',
-            name: 'search',
-            component: () =>
-                import("./views/SearchProducts")
-        },
-        {
-            path: '/cart',
-            name: 'shoppingCart',
-            component: () =>
-                import("./views/ViewCart")
-        },
-        {
             path: "/login",
             name: "login",
             component: ()=>

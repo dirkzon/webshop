@@ -1,18 +1,16 @@
 <template>
   <v-app>
     <TopBar></TopBar>
-    <ProductList v-bind:products="products"></ProductList>
   </v-app>
 </template>
 
 <script>
-import ProductList from '@/components/ProductList'
+
 import TopBar from "@/components/TopBar";
-import axios from "axios";
 
 export default {
   components: {
-    ProductList,
+
     TopBar
   },
   data(){
@@ -20,11 +18,6 @@ export default {
       products: Object
     }
   },
-  mounted() {
-    axios.get('http://localhost:4545/v2/retailers/1/catalog')
-        .then(response => this.products = response.data)
-        .catch(error => alert(error))
-  }
 }
 </script>
 

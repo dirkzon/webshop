@@ -58,6 +58,8 @@
 
 <script>
 import axios from "axios";
+import LogIn from "@/views/LogIn";
+import router from "@/router";
 
 export default {
   name: "CreateAccount",
@@ -105,13 +107,23 @@ export default {
         url = "http://localhost:4545/v2/retailers"
       }else{
         url = "http://localhost:4545/v2/customers"
-      }
+      }   
 
       console.log(newUser)
       axios.post(url, JSON.parse(newUser)).
-      then(response => (console.log(response)))
-      .catch(error => alert(error))
-    }
+      then(LogIn)
+      .catch(error => this.errormsg = `Could not log in: ${error.response.statusText}`)
+    },
+    LogIn: function(){
+      let oath_token = btoa(`${this.username}:${this.password}`);
+      axios
+          .get('http://localhost:4545/v2/authentication/', {
+            headers: {'Authentication': `Bearer ${oath_token}`}
+          })
+          .then(response => (axios.defaults.headers.common["Authorization"] = `${response.data.token_type} ${response.data.access_token}`));
+      router.push("/")
+          .catch(error => this.errormsg = `Could not log in: ${error.response.statusText}`)
+    },
   }
 }
 </script>

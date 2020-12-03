@@ -3,10 +3,10 @@ insert into accounts(id, joined, email,  password, role, user_name) values('2', 
 
 insert into addresses(id, country, house_number, street_name) values('1', 'NL', '12', 'street')
 
-insert into images(id, url) values('1', 'url')
-insert into images(id, url) values('2', 'url')
-insert into images(id, url) values('3', 'url')
-insert into images(id, url) values('4', 'url')
+insert into images(id, url) values('1', 'https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg')
+insert into images(id, url) values('2', 'https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg')
+insert into images(id, url) values('3', 'https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg')
+insert into images(id, url) values('4', 'https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg')
 
 insert into retailers(id, account_id, avatar_id) values('1','1','1')
 
