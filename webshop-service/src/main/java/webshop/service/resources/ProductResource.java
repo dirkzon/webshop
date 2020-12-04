@@ -73,7 +73,7 @@ public class ProductResource {
         return Response.status(Response.Status.CREATED).build();
     }
 
-    @GET
+    @PUT
     @UseAuthorisationFilter
     @RolesAllowed({"Customer", "Retailer"})
     @Produces(MediaType.APPLICATION_JSON)

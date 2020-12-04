@@ -38,7 +38,7 @@ public class AccountService implements IAccountService {
                 .setId(Integer.toString(userId))
                 .claim("role", account.getRole())
                 .setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, "c2VjcmV0")
+                .signWith(SignatureAlgorithm.HS256, "eW91IGdvdCB0aGlzIQ==")
                 .compact();
     }
 }

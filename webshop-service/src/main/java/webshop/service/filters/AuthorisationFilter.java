@@ -42,7 +42,7 @@ public class AuthorisationFilter implements ContainerRequestFilter {
         Claims credentials;
 
         try {
-            credentials = Jwts.parser().setSigningKey("c2VjcmV0").parseClaimsJws(encodedCredentials).getBody();
+            credentials = Jwts.parser().setSigningKey("eW91IGdvdCB0aGlzIQ==").parseClaimsJws(encodedCredentials).getBody();
         } catch (Exception e) {
             Response response = Response.status(Response.Status.UNAUTHORIZED).
                     entity(e.getCause()).build();

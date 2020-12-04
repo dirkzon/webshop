@@ -1,14 +1,27 @@
 import axios from "axios";
 
+const baseUrl = 'http://localhost:4545/v2'
+
 export default {
     async login(username, password){
         let oath_token = btoa(`${username}:${password}`);
         let output;
         await axios
-            .get('http://localhost:4545/v2/authentication/',
+            .get(baseUrl + '/authentication/',
                 {headers: {'Authentication': `Bearer ${oath_token}`}})
-            .then(response => {output = response.data})
+            .then(response => {output = response.data, console.log(response)})
             .catch(error => console.log(error))
         return output;
+    },
+
+    async createAccount(newUser, role){
+        let url;
+        if(role == 'Retailer'){
+            url = baseUrl + '/retailers'
+        }
+        url = baseUrl + '/customers'
+        axios.post(url, JSON.parse(newUser))
+            .then()
+            .catch(error => console.log(error))
     }
 }

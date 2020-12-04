@@ -1,0 +1,35 @@
+import axios from "axios";
+
+const baseUrl = 'http://localhost:4545/v2/products/'
+
+export default {
+    async getProductById(id){
+        await axios.get(baseUrl + id)
+            .then(response => {return response.data})
+            .catch(error => (console.log(error)))
+    },
+
+    async removeProductById(id){
+        await axios.delete(baseUrl + id)
+            .then()
+            .catch(error => (console.log(error)))
+    },
+
+    async updateProductById(id, product){
+        await axios.put(baseUrl + id, JSON.parse(product))
+            .then(response => {return response.data})
+            .catch(error => (console.log(error)))
+    },
+
+    async createReviewOnProductById(id, review){
+        await axios.post(baseUrl + id, JSON.parse(review))
+            .then(response => {return response})
+            .catch(error => (console.log(error)))
+    },
+
+    async browseProducts(broseVars){
+        await axios.put(baseUrl + '/browse', JSON.parse(broseVars))
+            .then(response => {return response})
+            .catch(error => (console.log(error)))
+    }
+}

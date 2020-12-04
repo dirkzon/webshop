@@ -76,6 +76,7 @@ export default{
       const response = await accountService.login(this.username, this.password);
       let token = `${response.token_type} ${response.access_token}`
       alert(token)
+      await this.$router.push('/')
     }
 }
 
