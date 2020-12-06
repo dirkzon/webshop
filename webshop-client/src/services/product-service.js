@@ -1,12 +1,17 @@
 import axios from "axios";
+import Vue from 'vue'
 
 const baseUrl = 'http://localhost:4545/v2/products/'
 
 export default {
     async getProductById(id){
-        await axios.get(baseUrl + id)
-            .then(response => {return response.data})
-            .catch(error => (console.log(error)))
+        let output;
+        await axios
+            .get(baseUrl + id,
+                {headers: {'Authorization': Vue.$cookies.get("access_token")}})
+            .then(response => {output = response.data})
+            .catch(error => console.log(error))
+        return output;
     },
 
     async removeProductById(id){

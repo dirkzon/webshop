@@ -48,7 +48,7 @@
           </v-icon>
         </v-badge>
       </v-btn>
-    <router-link :to="{name: 'shoppingCart'}">
+
       <v-btn small
              class="mx-2 my-2"
              fab
@@ -57,7 +57,7 @@
           shopping_cart
         </v-icon>
       </v-btn>
-    </router-link>
+
   </v-app-bar>
 </template>
 

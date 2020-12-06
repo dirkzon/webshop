@@ -9,7 +9,7 @@ export default {
         await axios
             .get(baseUrl + '/authentication/',
                 {headers: {'Authentication': `Bearer ${oath_token}`}})
-            .then(response => {output = response.data, console.log(response)})
+            .then(response => {output = response.data})
             .catch(error => console.log(error))
         return output;
     },

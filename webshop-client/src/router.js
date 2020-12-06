@@ -25,5 +25,12 @@ export default new Router({
             component: ()=>
                 import("./views/CreateAccount")
         },
+        {
+            path:'/product/:id',
+            name:'product',
+            component: () =>
+                import("./views/ViewProduct")
+        },
+
     ]
 })

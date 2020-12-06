@@ -1,12 +1,13 @@
 <template>
   <v-app>
     <TopBar></TopBar>
+    <span>{{products}}</span>
   </v-app>
 </template>
-
 <script>
 
 import TopBar from "@/components/TopBar";
+import productService from "@/services/product-service";
 
 export default {
   components: {
@@ -14,9 +15,12 @@ export default {
   },
   data(){
     return{
-      products: Object
+      products: ''
     }
   },
+  async mounted() {
+    this.products = await productService.getProductById(1);
+  }
 }
 </script>
 

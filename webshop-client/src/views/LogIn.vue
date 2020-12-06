@@ -75,7 +75,8 @@ export default{
     LogIn: async function(){
       const response = await accountService.login(this.username, this.password);
       let token = `${response.token_type} ${response.access_token}`
-      alert(token)
+      console.log(token)
+      this.$cookies.set("access_token", token, "1d")
       await this.$router.push('/')
     }
 }
