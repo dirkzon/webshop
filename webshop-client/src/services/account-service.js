@@ -19,9 +19,10 @@ export default {
         if(role == 'Retailer'){
             url = baseUrl + '/retailers'
         }
-        url = baseUrl + '/customers'
-        axios.post(url, JSON.parse(newUser))
-            .then()
+        url = baseUrl + '/retailers'
+        await axios
+            .post(url, JSON.parse(newUser))
+            .then(response => {return response})
             .catch(error => console.log(error))
     }
 }

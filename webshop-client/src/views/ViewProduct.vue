@@ -12,6 +12,16 @@
 
       <v-card style="height:min-content"
           class="mx-12 my-12">
+        <v-btn v-if="product.canEdit"
+            small
+            class="mx-2 my-2"
+            fab
+            color="#cdc9c3">
+          <v-icon dark>
+            build
+          </v-icon>
+        </v-btn>
+
         <v-card-title>{{product.name}}</v-card-title>
         <v-card-subtitle>{{product.created}}</v-card-subtitle>
         <v-card-subtitle>{{product.description}}</v-card-subtitle>
@@ -30,6 +40,7 @@
         <UserCard v-bind:user="product.retailer"></UserCard>
       </v-card>
     </v-row>
+    <span v-if="product.canReview"> I can review AAAAAAAAAAAAAAAAAAAAAAAAAA</span>
   </v-app>
 </template>
 

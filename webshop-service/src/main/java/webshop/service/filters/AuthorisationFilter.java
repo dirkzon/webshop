@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.List;
 
-import static webshop.service.filters.Constants.AUTHENTICATION_SCHEME;
+import static webshop.service.filters.Constants.*;
 
 @UseAuthorisationFilter
 public class AuthorisationFilter implements ContainerRequestFilter {
@@ -50,13 +50,18 @@ public class AuthorisationFilter implements ContainerRequestFilter {
             return;
         }
 
-        final String role = credentials.get("role").toString();
+        final String role = credentials.get(USER_ROLE).toString();
 
         if(!isUserAllowed(role)){
             Response response = Response.status(Response.Status.FORBIDDEN).
                     entity("You do not have the right role(s).").build();
             requestContext.abortWith(response);
         }
+
+        final String userId = credentials.getId();
+
+        requestContext.setProperty(USER_ROLE, role);
+        requestContext.setProperty(USER_ID, userId);
     }
 
     private Boolean isUserAllowed(String role){

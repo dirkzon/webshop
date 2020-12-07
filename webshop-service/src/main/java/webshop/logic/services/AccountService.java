@@ -10,6 +10,8 @@ import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
 
+import static webshop.service.filters.Constants.USER_ROLE;
+
 public class AccountService implements IAccountService {
 
     private final IAccountRepository repository;
@@ -36,7 +38,7 @@ public class AccountService implements IAccountService {
         return Jwts.builder()
                 .setSubject(account.getUsername())
                 .setId(Integer.toString(userId))
-                .claim("role", account.getRole())
+                .claim(USER_ROLE, account.getRole())
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, "eW91IGdvdCB0aGlzIQ==")
                 .compact();

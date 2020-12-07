@@ -1,7 +1,5 @@
 package webshop.service.models;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -64,6 +62,12 @@ public class Product {
             referencedColumnName = "id",
             foreignKey=@ForeignKey(name = "product_image_id"))
     private Image image;
+
+    @Transient
+    private boolean canEdit = false;
+
+    @Transient
+    private boolean canReview = true;
 
     public int getId() {
         return id;
@@ -135,5 +139,21 @@ public class Product {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public boolean isCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+    }
+
+    public boolean isCanReview() {
+        return canReview;
+    }
+
+    public void setCanReview(boolean canReview) {
+        this.canReview = canReview;
     }
 }

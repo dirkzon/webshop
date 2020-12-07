@@ -41,12 +41,9 @@
              class="mx-2 my-2"
              fab
              color="secondary">
-        <v-badge content="2"
-                 color="warning">
           <v-icon large>
             account_circle
           </v-icon>
-        </v-badge>
       </v-btn>
 
       <v-btn small

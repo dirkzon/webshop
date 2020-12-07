@@ -101,7 +101,7 @@ export default {
         }
       })
       await accountService.createAccount(newUser, this.type)
-      await this.$router.push('/')
+      await this.$router.push('/login')
     },
   }
 }

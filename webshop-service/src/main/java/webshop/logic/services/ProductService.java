@@ -22,7 +22,12 @@ public class ProductService implements IProductService {
     @Override
     public Product getProductById(int id){
         if(id < 0) return null;
-        return repository.getProductById(id);
+        Product product = repository.getProductById(id);
+        for(Review review : product.getReviews()){
+            review.setProduct(null);
+            review.getCustomer().setReviews(null);
+        }
+        return product;
     }
 
     @Override

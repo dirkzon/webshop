@@ -3,16 +3,19 @@ package webshop.service.resources;
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.IProductService;
 import webshop.service.filters.UseAuthorisationFilter;
-import webshop.service.models.BrowseVars;
-import webshop.service.models.Product;
-import webshop.service.models.Review;
+import webshop.service.models.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+
+import static webshop.service.filters.Constants.USER_ID;
+import static webshop.service.filters.Constants.USER_ROLE;
 
 @Path("/products")
 @Service
@@ -25,6 +28,9 @@ public class ProductResource {
         this.service = service;
     }
 
+    @Context
+    ContainerRequestContext request;
+
     @GET
     @UseAuthorisationFilter
     @RolesAllowed({"Customer", "Retailer"})
@@ -32,6 +38,16 @@ public class ProductResource {
     @Path("/{product_id}")
     public Response getProductById(@PathParam("product_id") int id){
         var product = service.getProductById(id);
+        UserRole role = UserRole.valueOf(request.getProperty(USER_ROLE).toString());
+        int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
+        if(role == UserRole.Retailer){
+            if(product.getRetailer().getId() == userId) product.setCanEdit(true);
+            product.setCanReview(false);
+        }else{
+            for(Review review : product.getReviews()){
+                if(review.getCustomer().getId() == userId) product.setCanReview(false);
+            }
+        }
         if(product != null) {
             return Response.ok(product).build();
         }
