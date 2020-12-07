@@ -15,25 +15,30 @@ export default {
     },
 
     async removeProductById(id){
-        await axios.delete(baseUrl + id)
+        await axios
+            .delete(baseUrl + id)
             .then()
             .catch(error => (console.log(error)))
     },
 
     async updateProductById(id, product){
-        await axios.put(baseUrl + id, JSON.parse(product))
+        await axios
+            .put(baseUrl + id, JSON.parse(product))
             .then(response => {return response.data})
             .catch(error => (console.log(error)))
     },
 
     async createReviewOnProductById(id, review){
-        await axios.post(baseUrl + id, JSON.parse(review))
+        await axios
+            .post(baseUrl + id + '/reviews', JSON.parse(review),
+                {headers: {'Authorization': Vue.$cookies.get("access_token")}})
             .then(response => {return response})
             .catch(error => (console.log(error)))
     },
 
     async browseProducts(broseVars){
-        await axios.put(baseUrl + '/browse', JSON.parse(broseVars))
+        await axios
+            .put(baseUrl + '/browse', JSON.parse(broseVars),)
             .then(response => {return response})
             .catch(error => (console.log(error)))
     }
