@@ -7,7 +7,7 @@ export default {
     async getProductById(id){
         let output;
         await axios
-            .get(baseUrl + id,
+            .get(baseUrl + "/" + id,
                 {headers: {'Authorization': Vue.$cookies.get("access_token")}})
             .then(response => {output = response.data})
             .catch(error => console.log(error))
@@ -30,7 +30,7 @@ export default {
 
     async createReviewOnProductById(id, review){
         await axios
-            .post(baseUrl + id + '/reviews', JSON.parse(review),
+            .post(baseUrl + "/" + id + '/reviews', JSON.parse(review),
                 {headers: {'Authorization': Vue.$cookies.get("access_token")}})
             .then(response => {return response})
             .catch(error => (console.log(error)))

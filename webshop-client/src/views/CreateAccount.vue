@@ -40,6 +40,7 @@
             ></v-text-field>
             <v-card-subtitle>account type:</v-card-subtitle>
             <v-select
+                outlined
                 v-model="type"
                 :items="items">
             </v-select>
@@ -107,7 +108,7 @@ export default {
       emailRules:[
         v => !!v || 'Email is required',v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
-      avatar: "",
+      avatar: "https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg",
       type: "",
       valid: false,
       items: [

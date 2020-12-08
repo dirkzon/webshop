@@ -33,7 +33,7 @@ export default new Router({
         },
         {
           path:'/browse',
-          name:'broseProduct',
+          name:'broseProducts',
           component:() =>
             import("./views/BrowseProduct")
         },

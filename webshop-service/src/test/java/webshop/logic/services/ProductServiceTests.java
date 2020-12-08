@@ -251,7 +251,7 @@ class ProductServiceTests {
         fields.maxPrice = 50;
         fields.minPrice = 5;
         fields.query = "new query";
-        fields.targetRating = 3.5;
+        fields.minRating = 3.5;
         //act
         List<Product> products = service.browseProducts(fields);
         //assert
@@ -266,7 +266,7 @@ class ProductServiceTests {
         fields.maxPrice = 50;
         fields.minPrice = -5;
         fields.query = "new query";
-        fields.targetRating = 3.5;
+        fields.minRating = 3.5;
         //act
         List<Product> products = service.browseProducts(fields);
         //assert
@@ -280,7 +280,7 @@ class ProductServiceTests {
         fields.maxPrice = -50;
         fields.minPrice = 5;
         fields.query = "new query";
-        fields.targetRating = 3.5;
+        fields.minRating = 3.5;
         //act
         List<Product> products = service.browseProducts(fields);
         //assert
@@ -294,7 +294,7 @@ class ProductServiceTests {
         fields.maxPrice = 50;
         fields.minPrice = 100;
         fields.query = "new query";
-        fields.targetRating = 3.5;
+        fields.minRating = 3.5;
         //act
         List<Product> products = service.browseProducts(fields);
         //assert
@@ -308,7 +308,7 @@ class ProductServiceTests {
         fields.maxPrice = 50;
         fields.minPrice = 5;
         fields.query = "new query";
-        fields.targetRating = -3.5;
+        fields.minRating = -3.5;
         //act
         List<Product> products = service.browseProducts(fields);
         //assert
@@ -321,7 +321,7 @@ class ProductServiceTests {
         BrowseVars fields = new BrowseVars();
         fields.maxPrice = 50;
         fields.minPrice = 5;
-        fields.targetRating = -3.5;
+        fields.minRating = -3.5;
         //act
         List<Product> products = service.browseProducts(fields);
         //assert

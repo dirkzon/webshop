@@ -1,7 +1,7 @@
 <template>
   <v-card width="300"
           class="mx-8 my-8">
-    <v-responsive :aspect-ratio="4/4">
+    <v-responsive :aspect-ratio="4/6">
       <v-img contain
              aspect-ratio="1/1"
              class="grey lighten-3"

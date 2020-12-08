@@ -70,7 +70,7 @@ export default {
   },
   methods:{
     Search: function () {
-      router.push({name: 'search' , query: {query : this.searchQuery}})
+      router.push({name: 'broseProducts' , query: {query : this.searchQuery}})
     },
     redirect: function (){
       let token = localStorage.getItem('token')
