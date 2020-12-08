@@ -1,4 +1,5 @@
 import axios from "axios";
+import Vue from 'vue'
 
 const baseUrl = 'http://localhost:4545/v2/retailers/'
 
@@ -22,9 +23,12 @@ export default {
     },
 
     async getAllProducts(id){
-        await axios.get(baseUrl + id + '/catalog')
-            .then(response => {return response})
+        let output;
+        await axios.get(baseUrl + id + '/catalog',
+            {headers: {'Authorization': Vue.$cookies.get("access_token")}})
+            .then(response => {output =  response.data})
             .catch(error => (console.log(error)))
+        return output;
     },
 
     async createProduct(id, product){

@@ -31,6 +31,12 @@ export default new Router({
             component: () =>
                 import("./views/ViewProduct")
         },
+        {
+          path:'/browse',
+          name:'broseProduct',
+          component:() =>
+            import("./views/BrowseProduct")
+        },
 
     ]
 })

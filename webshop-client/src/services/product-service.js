@@ -1,7 +1,7 @@
 import axios from "axios";
 import Vue from 'vue'
 
-const baseUrl = 'http://localhost:4545/v2/products/'
+const baseUrl = 'http://localhost:4545/v2/products'
 
 export default {
     async getProductById(id){
@@ -37,9 +37,12 @@ export default {
     },
 
     async browseProducts(broseVars){
+        let output;
         await axios
-            .put(baseUrl + '/browse', JSON.parse(broseVars),)
-            .then(response => {return response})
+            .put(baseUrl + '/browse', JSON.parse(broseVars),
+                {headers: {'Authorization': Vue.$cookies.get("access_token")}})
+            .then(response => {output =  response.data})
             .catch(error => (console.log(error)))
+        return output;
     }
 }

@@ -118,7 +118,7 @@ export default {
     this.product = await productService.getProductById(this.$route.params.id);
   },
    methods:{
-    createReview: function(){
+    createReview: async function(){
       let newReview = JSON.stringify({
         rating: this.rating,
         body: this.body,
@@ -127,7 +127,8 @@ export default {
         },
         customer:{},
       })
-      productService.createReviewOnProductById(this.product.id, newReview)
+      await productService.createReviewOnProductById(this.product.id, newReview)
+      window.location.reload()
     }
   }
 }

@@ -12,5 +12,4 @@ public interface IProductRepository {
     Product updateProductById(int id, Product product);
     Review createReviewOnProductById(int id, Review review);
     List<Product> browseProducts(BrowseVars fields);
-
 }

@@ -18,8 +18,9 @@ export default {
         let url;
         if(role == 'Retailer'){
             url = baseUrl + '/retailers'
+        }else{
+            url = baseUrl + '/customers'
         }
-        url = baseUrl + '/retailers'
         await axios
             .post(url, JSON.parse(newUser))
             .then(response => {return response})

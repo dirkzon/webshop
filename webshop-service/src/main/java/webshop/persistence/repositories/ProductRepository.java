@@ -34,14 +34,18 @@ public class ProductRepository implements IProductRepository {
         em.getTransaction().commit();
     }
 
+    //just a bit broken
     @Override
     public Product updateProductById(int id, Product product){
-        em.getTransaction().begin();
         Product productToUpdate = getProductById(id);
+        em.getTransaction().begin();
         productToUpdate.setPrice(product.getPrice());
         productToUpdate.setName(product.getName());
+        productToUpdate.setCreated(product.getCreated());
         productToUpdate.setDescription(product.getDescription());
         productToUpdate.setImage(product.getImage());
+        productToUpdate.setRating(product.getRating());
+        em.merge(productToUpdate);
         em.getTransaction().commit();
         return product;
     }

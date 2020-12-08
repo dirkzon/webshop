@@ -4,6 +4,7 @@ import webshop.logic.interfaces.IRetailerService;
 import webshop.persistence.interfaces.IRetailerRepository;
 import webshop.service.models.Product;
 import webshop.service.models.Retailer;
+import webshop.service.models.Review;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
@@ -55,7 +56,14 @@ public class RetailerService implements IRetailerService {
     @Override
     public List<Product> getAllProductsInCatalog(int id){
         if(id < 0) return null;
-        return repository.getProductsInCatalog(id);
+        List<Product> products = repository.getProductsInCatalog(id);
+        for(Product product : products){
+            for(Review review : product.getReviews()){
+                review.setProduct(null);
+                review.getCustomer().setReviews(null);
+            }
+        }
+        return products;
     }
 
     @Override

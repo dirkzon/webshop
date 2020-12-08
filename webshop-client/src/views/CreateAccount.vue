@@ -19,7 +19,7 @@
             <v-text-field
                 v-model="username"
                 counter="25"
-                :rules="userNameRules"
+                :rules="requiredFieldRules"
                 outlined
                 required
             ></v-text-field>
@@ -28,16 +28,47 @@
                 :type= "'password'"
                 counter="25"
                 v-model="password"
-                :rules="passwordRules"
+                :rules="requiredFieldRules"
+                outlined
+                required
+            ></v-text-field>
+            <v-card-subtitle>avatar url:</v-card-subtitle>
+            <v-text-field
+                v-model="avatar"
                 outlined
                 required
             ></v-text-field>
             <v-card-subtitle>account type:</v-card-subtitle>
             <v-select
                 v-model="type"
-                :items="items"
-                :rules="accountTypes">
+                :items="items">
             </v-select>
+            <div v-if='type == "Customer"'>
+              <v-card-title>address:</v-card-title>
+              <v-divider></v-divider>
+              <v-card-subtitle>country:</v-card-subtitle>
+              <v-text-field
+                  v-model="countryCode"
+                  :rules="requiredFieldRules"
+                  outlined
+                  required
+              ></v-text-field>
+              <v-card-subtitle>Street name:</v-card-subtitle>
+              <v-text-field
+                  v-model="streetName"
+                  :rules="requiredFieldRules"
+                  outlined
+                  required
+              ></v-text-field>
+              <v-card-subtitle>House number:</v-card-subtitle>
+              <v-text-field
+                  v-model="houseNumber"
+                  type="number"
+                  :rules="requiredNumberRules"
+                  outlined
+                  required
+              ></v-text-field>
+            </div>
             <v-card-text class="red--text">{{errormsg}}</v-card-text>
             <v-btn
                 :disabled="!valid"
@@ -57,33 +88,35 @@
 </template>
 
 <script>
-import accountService from "@/services/account-service";
+import accountService from "@/services/account-service"
 
 export default {
+
   name: "CreateAccount",
   data(){
     return{
       username: "",
-      userNameRules: [
-        v => !!v || 'Name is required' ,v => v.length <= 25, v => v.length >= 4
+      requiredFieldRules: [
+        v => !!v || 'Field is required' ,v => v.length <= 25, v => v.length >= 4
+      ],
+      requiredNumberRules: [
+        v => !!v || 'Field is required'
       ],
       password: "",
-      passwordRules:[
-        v => !!v || 'Password is required',v => v.length <= 25, v => v.length >= 6
-      ],
       email: "",
       emailRules:[
         v => !!v || 'Email is required',v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
+      avatar: "",
       type: "",
-      accountTypes:[
-          v => !!v || 'Item is required'
-      ],
       valid: false,
       items: [
           'Customer',
           'Retailer'
       ],
+      countryCode:'',
+      streetName:'',
+      houseNumber:'',
       errormsg:"",
     }
   },
@@ -96,13 +129,18 @@ export default {
           role: this.type,
           username: this.username
         },
-        avatar:{
-          url: 'https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg'
+        avatar: {
+          url: this.avatar
+        },
+        address: {
+          country: this.countryCode,
+          streetName: this.streetName,
+          houseNumber: this.houseNumber
         }
       })
       await accountService.createAccount(newUser, this.type)
       await this.$router.push('/login')
-    },
+    }
   }
 }
 </script>

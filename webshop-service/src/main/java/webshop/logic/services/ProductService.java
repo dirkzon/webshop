@@ -61,12 +61,29 @@ public class ProductService implements IProductService {
             return null;
         }
         review.setCreated(LocalDate.now());
-        return repository.createReviewOnProductById(id, review);
+        repository.createReviewOnProductById(id, review);
+        Product product = getProductById(id);
+        double newRating = calculateRating(product.getReviews());
+        product.setRating(newRating);
+        updateProductById(id, product);
+        return review;
     }
 
     @Override
     public List<Product> browseProducts(BrowseVars fields){
         if(!fields.isValid()) return null;
-        return repository.browseProducts(fields);
+        List<Product> products = repository.browseProducts(fields);
+        for(Product product : products){
+            product.setReviews(null);
+        }
+        return products;
+    }
+
+    private double calculateRating(List<Review> reviews){
+        double output = 0.0;
+        for(Review review : reviews){
+            output += review.getRating();
+        }
+        return output / reviews.size();
     }
 }

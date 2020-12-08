@@ -40,7 +40,9 @@ public class Customer {
     private Image avatar;
 
     //Field must not get serialized, will create infinite recursion
-    @OneToMany(mappedBy="customer",orphanRemoval=true, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy="customer",
+            orphanRemoval=true,
+            cascade = CascadeType.REMOVE)
     private List<Review> reviews;
 
     public int getId() {

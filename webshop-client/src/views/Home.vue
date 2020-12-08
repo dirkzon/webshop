@@ -1,16 +1,22 @@
 <template>
   <v-app>
     <TopBar></TopBar>
-    <span>{{products}}</span>
+    <v-row>
+      <div v-bind:key="product.id" v-for="product in products">
+        <ProductThumbnail v-bind:product="product"></ProductThumbnail>
+      </div>
+    </v-row>
   </v-app>
 </template>
 <script>
 
 import TopBar from "@/components/TopBar";
-import productService from "@/services/product-service";
+import retailerService from "@/services/retailer-service"
+import ProductThumbnail from "@/components/ProductThumbnail";
 
 export default {
   components: {
+    ProductThumbnail,
     TopBar
   },
   data(){
@@ -19,7 +25,7 @@ export default {
     }
   },
   async mounted() {
-    this.products = await productService.getProductById(1);
+    this.products = await retailerService.getAllProducts(1)
   }
 }
 </script>

@@ -133,6 +133,8 @@ public class Product {
         this.reviews = reviews;
     }
 
+    public void addReview(Review review){this.reviews.add(review);}
+
     public Image getImage() {
         return image;
     }
