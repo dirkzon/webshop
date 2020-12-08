@@ -44,7 +44,7 @@
       <Review v-bind:review="review"></Review>
     </div>
     <v-card
-        disabled="product.canReview"
+        :disabled="!product.canReview"
         class="mx-8 my-8"
         width="600px">
       <v-responsive :aspect-ratio="16/7" >
