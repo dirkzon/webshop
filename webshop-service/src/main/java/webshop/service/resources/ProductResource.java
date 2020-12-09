@@ -85,7 +85,7 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}/reviews")
     public Response createReviewOnProductById(@PathParam("product_id") int id, Review review){
-        int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
+            int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
         review.getCustomer().setId(userId);
         service.createReviewOnProductById(id,review);
         return Response.status(Response.Status.CREATED).build();

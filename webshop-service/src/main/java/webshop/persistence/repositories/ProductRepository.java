@@ -64,13 +64,13 @@ public class ProductRepository implements IProductRepository {
     public List browseProducts(BrowseVars fields){
         String sql = "SELECT * FROM products Where name LIKE CONCAT('%',:search_query,'%') " +
                 "And price > :min_price " +
-                "And price < :max_price " +
                 "And rating > :min_rating ";
+        if(fields.maxPrice > 0) sql +="And price < :max_price ";
         Query query = em.createNativeQuery(sql, Product.class);
         query.setParameter("search_query", fields.query);
         query.setParameter("min_price", fields.minPrice);
-        query.setParameter("max_price", fields.maxPrice);
         query.setParameter("min_rating", fields.minRating);
+        if(fields.maxPrice > 0) query.setParameter("max_price", fields.maxPrice);
         return query.getResultList();
     }
 }

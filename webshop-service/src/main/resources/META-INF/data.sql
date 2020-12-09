@@ -17,6 +17,15 @@ insert into customers(id, account_id, address_id, avatar_id) values('2', '3', '2
 
 insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('1', '2020-11-30', 'computer mouse', 'mouse', '12.50', '4.5', '3', '1')
 insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('2', '2019-02-15', 'keyboard description', 'keyboard', '200.0', '3.5', '4', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('3', '2018-06-12', '300 watt speakers', 'speakers', '150.50', '4.5', '4', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('4', '2015-08-10', '500 megapixel camera ', 'camera', '240.95', '2.0', '4', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('5', '2013-11-11', 'phone ', 'motorola power', '170.89', '5.0', '4', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('6', '2019-05-21', 'the newest playstation', 'playstation 6', '623.60', '3.5', '4', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('7', '2020-09-23', '15 inch laptop with intell i10', 'laptop', '1020.70', '4.5', '4', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('8', '2018-06-09', 'headphones for on your head ', 'jbl headphones', '200.0', '2.5', '4', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('9', '2017-01-15', '6g router ', 'router', '200.0', '1.0', '4', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('10', '2017-12-25', 'gtx 4090 videocard with 200gb of vram', 'gtx 4090 videocard', '860.80', '4.5', '4', '1')
+
 
 insert into reviews(id, body, created, rating, customer_id, prod_id) values('1', 'body', '2020-06-14', '4.0', '1', '1')
 
