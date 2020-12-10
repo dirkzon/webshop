@@ -77,7 +77,7 @@
                 class="mx-2 my-2"
                 color="secondary">
               <v-icon dark>
-                add
+                done
               </v-icon>
               Create my new account
             </v-btn>

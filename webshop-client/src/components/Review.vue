@@ -26,7 +26,6 @@
       </v-card-text>
     </v-responsive>
   </v-card>
-
 </template>
 
 <script>

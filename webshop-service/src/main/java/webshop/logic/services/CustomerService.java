@@ -3,6 +3,7 @@ package webshop.logic.services;
 import webshop.logic.interfaces.ICustomerService;
 import webshop.persistence.interfaces.ICustomerRepository;
 import webshop.service.models.Customer;
+import webshop.service.models.Review;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
@@ -18,7 +19,12 @@ public class CustomerService implements ICustomerService {
 
     public Customer getCustomerById(int id){
         if(id < 0) return null;
-        return repository.getCustomerById(id);
+        Customer customer = repository.getCustomerById(id);
+        for(Review review : customer.getReviews()){
+            review.getProduct().setReviews(null);
+            review.setCustomer(null);
+        }
+        return customer;
     }
 
     public Customer saveCustomer(Customer customer){

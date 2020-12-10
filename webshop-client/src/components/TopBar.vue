@@ -1,4 +1,5 @@
 <template>
+  <div>
   <v-app-bar
       app
       color="secondary"
@@ -36,26 +37,52 @@
         </v-icon>
       </v-btn>
     <v-spacer></v-spacer>
-      <v-btn v-on:click="redirect"
-            small
+      <v-btn icon
              class="mx-2 my-2"
-             fab
-             color="secondary">
-          <v-icon large>
-            account_circle
-          </v-icon>
-      </v-btn>
-
-      <v-btn small
-             class="mx-2 my-2"
-             fab
-             color="secondary">
+             color="white"
+             @click.stop="drawer = !drawer">
         <v-icon large>
-          shopping_cart
+          menu
         </v-icon>
       </v-btn>
-
   </v-app-bar>
+  <v-navigation-drawer
+      v-model="drawer"
+      style="position: fixed"
+      absolute
+      right
+      temporary>
+    <v-list
+        nav
+        dense>
+      <v-list-item-group active-class="warning--text">
+        <v-list-item v-on:click="drawer = !drawer">
+          <v-spacer></v-spacer>
+            <v-icon x-large
+                    color="gray">
+              menu
+            </v-icon>
+        </v-list-item>
+        <br>
+        <v-divider></v-divider>
+        <v-list-item>
+          <v-icon large>person</v-icon>
+          <v-list-item-title v-on:click="viewAccount">account</v-list-item-title>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item>
+          <v-icon large>shopping_cart</v-icon>
+          <v-list-item-title>shopping cart</v-list-item-title>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item>
+          <v-icon large>exit_to_app</v-icon>
+          <v-list-item-title v-on:click="logOut">log out</v-list-item-title>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-navigation-drawer>
+  </div>
 </template>
 
 <script>
@@ -65,7 +92,8 @@ export default {
   name: "TopBar",
   data() {
     return {
-      searchQuery: ""
+      searchQuery: "",
+      drawer: false,
     }
   },
   methods:{
@@ -78,6 +106,16 @@ export default {
         router.push('/account/me')
       }
       router.push('/login')
+    },
+    logOut: function(){
+      this.$cookies.remove("access_token")
+      router.push('/login')
+    },
+    viewAccount: function(){
+      let scope = this.$cookies.get("scope")
+      if(scope == "Customer"){
+        router.push({name: 'customerAccount'})
+      }
     }
   }
 }

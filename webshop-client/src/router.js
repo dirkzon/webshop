@@ -37,6 +37,12 @@ export default new Router({
           component:() =>
             import("./views/BrowseProduct")
         },
+        {
+            path:'/customer/me',
+            name:'customerAccount',
+            component:() =>
+                import("./views/ViewCustomerAccount")
+        },
 
     ]
 })

@@ -1,4 +1,5 @@
 import axios from "axios";
+import Vue from 'vue'
 
 const baseUrl = 'http://localhost:4545/v2/customers/'
 
@@ -9,14 +10,24 @@ export default {
             .catch(error => (console.log(error)))
     },
 
+    async getMe(){
+        let output;
+        await axios.get(baseUrl + "me",
+            {headers: {'Authorization': Vue.$cookies.get("access_token")}})
+            .then(response => {output =  response.data})
+            .catch(error => (console.log(error)))
+        return output;
+    },
+
     async removeCustomerById(id){
         await axios.delete(baseUrl + id)
             .then(response => {return response})
             .catch(error => (console.log(error)))
     },
 
-    async updateCustomerById(id, customer){
-        await axios.put(baseUrl + id, JSON.parse(customer))
+    async updateCustomerById(customer){
+        await axios.put(baseUrl, JSON.parse(customer),
+            {headers: {'Authorization': Vue.$cookies.get("access_token")}})
             .then(response => {return response})
             .catch(error => (console.log(error)))
     }

@@ -8,14 +8,21 @@ import webshop.service.models.Customer;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import static webshop.service.filters.Constants.USER_ID;
 
 @Path("/customers")
 @Service
 public class CustomerResource {
 
     private final ICustomerService service;
+
+    @Context
+    ContainerRequestContext request;
 
     @Inject
     public CustomerResource(ICustomerService service){
@@ -26,9 +33,20 @@ public class CustomerResource {
     @UseAuthorisationFilter
     @RolesAllowed({"Customer"})
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/me")
+    public Response getMe(){
+        int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+        Response response =  getCustomerById(id);
+        return response;
+    }
+
+    @GET
+    @UseAuthorisationFilter
+    @RolesAllowed({"Customer"})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
     public Response getCustomerById(@PathParam("customer_id") int id){
-        var customer = service.getCustomerById(id);
+        Customer customer = service.getCustomerById(id);
         if(customer != null){
             return Response.ok(customer).build();
         }else{
@@ -65,9 +83,9 @@ public class CustomerResource {
     @RolesAllowed({"Customer"})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{customer_id}")
-    public Response updateCustomerById(@PathParam("customer_id") int id, Customer customer){
+    public Response updateCustomerById( Customer customer){
         if(customer != null){
+            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
             var updatedCustomer = service.updateCustomerById(id, customer);
             return Response.ok(updatedCustomer).build();
         }else{

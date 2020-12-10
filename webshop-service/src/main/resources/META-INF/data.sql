@@ -2,8 +2,8 @@ insert into accounts(id, joined, email, password, role, user_name) values('1', '
 insert into accounts(id, joined, email,  password, role, user_name) values('2', '2020-03-18','henk@gmail.com', '1234', 'Customer', 'henk')
 insert into accounts(id, joined, email,  password, role, user_name) values('3', '2020-03-18','peter@hotmail.com', 'pass', 'Customer', 'peter')
 
-insert into addresses(id, country, house_number, street_name) values('1', 'NL', '12', 'street')
-insert into addresses(id, country, house_number, street_name) values('2', 'DE', '72', 'bakkerstraat')
+insert into addresses(id, country, house_number, street_name) values('1', 'netherlands', '12', 'street')
+insert into addresses(id, country, house_number, street_name) values('2', 'germany', '72', 'bakkerstraat')
 
 insert into images(id, url) values('1', 'https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg')
 insert into images(id, url) values('2', 'https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg')

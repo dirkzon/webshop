@@ -1,11 +1,12 @@
 <template>
   <v-app>
     <TopBar></TopBar>
-    <v-row>
-      <div v-bind:key="product.id" v-for="product in products">
-        <ProductThumbnail v-bind:product="product"></ProductThumbnail>
-      </div>
-    </v-row>
+      <v-row align="center"
+             justify="center">
+        <div v-bind:key="product.id" v-for="product in products">
+          <ProductThumbnail v-bind:product="product"></ProductThumbnail>
+        </div>
+      </v-row>
   </v-app>
 </template>
 <script>

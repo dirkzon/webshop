@@ -5,6 +5,7 @@ import webshop.logic.interfaces.IProductService;
 import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.*;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -92,8 +93,7 @@ public class ProductResource {
     }
 
     @PUT
-    @UseAuthorisationFilter
-    @RolesAllowed({"Customer", "Retailer"})
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/browse")
     public Response browseProducts(BrowseVars variables){
