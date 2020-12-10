@@ -22,20 +22,14 @@
     </router-link>
     <v-spacer></v-spacer>
     <v-text-field
+        style="margin: 80px"
         @keydown.enter="Search"
         label="Search for products"
         dark
         bottom
+        append-icon="search"
         v-model="searchQuery"
     ></v-text-field>
-      <v-btn v-on:click="Search"
-             icon
-             fab
-             small>
-        <v-icon color="white">
-          search
-        </v-icon>
-      </v-btn>
     <v-spacer></v-spacer>
       <v-btn icon
              class="mx-2 my-2"

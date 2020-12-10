@@ -2,8 +2,8 @@
   <v-app>
     <v-content>
       <v-alert v-if="!loggedIn"
-          type="warning"
-          icon="error_outline">
+               type="warning"
+               icon="error_outline">
         You are not logged in.
         <v-btn v-on:click="$router.push('login')" small>Log in</v-btn>
       </v-alert>

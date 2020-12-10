@@ -71,7 +71,7 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> browseProducts(BrowseVars fields){
-        List<Product> products = repository.browseProducts(fields);
+        List<Product> products= repository.browseProducts(fields);
         for(Product product : products){
             product.setReviews(null);
         }

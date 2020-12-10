@@ -12,7 +12,7 @@
 <script>
 
 import TopBar from "@/components/TopBar";
-import retailerService from "@/services/retailer-service"
+import productService from "@/services/product-service"
 import ProductThumbnail from "@/components/ProductThumbnail";
 
 export default {
@@ -22,11 +22,11 @@ export default {
   },
   data(){
     return{
-      products: ''
+      products: []
     }
   },
   async mounted() {
-    this.products = await retailerService.getAllProducts(1)
+    this.products = await productService.browseProducts("{}")
   }
 }
 </script>
