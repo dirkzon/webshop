@@ -11,10 +11,11 @@
           <v-card-title>Search values:</v-card-title>
           <v-divider></v-divider>
           <v-card-subtitle class="font-weight-bold">min price:</v-card-subtitle>
-          <v-text-field v-on:change="browse"
+            <v-text-field v-on:change="browse"
+                        v-on:click="browse"
                         type="number"
                         min="1"
-                        :max="maxPrice"
+                        :max="maxPrice - 1"
                         color="warning"
                         v-model="minPrice">
           </v-text-field>
@@ -23,6 +24,7 @@
           <v-text-field color="warning"
                         type="number"
                         v-on:change="browse"
+                        v-on:click="browse"
                         :min="minPrice"
                         v-model="maxPrice">
           </v-text-field>

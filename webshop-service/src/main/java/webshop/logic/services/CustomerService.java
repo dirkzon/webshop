@@ -3,6 +3,7 @@ package webshop.logic.services;
 import webshop.logic.interfaces.ICustomerService;
 import webshop.persistence.interfaces.ICustomerRepository;
 import webshop.service.models.Customer;
+import webshop.service.models.Image;
 import webshop.service.models.Review;
 
 import javax.inject.Inject;
@@ -28,6 +29,7 @@ public class CustomerService implements ICustomerService {
     }
 
     public Customer saveCustomer(Customer customer){
+        customer.setAvatar(new Image("https://suzmakelaars.nl/wp-content/uploads/2019/11/user-placeholder-4-300x295.png"));
         if(customer.getAccount() != null &&
                 customer.getAvatar() != null &&
                 customer.getAddress() != null){

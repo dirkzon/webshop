@@ -32,14 +32,9 @@
                 outlined
                 required
             ></v-text-field>
-            <v-card-subtitle>avatar url:</v-card-subtitle>
-            <v-text-field
-                v-model="avatar"
-                outlined
-                required
-            ></v-text-field>
             <v-card-subtitle>account type:</v-card-subtitle>
             <v-select
+                required
                 outlined
                 v-model="type"
                 :items="items">
@@ -108,8 +103,7 @@ export default {
       emailRules:[
         v => !!v || 'Email is required',v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
-      avatar: "https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg",
-      type: "",
+      type: "Customer",
       valid: false,
       items: [
           'Customer',
@@ -129,9 +123,6 @@ export default {
           password: this.password,
           role: this.type,
           username: this.username
-        },
-        avatar: {
-          url: this.avatar
         },
         address: {
           country: this.countryCode,
