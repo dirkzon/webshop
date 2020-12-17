@@ -3,7 +3,8 @@
     <v-content>
       <v-alert v-if="!loggedIn"
                type="warning"
-               icon="error_outline">
+               icon="error_outline"
+               style="margin: 0px">
         You are not logged in.
         <v-btn v-on:click="$router.push('login')" small>Log in</v-btn>
       </v-alert>
@@ -23,9 +24,7 @@ export default {
   },
   mounted() {
     let token = this.$cookies.get("access_token")
-    if(token != null){
-      this.loggedIn = true;
-    }
+    this.loggedIn = (token != null);
   }
 }
 </script>

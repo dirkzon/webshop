@@ -129,7 +129,7 @@ export default {
         customer:{},
       })
       await productService.createReviewOnProductById(this.product.id, newReview)
-      window.location.reload()
+      await window.location.reload()
     }
   }
 }

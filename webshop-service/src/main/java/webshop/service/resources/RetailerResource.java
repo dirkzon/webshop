@@ -9,8 +9,12 @@ import webshop.service.models.Retailer;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import static webshop.service.filters.Constants.USER_ID;
 
 @Path("/retailers")
 @Service
@@ -18,9 +22,23 @@ public class RetailerResource {
 
     private final IRetailerService service;
 
+    @Context
+    ContainerRequestContext request;
+
     @Inject
     public RetailerResource(IRetailerService service){
         this.service = service;
+    }
+
+    @GET
+    @UseAuthorisationFilter
+    @RolesAllowed({"Retailer"})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/me")
+    public Response getMe(){
+        int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+        Response response =  getRetailerById(id);
+        return response;
     }
 
     @GET

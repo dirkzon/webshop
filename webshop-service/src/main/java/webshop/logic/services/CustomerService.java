@@ -5,6 +5,7 @@ import webshop.persistence.interfaces.ICustomerRepository;
 import webshop.service.models.Customer;
 import webshop.service.models.Image;
 import webshop.service.models.Review;
+import webshop.service.models.UserRole;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
@@ -18,9 +19,13 @@ public class CustomerService implements ICustomerService {
         this.repository = repository;
     }
 
+    private Customer getCustomer(int id){
+        return repository.getCustomerById(id);
+    }
+
     public Customer getCustomerById(int id){
         if(id < 0) return null;
-        Customer customer = repository.getCustomerById(id);
+        Customer customer = getCustomer(id);
         for(Review review : customer.getReviews()){
             review.getProduct().setReviews(null);
             review.setCustomer(null);
@@ -29,7 +34,7 @@ public class CustomerService implements ICustomerService {
     }
 
     public Customer saveCustomer(Customer customer){
-        customer.setAvatar(new Image("https://suzmakelaars.nl/wp-content/uploads/2019/11/user-placeholder-4-300x295.png"));
+        customer.setAvatar(new Image("https://cnaca.ca/wp-content/uploads/2018/10/user-icon-image-placeholder.jpg"));
         if(customer.getAccount() != null &&
                 customer.getAvatar() != null &&
                 customer.getAddress() != null){
@@ -44,13 +49,16 @@ public class CustomerService implements ICustomerService {
                 customer.getAvatar() != null &&
                 customer.getAddress() != null &&
                 customer.getId() >= 0){
+            Customer oldCustomer = getCustomer(id);
+            customer.getAccount().setJoined(oldCustomer.getAccount().getJoined());
+            customer.getAccount().setRole(UserRole.Customer);
             return repository.updateCustomerById(id, customer);
         }
         return null;
     }
 
     public boolean removeCustomerById(int id){
-        Customer customerToRemove = getCustomerById(id);
+        Customer customerToRemove = getCustomer(id);
         if(customerToRemove == null) return false;
         repository.removeCustomer(customerToRemove);
         return true;

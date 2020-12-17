@@ -2,9 +2,7 @@ package webshop.logic.services;
 
 import webshop.logic.interfaces.IRetailerService;
 import webshop.persistence.interfaces.IRetailerRepository;
-import webshop.service.models.Product;
-import webshop.service.models.Retailer;
-import webshop.service.models.Review;
+import webshop.service.models.*;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
@@ -27,6 +25,7 @@ public class RetailerService implements IRetailerService {
 
     @Override
     public Retailer saveRetailer(Retailer retailer){
+        retailer.setAvatar(new Image("https://cnaca.ca/wp-content/uploads/2018/10/user-icon-image-placeholder.jpg"));
         if(retailer.getAccount() != null &&
                 retailer.getAvatar() != null){
             retailer.getAccount().setJoined(LocalDate.now());
@@ -40,6 +39,9 @@ public class RetailerService implements IRetailerService {
         if(retailer.getAccount() != null &&
                 retailer.getAvatar() != null &&
                 retailer.getId() >= 0){
+            Retailer oldRetailer = getRetailerById(id);
+            retailer.getAccount().setJoined(oldRetailer.getAccount().getJoined());
+            retailer.getAccount().setRole(UserRole.Retailer);
             return repository.updateRetailerById(id, retailer);
         }
         return null;

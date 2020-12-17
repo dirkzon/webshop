@@ -10,8 +10,18 @@ export default {
             .catch(error => (console.log(error)))
     },
 
+    async getMe(){
+        let output;
+        await axios.get(baseUrl + "me",
+            {headers: {'Authorization': Vue.$cookies.get("access_token")}})
+            .then(response => {output =  response.data})
+            .catch(error => (console.log(error)))
+        return output;
+    },
+
     async removeRetailerById(id){
-        await axios.delete(baseUrl + id)
+        await axios.delete(baseUrl + id,
+            {headers: {'Authorization': Vue.$cookies.get("access_token")}})
             .then(response => {return response})
             .catch(error => (console.log(error)))
     },

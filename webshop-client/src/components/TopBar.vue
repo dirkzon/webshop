@@ -31,7 +31,8 @@
         v-model="searchQuery"
     ></v-text-field>
     <v-spacer></v-spacer>
-      <v-btn icon
+      <v-btn v-if="loggedIn"
+             icon
              class="mx-2 my-2"
              color="white"
              @click.stop="drawer = !drawer">
@@ -88,18 +89,16 @@ export default {
     return {
       searchQuery: "",
       drawer: false,
+      loggedIn: false,
     }
+  },
+  mounted() {
+    let token = this.$cookies.get("access_token");
+    this.loggedIn = (token != null);
   },
   methods:{
     Search: function () {
       router.push({name: 'broseProducts' , query: {query : this.searchQuery}})
-    },
-    redirect: function (){
-      let token = localStorage.getItem('token')
-      if(token != null){
-        router.push('/account/me')
-      }
-      router.push('/login')
     },
     logOut: function(){
       this.$cookies.remove("access_token")
@@ -109,6 +108,9 @@ export default {
       let scope = this.$cookies.get("scope")
       if(scope == "Customer"){
         router.push({name: 'customerAccount'})
+      }
+      if(scope == "Retailer") {
+        router.push({name: 'retailerAccount'})
       }
     }
   }

@@ -43,6 +43,11 @@ export default new Router({
             component:() =>
                 import("./views/ViewCustomerAccount")
         },
-
+        {
+            path:'/retailer/me',
+            name:'retailerAccount',
+            component:() =>
+                import("./views/ViewRetailerAccount")
+        },
     ]
 })

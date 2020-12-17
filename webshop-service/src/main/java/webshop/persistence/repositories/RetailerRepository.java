@@ -4,6 +4,7 @@ import webshop.persistence.interfaces.IRetailerRepository;
 import webshop.service.models.Customer;
 import webshop.service.models.Product;
 import webshop.service.models.Retailer;
+import webshop.service.models.Review;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -36,6 +37,13 @@ public class RetailerRepository implements IRetailerRepository {
     @Override
     public void removeRetailer(Retailer retailer){
         em.getTransaction().begin();
+        List<Product> products = getProductsInCatalog(retailer.getId());
+        for (Product product : products){
+            for(Review review : product.getReviews()){
+                review.setCustomer(null);
+            }
+            em.remove(product);
+        }
         em.remove(retailer);
         em.getTransaction().commit();
     }
