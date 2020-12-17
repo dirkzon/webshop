@@ -72,11 +72,15 @@ public class ProductResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
     public Response updateProductById(@PathParam("product_id") int id, Product product){
-        var updatedProduct = service.updateProductById(id, product);
-        if(updatedProduct != null){
-            return Response.ok(updatedProduct).build();
+        int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
+        if(product.getRetailer().getId() == userId) {
+            var updatedProduct = service.updateProductById(id, product);
+            if (updatedProduct != null) {
+                return Response.ok(updatedProduct).build();
+            }
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Product was not found").build();
         }
-        return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Product was not found").build();
+        return Response.status(Response.Status.FORBIDDEN).entity("Cannot update others products").build();
     }
 
     @POST

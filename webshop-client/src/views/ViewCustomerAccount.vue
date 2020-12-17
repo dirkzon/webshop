@@ -86,6 +86,7 @@
                 ></v-file-input>
               </v-card>
               <v-btn
+                  @click="removeAccount"
                   class="mx-2 my-2"
                   color="#f05454">
                 <v-icon dark>
@@ -191,6 +192,9 @@ export default {
         }
       })
       await customerService.updateCustomerById(updatedUser)
+    },
+    removeAccount: async function() {
+      await customerService.removeCustomerById(this.customer.id)
     }
   }
 }

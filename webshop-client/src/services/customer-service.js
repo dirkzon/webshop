@@ -20,7 +20,8 @@ export default {
     },
 
     async removeCustomerById(id){
-        await axios.delete(baseUrl + id)
+        await axios.delete(baseUrl + id,
+            {headers: {'Authorization': Vue.$cookies.get("access_token")}})
             .then(response => {return response})
             .catch(error => (console.log(error)))
     },

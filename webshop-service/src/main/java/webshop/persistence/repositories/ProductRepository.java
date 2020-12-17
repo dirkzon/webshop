@@ -1,5 +1,6 @@
 package webshop.persistence.repositories;
 
+import org.hibernate.Hibernate;
 import webshop.persistence.interfaces.IProductRepository;
 import webshop.service.models.BrowseVars;
 import webshop.service.models.Customer;
@@ -34,17 +35,17 @@ public class ProductRepository implements IProductRepository {
         em.getTransaction().commit();
     }
 
-    //just a bit broken
     @Override
     public Product updateProductById(int id, Product product){
-        Product productToUpdate = getProductById(id);
         em.getTransaction().begin();
+        Product productToUpdate = (Product) Hibernate.unproxy(getProductById(id));
         productToUpdate.setPrice(product.getPrice());
         productToUpdate.setName(product.getName());
         productToUpdate.setCreated(product.getCreated());
         productToUpdate.setDescription(product.getDescription());
         productToUpdate.setImage(product.getImage());
         productToUpdate.setRating(product.getRating());
+        productToUpdate.setReviews(product.getReviews());
         em.merge(productToUpdate);
         em.getTransaction().commit();
         return product;
@@ -61,10 +62,10 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public List browseProducts(BrowseVars fields){
+    public List<Product> browseProducts(BrowseVars fields){
         String sql = "SELECT * FROM products Where name LIKE CONCAT('%',:search_query,'%') " +
                 "And price > :min_price " +
-                "And rating > :min_rating ";
+                "And rating >= :min_rating ";
         if(fields.maxPrice > 0) sql +="And price < :max_price ";
         Query query = em.createNativeQuery(sql, Product.class);
         query.setParameter("search_query", fields.query);

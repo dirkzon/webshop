@@ -25,7 +25,8 @@
         <v-card-title>{{product.name}}</v-card-title>
         <v-card-subtitle>{{product.created}}</v-card-subtitle>
         <v-card-subtitle>{{product.description}}</v-card-subtitle>
-        <v-rating :value="product.rating"
+        <v-rating v-if="product.rating > 0"
+                  :value="product.rating"
                   :size="15"
                   color="warning"
                   background-color="warning"

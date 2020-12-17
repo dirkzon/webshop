@@ -14,7 +14,8 @@
           <v-card-title style="color: black;">
             {{product.name}}</v-card-title>
         </router-link>
-        <v-rating :value="product.rating"
+        <v-rating v-if="product.rating > 0"
+                  :value="product.rating"
                   :size="18"
                   color="warning"
                   background-color="warning"
