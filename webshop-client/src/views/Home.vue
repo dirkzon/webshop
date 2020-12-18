@@ -6,6 +6,7 @@
         <div v-bind:key="product.id" v-for="product in products">
           <ProductThumbnail v-bind:product="product"></ProductThumbnail>
         </div>
+        <NewProduct></NewProduct>
       </v-row>
   </v-app>
 </template>
@@ -14,9 +15,11 @@
 import TopBar from "@/components/TopBar";
 import productService from "@/services/product-service"
 import ProductThumbnail from "@/components/ProductThumbnail";
+import NewProduct from "@/components/NewProduct"
 
 export default {
   components: {
+    NewProduct,
     ProductThumbnail,
     TopBar
   },

@@ -65,7 +65,7 @@
           <v-list-item-title v-on:click="viewAccount">account</v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item :v-if="scope == 'Customer'">
+        <v-list-item v-if="scope == 'Customer'">
           <v-icon large>shopping_cart</v-icon>
           <v-list-item-title>shopping cart</v-list-item-title>
         </v-list-item>
@@ -96,6 +96,7 @@ export default {
   mounted() {
     let token = this.$cookies.get("access_token");
     this.loggedIn = (token != null);
+    this.scope = this.$cookies.get("scope");
   },
   methods:{
     Search: function () {
@@ -103,10 +104,10 @@ export default {
     },
     logOut: function(){
       this.$cookies.remove("access_token")
+      this.$cookies.remove("scope")
       router.push('/login')
     },
     viewAccount: function(){
-      this.scope = this.$cookies.get("scope")
       if(this.scope == "Customer"){
         router.push({name: 'customerAccount'})
       }
