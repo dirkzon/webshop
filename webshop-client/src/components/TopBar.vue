@@ -65,7 +65,7 @@
           <v-list-item-title v-on:click="viewAccount">account</v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item>
+        <v-list-item :v-if="scope == 'Customer'">
           <v-icon large>shopping_cart</v-icon>
           <v-list-item-title>shopping cart</v-list-item-title>
         </v-list-item>
@@ -90,6 +90,7 @@ export default {
       searchQuery: "",
       drawer: false,
       loggedIn: false,
+      scope:"",
     }
   },
   mounted() {
@@ -105,11 +106,11 @@ export default {
       router.push('/login')
     },
     viewAccount: function(){
-      let scope = this.$cookies.get("scope")
-      if(scope == "Customer"){
+      this.scope = this.$cookies.get("scope")
+      if(this.scope == "Customer"){
         router.push({name: 'customerAccount'})
       }
-      if(scope == "Retailer") {
+      if(this.scope == "Retailer") {
         router.push({name: 'retailerAccount'})
       }
     }

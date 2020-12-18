@@ -83,7 +83,7 @@ public class CustomerResource {
     @RolesAllowed({"Customer"})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateCustomerById( Customer customer){
+    public Response updateCustomerById(Customer customer){
         if(customer != null){
             int id = Integer.valueOf(request.getProperty(USER_ID).toString());
             var updatedCustomer = service.updateCustomerById(id, customer);

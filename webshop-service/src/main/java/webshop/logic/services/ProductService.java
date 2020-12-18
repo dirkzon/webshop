@@ -19,14 +19,10 @@ public class ProductService implements IProductService {
         this.repository = repository;
     }
 
-    private Product getProduct(int id){
-        return repository.getProductById(id);
-    }
-
     @Override
     public Product getProductById(int id){
         if(id < 0) return null;
-        Product product = getProduct(id);
+        Product product = repository.getProductById(id);
         for(Review review : product.getReviews()){
             review.setProduct(null);
             review.getCustomer().setReviews(null);
@@ -66,7 +62,7 @@ public class ProductService implements IProductService {
         }
         review.setCreated(LocalDate.now());
         repository.createReviewOnProductById(id, review);
-        Product p = getProduct(id);
+        Product p = repository.getProductById(id);
         double newRating = calculateRating(p.getReviews());
         p.setRating(newRating);
         updateProductById(id, p);

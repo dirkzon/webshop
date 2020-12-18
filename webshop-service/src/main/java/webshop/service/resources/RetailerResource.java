@@ -37,8 +37,7 @@ public class RetailerResource {
     @Path("/me")
     public Response getMe(){
         int id = Integer.valueOf(request.getProperty(USER_ID).toString());
-        Response response =  getRetailerById(id);
-        return response;
+        return getRetailerById(id);
     }
 
     @GET
@@ -80,11 +79,11 @@ public class RetailerResource {
     @PUT
     @UseAuthorisationFilter
     @RolesAllowed("Retailer")
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/{retailer_id}")
-    public Response updateRetailer(@PathParam("retailer_id") int id, Retailer retailer){
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateRetailer(Retailer retailer){
         if(retailer != null){
+            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
             var updatedRetailer = service.updateRetailerById(id, retailer);
             return Response.ok(updatedRetailer).build();
         }else{
@@ -110,8 +109,9 @@ public class RetailerResource {
     @RolesAllowed("Retailer")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{retailer_id}/catalog")
-    public Response createProductInCatalog(@PathParam("retailer_id") int id , Product product){
+    @Path("/catalog")
+    public Response createProductInCatalog(Product product){
+        int id = Integer.valueOf(request.getProperty(USER_ID).toString());
         var newProduct = service.createNewProduct(id, product);
         return Response.ok(newProduct).build();
     }

@@ -51,6 +51,7 @@
         <v-row style="margin-left: 320px"
                align="center"
                justify="center">
+          <v-card-title v-if="products.length == 0">No products found </v-card-title>
           <div v-bind:key="product.id" v-for="product in products">
             <ProductThumbnail v-bind:product="product"></ProductThumbnail>
           </div>

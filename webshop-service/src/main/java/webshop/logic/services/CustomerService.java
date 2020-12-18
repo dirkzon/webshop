@@ -19,13 +19,9 @@ public class CustomerService implements ICustomerService {
         this.repository = repository;
     }
 
-    private Customer getCustomer(int id){
-        return repository.getCustomerById(id);
-    }
-
     public Customer getCustomerById(int id){
         if(id < 0) return null;
-        Customer customer = getCustomer(id);
+        Customer customer = repository.getCustomerById(id);
         for(Review review : customer.getReviews()){
             review.getProduct().setReviews(null);
             review.setCustomer(null);
@@ -49,7 +45,7 @@ public class CustomerService implements ICustomerService {
                 customer.getAvatar() != null &&
                 customer.getAddress() != null &&
                 customer.getId() >= 0){
-            Customer oldCustomer = getCustomer(id);
+            Customer oldCustomer = repository.getCustomerById(id);
             customer.getAccount().setJoined(oldCustomer.getAccount().getJoined());
             customer.getAccount().setRole(UserRole.Customer);
             return repository.updateCustomerById(id, customer);
@@ -58,7 +54,7 @@ public class CustomerService implements ICustomerService {
     }
 
     public boolean removeCustomerById(int id){
-        Customer customerToRemove = getCustomer(id);
+        Customer customerToRemove = repository.getCustomerById(id);
         if(customerToRemove == null) return false;
         repository.removeCustomer(customerToRemove);
         return true;

@@ -38,6 +38,7 @@
                       required>
                   </v-text-field>
                   <v-btn
+                      @click="updateAccount"
                       :disabled="!valid"
                       class="mx-2 my-2"
                       color="secondary"
@@ -148,6 +149,20 @@ export default {
     this.products = await retailerService.getAllProducts(this.retailer.id);
   },
   methods:{
+    updateAccount: async function(){
+      let updatedUser = JSON.stringify({
+        account: {
+          email: this.email,
+          password: this.password,
+          username: this.username
+        },
+        avatar: {
+          url: this.avatar
+        }
+      })
+      await retailerService.updateRetailerById(updatedUser);
+      await window.location.reload();
+    },
     removeAccount: async function(){
       await retailerService.removeRetailerById(this.retailer.id);
       await router.push('/login');
@@ -157,5 +172,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

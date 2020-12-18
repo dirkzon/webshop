@@ -26,8 +26,9 @@ export default {
             .catch(error => (console.log(error)))
     },
 
-    async updateRetailerById(id,retailer ){
-        await axios.put(baseUrl + id, JSON.parse(retailer))
+    async updateRetailerById(retailer){
+        await axios.put(baseUrl, JSON.parse(retailer),
+            {headers: {'Authorization': Vue.$cookies.get("access_token")}})
             .then(response => {return response})
             .catch(error => (console.log(error)))
     },
@@ -41,9 +42,12 @@ export default {
         return output;
     },
 
-    async createProduct(id, product){
-        await axios.post(baseUrl + id + '/catalog', product)
-            .then(response => {return response})
+    async createProduct(product){
+        let output;
+        await axios.post(baseUrl + 'catalog', JSON.parse(product),
+            {headers: {'Authorization': Vue.$cookies.get("access_token")}})
+            .then(response => {output = response.data})
             .catch(error => (console.log(error)))
+        return output;
     }
 }

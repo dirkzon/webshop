@@ -49,7 +49,7 @@ public class RetailerService implements IRetailerService {
 
     @Override
     public boolean removeRetailerById(int id){
-        Retailer retailerToRemove = getRetailerById(id);
+        Retailer retailerToRemove = repository.getRetailerById(id);
         if(retailerToRemove == null) return false;
         repository.removeRetailer(retailerToRemove);
         return true;
@@ -78,6 +78,9 @@ public class RetailerService implements IRetailerService {
             return null;
         }
         product.setCreated(LocalDate.now());
+        Retailer retailer = repository.getRetailerById(id);
+        product.setRetailer(retailer);
+        product.setRating(0.0);
         return repository.createNewProductInCatalog(id, product);
     }
 }
