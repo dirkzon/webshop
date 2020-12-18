@@ -102,9 +102,6 @@ public class ProductResource {
     @Path("/browse")
     public Response browseProducts(BrowseVars variables){
         List<Product> products = service.browseProducts(variables);
-        if(!products.isEmpty()){
-            return Response.ok(products).build();
-        }
-        return Response.status(Response.Status.NOT_ACCEPTABLE).entity("No products were found").build();
+        return Response.ok(products).build();
     }
 }

@@ -96,7 +96,7 @@ export default {
         minPrice: this.minPrice,
         maxPrice: this.maxPrice,
         query: this.$route.query.query,
-        minRating: this.minRating - 0.5,
+        minRating: this.minRating,
       })
       this.products = await productService.browseProducts(browseVars)
       this.sortArray();

@@ -17,11 +17,11 @@
             ></v-text-field>
             <v-card-subtitle>Description:</v-card-subtitle>
             <v-textarea
-                :rules="requiredFieldRules"
+                :rules="descriptionRules"
                 v-model="description"
                 outlined
                 required
-                :counter="300">
+                :counter="250">
             </v-textarea>
             <v-card-subtitle>Price </v-card-subtitle>
             <v-text-field
@@ -36,7 +36,8 @@
             <v-text-field
                 v-model="image"
                 outlined
-                aria-required="true">
+                aria-required="true"
+                :rules="descriptionRules">
             </v-text-field>
             <v-btn
                 @click="saveProduct"
@@ -74,6 +75,9 @@ export default {
       ],
       requiredNumberRules: [
         v => !!v || 'Field is required'
+      ],
+      descriptionRules: [
+        v => !!v || 'Field is required' ,v => v.length <= 250, v => v.length >= 4
       ],
     }
   },

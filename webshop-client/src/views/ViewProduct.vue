@@ -2,7 +2,6 @@
   <v-app>
     <TopBar></TopBar>
     <v-row>
-
       <v-card width="40%">
         <v-responsive :aspect-ratio="16/9">
           <v-img :src="product.image.url">
@@ -24,7 +23,7 @@
 
         <v-card-title>{{product.name}}</v-card-title>
         <v-card-subtitle>{{product.created}}</v-card-subtitle>
-        <v-card-subtitle>{{product.description}}</v-card-subtitle>
+        <v-card-subtitle style="max-width: 300px">{{product.description}}</v-card-subtitle>
         <v-rating v-if="product.rating > 0"
                   :value="product.rating"
                   :size="15"
