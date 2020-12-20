@@ -23,7 +23,7 @@
 
         <v-card-title>{{product.name}}</v-card-title>
         <v-card-subtitle>{{product.created}}</v-card-subtitle>
-        <v-card-subtitle style="max-width: 300px">{{product.description}}</v-card-subtitle>
+        <v-card-subtitle style="max-width: 250px">{{product.description}}</v-card-subtitle>
         <v-rating v-if="product.rating > 0"
                   :value="product.rating"
                   :size="15"
@@ -38,6 +38,14 @@
         ></v-rating>
         <v-card-title>${{product.price}}</v-card-title>
         <UserCard v-bind:user="product.retailer"></UserCard>
+        <v-btn @click="addToCart"
+               color="secondary"
+               style="margin: 10px">
+          <v-icon>
+            shop
+          </v-icon>
+          Add to cart
+        </v-btn>
       </v-card>
     </v-row>
     <div v-bind:key="review.id" v-for="review in product.reviews">
@@ -129,7 +137,19 @@ export default {
       })
       await productService.createReviewOnProductById(this.product.id, newReview)
       await window.location.reload()
-    }
+    },
+     addToCart: function(){
+      let cart =  JSON.parse(this.$cookies.get("cart"));
+      if(cart == null){
+        cart = [];
+      }
+      if(cart.includes(this.product.id)){
+        alert("cart already contains product")
+      }else{
+        cart.push(this.product.id);
+      }
+      this.$cookies.set("cart", JSON.stringify(cart))
+     }
   }
 }
 </script>

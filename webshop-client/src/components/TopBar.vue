@@ -65,7 +65,7 @@
           <v-list-item-title v-on:click="viewAccount">account</v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item v-if="scope == 'Customer'">
+        <v-list-item v-if="scope == 'Customer'" v-on:click="goToCart">
           <v-icon large>shopping_cart</v-icon>
           <v-list-item-title>shopping cart</v-list-item-title>
         </v-list-item>
@@ -105,6 +105,7 @@ export default {
     logOut: function(){
       this.$cookies.remove("access_token")
       this.$cookies.remove("scope")
+      this.$cookies.remove("cart")
       router.push('/login')
     },
     viewAccount: function(){
@@ -114,6 +115,9 @@ export default {
       if(this.scope == "Retailer") {
         router.push({name: 'retailerAccount'})
       }
+    },
+    goToCart: function(){
+      router.push({name: 'shoppingCart'})
     }
   }
 }

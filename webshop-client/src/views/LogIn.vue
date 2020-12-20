@@ -79,6 +79,7 @@ export default{
       this.$cookies.remove("access_token")
       this.$cookies.set("access_token", token, "1d")
       this.$cookies.set("scope", response.scope, "1d")
+      this.$cookies.set("cart", JSON.stringify([]))
       await this.$router.push('/')
     }
 }

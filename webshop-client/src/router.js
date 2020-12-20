@@ -55,5 +55,11 @@ export default new Router({
           component:() =>
                 import("./views/CreateProduct")
         },
+        {
+            path: '/cart',
+            name:'shoppingCart',
+            component:() =>
+                import("./views/ShoppingCart")
+        },
     ]
 })
