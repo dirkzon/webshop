@@ -34,7 +34,7 @@
       <v-divider></v-divider>
     </v-col>
 
-    <v-card-title>Total: {{total.toFixed(2)}}</v-card-title>
+    <v-card-title>Total: ${{total.toFixed(2)}}</v-card-title>
   </div>
 </template>
 

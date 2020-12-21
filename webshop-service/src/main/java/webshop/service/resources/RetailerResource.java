@@ -3,7 +3,6 @@ package webshop.service.resources;
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.IRetailerService;
 import webshop.service.filters.UseAuthorisationFilter;
-import webshop.service.models.Customer;
 import webshop.service.models.Product;
 import webshop.service.models.Retailer;
 
@@ -14,6 +13,8 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import java.util.List;
 
 import static webshop.service.filters.Constants.USER_ID;
 
@@ -93,7 +94,7 @@ public class RetailerResource {
     public Response updateRetailer(Retailer retailer){
         try{
             int id = Integer.valueOf(request.getProperty(USER_ID).toString());
-            var updatedCustomer = service.updateRetailerById(id, retailer);
+            Retailer updatedCustomer = service.updateRetailerById(id, retailer);
             return Response.ok(updatedCustomer).build();
         }catch (Exception e){
             return Response.serverError().entity(e.getMessage()).build();
@@ -107,7 +108,7 @@ public class RetailerResource {
     @Path("/{retailer_id}/catalog")
     public Response getAllProductsInCatalog(@PathParam("retailer_id") int id){
         try{
-            var products = service.getAllProductsInCatalog(id);
+            List<Product> products = service.getAllProductsInCatalog(id);
             return Response.ok(products).build();
         }catch (Exception e){
             return Response.serverError().entity(e.getMessage()).build();
@@ -123,7 +124,7 @@ public class RetailerResource {
     public Response createProductInCatalog(Product product){
         try{
             int id = Integer.valueOf(request.getProperty(USER_ID).toString());
-            var newProduct = service.createNewProduct(id, product);
+            Product newProduct = service.createNewProduct(id, product);
             return Response.ok(newProduct).build();
         }catch (Exception e){
             return Response.serverError().entity(e.getMessage()).build();

@@ -100,7 +100,9 @@ public class RetailerService implements IRetailerService {
             Retailer retailer = repository.getRetailerById(id);
             product.setRetailer(retailer);
             product.setRating(0.0);
-            return repository.createNewProductInCatalog(id, product);
+            Product newProduct = repository.createNewProductInCatalog(id, product);
+            newProduct.setRetailer(retailer);
+            return newProduct;
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
