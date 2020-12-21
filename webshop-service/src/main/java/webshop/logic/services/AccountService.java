@@ -21,26 +21,34 @@ public class AccountService implements IAccountService {
         this.repository = repository;
     }
 
-    public Account isAccountValid(String details, String password){
-        if(details.isEmpty() && password.isEmpty()) return null;
-        List<Account> accounts = repository.getAccountByDetails(details);
-        if(accounts.isEmpty()) return null;
-        for(Account account : accounts){
-            if(account.getPassword().equals(password)){
-                return account;
+    public Account isAccountValid(String details, String password)throws Exception{
+        try{
+            if(details.isEmpty() && password.isEmpty()) throw new Exception("Credentials missing");
+            List<Account> accounts = repository.getAccountByDetails(details);
+            if(accounts.isEmpty()) throw new Exception("No account found");
+            for(Account account : accounts){
+                if(account.getPassword().equals(password)){
+                    return account;
+                }
             }
+            throw new Exception("No account found");
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
         }
-        return null;
     }
 
-    public String createToken(Account account){
-        int userId = repository.getUserIdFromAccountId(account.getId(), account.getRole());
-        return Jwts.builder()
-                .setSubject(account.getUsername())
-                .setId(Integer.toString(userId))
-                .claim(USER_ROLE, account.getRole())
-                .setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, "eW91IGdvdCB0aGlzIQ==")
-                .compact();
+    public String createToken(Account account)throws Exception{
+        try{
+            int id = repository.getUserIdFromAccountId(account.getId(), account.getRole());
+            return Jwts.builder()
+                    .setSubject(account.getUsername())
+                    .setId(Integer.toString(id))
+                    .claim(USER_ROLE, account.getRole())
+                    .setIssuedAt(new Date())
+                    .signWith(SignatureAlgorithm.HS256, "eW91IGdvdCB0aGlzIQ==")
+                    .compact();
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 }

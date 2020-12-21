@@ -38,21 +38,22 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
     public Response getProductById(@PathParam("product_id") int id){
-        var product = service.getProductById(id);
-        UserRole role = UserRole.valueOf(request.getProperty(USER_ROLE).toString());
-        int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
-        if(role == UserRole.Retailer){
-            if(product.getRetailer().getId() == userId) product.setCanEdit(true);
-            product.setCanReview(false);
-        }else{
-            for(Review review : product.getReviews()){
-                if(review.getCustomer().getId() == userId) product.setCanReview(false);
+        try{
+            Product product = service.getProductById(id);
+            UserRole role = UserRole.valueOf(request.getProperty(USER_ROLE).toString());
+            int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
+            if(role == UserRole.Retailer){
+                if(product.getRetailer().getId() == userId) product.setCanEdit(true);
+                product.setCanReview(false);
+            }else{
+                for(Review review : product.getReviews()){
+                    if(review.getCustomer().getId() == userId) product.setCanReview(false);
+                }
             }
-        }
-        if(product != null) {
             return Response.ok(product).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
-        return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no product found").build();
     }
 
     @DELETE
@@ -61,8 +62,12 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
     public Response removeProductById(@PathParam("product_id") int id){
-        service.removeProductById(id);
-        return Response.ok().build();
+        try{
+            service.removeProductById(id);
+            return Response.ok().build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     @PUT
@@ -72,15 +77,16 @@ public class ProductResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
     public Response updateProductById(@PathParam("product_id") int id, Product product){
-        int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
-        if(product.getRetailer().getId() == userId) {
-            var updatedProduct = service.updateProductById(id, product);
-            if (updatedProduct != null) {
+        try{
+            int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
+            if(product.getRetailer().getId() == userId) {
+                var updatedProduct = service.updateProductById(id, product);
                 return Response.ok(updatedProduct).build();
             }
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Product was not found").build();
+            return Response.status(Response.Status.FORBIDDEN).entity("Cannot update others products").build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
-        return Response.status(Response.Status.FORBIDDEN).entity("Cannot update others products").build();
     }
 
     @POST
@@ -90,10 +96,14 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}/reviews")
     public Response createReviewOnProductById(@PathParam("product_id") int id, Review review){
+        try{
             int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
-        review.getCustomer().setId(userId);
-        service.createReviewOnProductById(id,review);
-        return Response.status(Response.Status.CREATED).build();
+            review.getCustomer().setId(userId);
+            service.createReviewOnProductById(id,review);
+            return Response.status(Response.Status.CREATED).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     @PUT
@@ -101,7 +111,11 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/browse")
     public Response browseProducts(BrowseVars variables){
-        List<Product> products = service.browseProducts(variables);
-        return Response.ok(products).build();
+        try{
+            List<Product> products = service.browseProducts(variables);
+            return Response.ok(products).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 }

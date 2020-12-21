@@ -35,9 +35,13 @@ public class AuthenticationResource {
     @UseAuthenticationFilter
     @Produces(MediaType.APPLICATION_JSON)
     public Response logIn(){
-        Account account = (Account) request.getProperty("account");
-        String token = service.createToken(account);
-        AuthenticationData data = new AuthenticationData(token, account.getRole(), LocalDateTime.now());
-        return Response.ok(data).build();
+        try{
+            Account account = (Account) request.getProperty("account");
+            String token = service.createToken(account);
+            AuthenticationData data = new AuthenticationData(token, account.getRole(), LocalDateTime.now());
+            return Response.ok(data).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 }

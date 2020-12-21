@@ -38,7 +38,8 @@
         ></v-rating>
         <v-card-title>${{product.price}}</v-card-title>
         <UserCard v-bind:user="product.retailer"></UserCard>
-        <v-btn @click="addToCart"
+        <v-btn :disabled="!canAddToCart"
+               @click="addToCart"
                color="secondary"
                style="margin: 10px">
           <v-icon>
@@ -116,6 +117,7 @@ export default {
       product: '',
       valid: false,
       body: '',
+      canAddToCart: false,
       reviewBodyRules: [
         v => !!v || 'review is required', v => v.length <= 200 || 'too many characters'
       ],
@@ -124,6 +126,7 @@ export default {
   },
   async mounted() {
     this.product = await productService.getProductById(this.$route.params.id);
+    this.canAddProductToCart();
   },
    methods:{
     createReview: async function(){
@@ -147,8 +150,16 @@ export default {
         alert("cart already contains product")
       }else{
         cart.push(this.product.id);
+        this.canAddToCart = false;
       }
       this.$cookies.set("cart", JSON.stringify(cart))
+     },
+     canAddProductToCart: function(){
+       if(!JSON.parse(this.$cookies.get("cart").includes(this.product.id))){
+         if(this.$cookies.get("scope") == "Customer"){
+           this.canAddToCart = true;
+         }
+       }
      }
   }
 }

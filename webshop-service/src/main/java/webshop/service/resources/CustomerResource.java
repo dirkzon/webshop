@@ -35,9 +35,13 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/me")
     public Response getMe(){
-        int id = Integer.valueOf(request.getProperty(USER_ID).toString());
-        Response response =  getCustomerById(id);
-        return response;
+        try{
+            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+            Customer customer =  service.getCustomerById(id);
+            return Response.ok(customer).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     @GET
@@ -46,11 +50,11 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
     public Response getCustomerById(@PathParam("customer_id") int id){
-        Customer customer = service.getCustomerById(id);
-        if(customer != null){
+        try{
+            Customer customer = service.getCustomerById(id);
             return Response.ok(customer).build();
-        }else{
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("No customer could be found").build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
     }
 
@@ -58,11 +62,11 @@ public class CustomerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createCustomer(Customer customer){
-        if(customer != null){
-            var newCustomer = service.saveCustomer(customer);
+        try{
+            Customer newCustomer = service.saveCustomer(customer);
             return Response.ok(newCustomer).build();
-        }else{
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no customer given").build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
     }
 
@@ -70,12 +74,14 @@ public class CustomerResource {
     @UseAuthorisationFilter
     @RolesAllowed({"Customer"})
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{customer_id}")
-    public Response removeCustomerById(@PathParam("customer_id") int id){
-        if(service.removeCustomerById(id)){
-            return Response.ok("Customer with id:" + id + " has been removed").build();
+    public Response removeCustomerById() {
+        try {
+            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+            service.removeCustomerById(id);
+            return Response.ok().build();
+        } catch (Exception e) {
+            return Response.serverError().entity(e.getMessage()).build();
         }
-        return Response.status(Response.Status.BAD_REQUEST).entity("Could not remove customer").build();
     }
 
     @PUT
@@ -84,12 +90,12 @@ public class CustomerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateCustomerById(Customer customer){
-        if(customer != null){
+        try{
             int id = Integer.valueOf(request.getProperty(USER_ID).toString());
             var updatedCustomer = service.updateCustomerById(id, customer);
             return Response.ok(updatedCustomer).build();
-        }else{
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no customer given").build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
     }
 }

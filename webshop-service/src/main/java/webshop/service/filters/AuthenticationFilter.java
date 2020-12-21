@@ -49,15 +49,17 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         final String username = tokenizer.nextToken();
         final String password = tokenizer.nextToken();
 
-        Account account = accountService.isAccountValid(username, password);
-        if(account == null){
+        Account account;
+
+        try{
+            account = accountService.isAccountValid(username, password);
+        }catch (Exception e){
             Response response = Response.status(Response.Status.UNAUTHORIZED).
-                    entity("Username and/or password is incorrect.").build();
+                    entity("Could not log in:, " + e.getMessage()).build();
             requestContext.abortWith(response);
             return;
         }
 
         requestContext.setProperty(ACCOUNT_PROPERTY, account);
-
     }
 }

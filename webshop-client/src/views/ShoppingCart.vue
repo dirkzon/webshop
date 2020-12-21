@@ -2,44 +2,91 @@
   <div>
     <TopBar></TopBar>
     <span>{{error}}</span>
-    <v-row>
+    <v-col style="width: fit-content">
       <div v-bind:key="product.id" v-for="product in products">
-        <ProductThumbnail v-bind:product="product"></ProductThumbnail>
+        <v-card width="600"
+                class="mx-8 my-8">
+          <v-responsive :aspect-ratio="10/3">
+            <v-row>
+              <v-img contain
+                     aspect-ratio="1/1"
+                     class="grey lighten-3"
+                     max-width="220"
+                     min-width="200"
+                     min-height="180"
+                     :src='product.image.url'>
+              </v-img>
+              <div>
+                <v-card-title>{{product.name}}</v-card-title>
+                <v-card-subtitle>${{product.price}}</v-card-subtitle>
+              </div>
+              <v-spacer></v-spacer>
+              <v-btn style="margin:20px"
+                      @click="removeProduct(product.id)"
+                     flat
+                     icon>
+                <v-icon x-large>delete</v-icon>
+              </v-btn>
+            </v-row>
+          </v-responsive>
+        </v-card>
       </div>
-    </v-row>
+      <v-divider></v-divider>
+    </v-col>
+
+    <v-card-title>Total: {{total.toFixed(2)}}</v-card-title>
   </div>
 </template>
 
 <script>
 import TopBar from "@/components/TopBar";
 import productService from "@/services/product-service";
-import ProductThumbnail from "@/components/ProductThumbnail";
 
 export default {
   name: "ShoppingCart",
-  components: {TopBar, ProductThumbnail},
+  components: {TopBar},
   data(){
     return{
       products:[],
       error:'',
+      total:0,
     }
   },
   async mounted() {
-    let cart = this.$cookies.get("cart");
+    let cart = JSON.parse(this.$cookies.get("cart"));
     if(cart == null || cart.length < 0){
       this.error = "There are no products in your cart."
     }else{
-      Object.keys(cart).forEach(await this.getProduct)
+      for (let i = 0; i < cart.length; i++) {
+        await this.getProduct(cart[i]);
+      }
     }
+    await this.getTotalPrice();
   },
   methods:{
     async getProduct(id){
-      alert(id);
       if(id > 0){
         let product = await productService.getProductById(id);
         this.products.push(product);
       }
-    }
+    },
+    removeProduct: function(product){
+      let cart = JSON.parse(this.$cookies.get("cart"));
+      for (let i = 0; i < cart.length; i++) {
+        if(cart[i] == product){
+          cart.splice(i, 1);
+          this.products.splice(i,1);
+        }
+      }
+      this.$cookies.set("cart", JSON.stringify(cart));
+      this.getTotalPrice();
+    },
+    getTotalPrice: function(){
+      this.total = 0;
+      for (let i = 0; i < this.products.length; i++){
+        this.total += this.products[i].price;
+      }
+    },
   },
 }
 </script>

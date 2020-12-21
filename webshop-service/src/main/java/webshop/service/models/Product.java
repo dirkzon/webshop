@@ -53,6 +53,7 @@ public class Product {
 
     @JsonManagedReference
     @OneToMany(mappedBy="product",
+            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Review> reviews;
@@ -129,11 +130,11 @@ public class Product {
         return reviews;
     }
 
+    public void addReview(Review review){reviews.add(review);}
+
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
-
-    public void addReview(Review review){this.reviews.add(review);}
 
     public Image getImage() {
         return image;

@@ -82,7 +82,7 @@
                     v-model="remove_warning"
                     width="500">
                   <v-card>
-                    <v-card-title class="headline grey lighten-2">
+                    <v-card-title class="headline secondary white--text">
                       Are you sure?
                     </v-card-title>
                     <v-card-text>
@@ -164,7 +164,7 @@ export default {
       await window.location.reload();
     },
     removeAccount: async function(){
-      await retailerService.removeRetailerById(this.retailer.id);
+      await retailerService.removeRetailerById();
       await router.push('/login');
     }
   }

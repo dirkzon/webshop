@@ -19,44 +19,56 @@ public class CustomerService implements ICustomerService {
         this.repository = repository;
     }
 
-    public Customer getCustomerById(int id){
-        if(id < 0) return null;
-        Customer customer = repository.getCustomerById(id);
-        for(Review review : customer.getReviews()){
-            review.getProduct().setReviews(null);
-            review.setCustomer(null);
+    public Customer getCustomerById(int id)throws Exception{
+        try{
+            if(id < 0) throw new Exception("No id");
+            Customer customer = repository.getCustomerById(id);
+            for(Review review : customer.getReviews()){
+                review.getProduct().setReviews(null);
+                review.setCustomer(null);
+            }
+            return customer;
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
         }
-        return customer;
     }
 
-    public Customer saveCustomer(Customer customer){
-        customer.setAvatar(new Image("https://cnaca.ca/wp-content/uploads/2018/10/user-icon-image-placeholder.jpg"));
-        if(customer.getAccount() != null &&
-                customer.getAvatar() != null &&
-                customer.getAddress() != null){
-            customer.getAccount().setJoined(LocalDate.now());
-            return repository.saveCustomer(customer);
+    public Customer saveCustomer(Customer customer)throws Exception{
+        try{
+            customer.setAvatar(new Image("https://cnaca.ca/wp-content/uploads/2018/10/user-icon-image-placeholder.jpg"));
+            if(customer.getAccount() != null &&
+                    customer.getAvatar() != null &&
+                    customer.getAddress() != null){
+                customer.getAccount().setJoined(LocalDate.now());
+                return repository.saveCustomer(customer);
+            }
+            throw new Exception("customer not valid");
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
         }
-        return null;
     }
 
-    public Customer updateCustomerById(int id, Customer customer){
-        if(customer.getAccount() != null &&
-                customer.getAvatar() != null &&
-                customer.getAddress() != null &&
-                customer.getId() >= 0){
-            Customer oldCustomer = repository.getCustomerById(id);
-            customer.getAccount().setJoined(oldCustomer.getAccount().getJoined());
-            customer.getAccount().setRole(UserRole.Customer);
-            return repository.updateCustomerById(id, customer);
+    public Customer updateCustomerById(int id, Customer customer)throws Exception{
+        try{
+            if(customer.getAccount() != null &&
+                    customer.getAvatar() != null &&
+                    customer.getAddress() != null &&
+                    customer.getId() >= 0){
+                customer.getAccount().setRole(UserRole.Customer);
+                return repository.updateCustomerById(id, customer);
+            }
+            throw new Exception("Customer not valid.");
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
         }
-        return null;
     }
 
-    public boolean removeCustomerById(int id){
-        Customer customerToRemove = repository.getCustomerById(id);
-        if(customerToRemove == null) return false;
-        repository.removeCustomer(customerToRemove);
-        return true;
+    public void removeCustomerById(int id)throws Exception{
+        try{
+            Customer customer = repository.getCustomerById(id);
+            repository.removeCustomer(customer);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 }

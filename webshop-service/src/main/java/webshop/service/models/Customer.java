@@ -41,6 +41,7 @@ public class Customer {
 
     //Field must not get serialized, will create infinite recursion
     @OneToMany(mappedBy="customer",
+            fetch = FetchType.EAGER,
             orphanRemoval=true,
             cascade = CascadeType.REMOVE)
     private List<Review> reviews;
