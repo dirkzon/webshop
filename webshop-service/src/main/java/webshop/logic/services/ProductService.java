@@ -54,9 +54,8 @@ public class ProductService implements IProductService {
                     product.getImage() == null ||
                     product.getPrice() == null ||
                     product.getPrice() < 0 ||
-                    id == 0 ||
-                    product.getRetailer() == null) {
-                return null;
+                    id == 0) {
+                throw new Exception("Cannot update Product");
             }
             return repository.updateProductById(id, product);
         }catch (Exception e){

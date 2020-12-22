@@ -16,16 +16,20 @@ export default {
 
     async removeProductById(id){
         await axios
-            .delete(baseUrl + id)
+            .delete(baseUrl + "/" + id,
+                {headers: {'Authorization': Vue.$cookies.get("access_token")}})
             .then()
             .catch(error => (console.log(error)))
     },
 
     async updateProductById(id, product){
+        let output;
         await axios
-            .put(baseUrl + id, JSON.parse(product))
-            .then(response => {return response.data})
+            .put(baseUrl + "/" + id, JSON.parse(product),
+                {headers: {'Authorization': Vue.$cookies.get("access_token")}})
+            .then(response => {output = response.data})
             .catch(error => (console.log(error)))
+        return output;
     },
 
     async createReviewOnProductById(id, review){

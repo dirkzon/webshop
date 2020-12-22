@@ -61,5 +61,11 @@ export default new Router({
             component:() =>
                 import("./views/ShoppingCart")
         },
+        {
+            path: '/product/:id/edit',
+            name:'editProduct',
+            component:() =>
+                import("./views/EditProduct")
+        },
     ]
 })

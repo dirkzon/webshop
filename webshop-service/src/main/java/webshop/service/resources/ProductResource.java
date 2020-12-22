@@ -78,12 +78,8 @@ public class ProductResource {
     @Path("/{product_id}")
     public Response updateProductById(@PathParam("product_id") int id, Product product){
         try{
-            int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
-            if(product.getRetailer().getId() == userId) {
-                var updatedProduct = service.updateProductById(id, product);
-                return Response.ok(updatedProduct).build();
-            }
-            return Response.status(Response.Status.FORBIDDEN).entity("Cannot update others products").build();
+            var updatedProduct = service.updateProductById(id, product);
+            return Response.ok(updatedProduct).build();
         }catch (Exception e){
             return Response.serverError().entity(e.getMessage()).build();
         }

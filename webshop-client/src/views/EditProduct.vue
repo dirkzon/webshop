@@ -3,7 +3,8 @@
     <TopBar></TopBar>
     <v-layout justify-center>
       <v-card  class="mx-8 my-8"
-               width="50%">
+               width="50%"
+               style="padding: 40px">
         <v-responsive :aspect-ratio="16/7" >
           <v-form  v-model="valid">
             <v-card-title>Edit {{name}}:</v-card-title>
@@ -40,28 +41,63 @@
                 :rules="descriptionRules">
             </v-text-field>
             <v-btn
-                @click="saveProduct"
+                @click="UpdateProduct"
                 :disabled="!valid"
                 class="mx-2 my-2"
                 color="secondary">
               <v-icon dark>
                 save
               </v-icon>
-              Create product
+              Save edited product
             </v-btn>
           </v-form>
+          <v-divider></v-divider>
+          <v-card-title>Remove:</v-card-title>
+          <v-btn
+              @click="remove_warning = true"
+              class="mx-2 my-2"
+              color="#f05454">
+            <v-icon dark>
+              delete
+            </v-icon>
+            remove {{ name }}
+          </v-btn>
         </v-responsive>
       </v-card>
     </v-layout>
+    <div class="text-center">
+      <v-dialog
+          v-model="remove_warning"
+          width="500">
+        <v-card>
+          <v-card-title class="headline secondary white--text">
+            Are you sure?
+          </v-card-title>
+          <v-card-text>
+            If you remove this product all the reviews will also be removed.
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                @click="DeleteProduct"
+                color="warning"
+                text>
+              Yes, remove {{ name }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 import TopBar from "@/components/TopBar";
-import retailerService from "@/services/retailer-service"
+import productService from "@/services/product-service"
 import router from "@/router";
 export default {
-  name: "CreateProduct",
+  name: "EditProduct",
   components: {TopBar},
   data() {
     return {
@@ -69,37 +105,53 @@ export default {
       description: '',
       price: '',
       image: '',
+      id:0,
+      rating:0,
       valid: false,
+      remove_warning: false,
       requiredFieldRules: [
-        v => !!v || 'Field is required' ,v => v.length <= 25, v => v.length >= 4
+        v => !!v || 'Field is required', v => v.length <= 25, v => v.length >= 4
       ],
       requiredNumberRules: [
         v => !!v || 'Field is required'
       ],
       descriptionRules: [
-        v => !!v || 'Field is required' ,v => v.length <= 250, v => v.length >= 4
+        v => !!v || 'Field is required', v => v.length <= 250, v => v.length >= 4
       ],
     }
   },
-  methods:{
-    saveProduct: async function(){
-      let newProduct = JSON.stringify({
+  async mounted() {
+    let product = await productService.getProductById(this.$route.params.id)
+    this.id = product.id;
+    this.name = product.name;
+    this.description = product.description;
+    this.price = product.price;
+    this.image = product.image.url;
+    this.rating = product.rating;
+  },
+  methods: {
+    UpdateProduct: async function () {
+      let updatedProduct = JSON.stringify({
         name: this.name,
         description: this.description,
         price: this.price,
+        id: this.id,
+        rating: this.rating,
         image: {
           url: this.image,
         }
       })
-      let product =  await retailerService.createProduct(newProduct);
-      await router.push({name: 'product' , params: {id:product.id}})
+      await productService.updateProductById(this.id, updatedProduct);
+      await router.push({name: `product` , params: {id:this.id}})
+    },
+    DeleteProduct: async function(){
+      await productService.removeProductById(this.id);
+      await router.push({name: `home`})
     }
   }
 }
 </script>
 
 <style scoped>
-.v-card{
-  padding: 40px;
-}
+
 </style>

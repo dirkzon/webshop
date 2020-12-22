@@ -18,7 +18,7 @@
               </v-img>
               <div>
                 <v-card-title>{{product.name}}</v-card-title>
-                <v-card-subtitle>${{product.price}}</v-card-subtitle>
+                <v-card-subtitle>${{product.price.toFixed(2)}}</v-card-subtitle>
               </div>
               <v-spacer></v-spacer>
               <v-btn style="margin:20px"

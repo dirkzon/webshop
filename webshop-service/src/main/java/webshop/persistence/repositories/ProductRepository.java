@@ -38,8 +38,12 @@ public class ProductRepository implements IProductRepository {
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
-            for(Review review : product.getReviews()){ review.setCustomer(null); }
-            em.remove(product);
+            for(Review review : product.getReviews()){
+                review.setCustomer(null);
+                em.remove(em.contains(review) ? review : em.merge(review));
+            }
+            product.setRetailer(null);
+            em.remove(em.contains(product) ? product : em.merge(product));
             em.getTransaction().commit();
         }catch (Exception e){
             throw new Exception(e.getMessage());
@@ -56,11 +60,9 @@ public class ProductRepository implements IProductRepository {
             Product productToUpdate = em.find(Product.class, id);
             productToUpdate.setPrice(product.getPrice());
             productToUpdate.setName(product.getName());
-            productToUpdate.setCreated(product.getCreated());
             productToUpdate.setDescription(product.getDescription());
             productToUpdate.setImage(product.getImage());
             productToUpdate.setRating(product.getRating());
-            productToUpdate.setReviews(product.getReviews());
             em.merge(productToUpdate);
             em.getTransaction().commit();
             return product;

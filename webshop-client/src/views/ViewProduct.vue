@@ -11,15 +11,16 @@
 
       <v-card style="height:min-content"
           class="mx-12 my-12">
-        <v-btn v-if="product.canEdit"
-            small
-            class="mx-2 my-2"
-            fab
-            color="#cdc9c3">
-          <v-icon dark>
-            build
-          </v-icon>
-        </v-btn>
+          <v-btn v-if="product.canEdit"
+                 @click="editProduct"
+                 small
+                 class="mx-2 my-2"
+                 fab
+                 color="secondary">
+            <v-icon dark>
+              build
+            </v-icon>
+          </v-btn>
 
         <v-card-title>{{product.name}}</v-card-title>
         <v-card-subtitle>{{product.created}}</v-card-subtitle>
@@ -36,7 +37,7 @@
                   half-icon="star_half"
                   length="5"
         ></v-rating>
-        <v-card-title>${{product.price}}</v-card-title>
+        <v-card-title>${{product.price.toFixed(2)}}</v-card-title>
         <UserCard v-bind:user="product.retailer"></UserCard>
         <v-btn :disabled="!canAddToCart"
                @click="addToCart"
@@ -160,6 +161,9 @@ export default {
            this.canAddToCart = true;
          }
        }
+     },
+     editProduct: function(){
+      this.$router.push({name: 'editProduct' , params: {id:this.product.id}})
      }
   }
 }
