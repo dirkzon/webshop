@@ -66,7 +66,15 @@
         </v-list-item>
         <v-divider></v-divider>
         <v-list-item v-if="scope == 'Customer'" v-on:click="goToCart">
-          <v-icon large>shopping_cart</v-icon>
+          <v-badge
+              bordered
+              color="warning"
+              overlap
+              :content="cartSize"
+              :value="cartSize"
+          >
+            <v-icon large>shopping_cart</v-icon>
+          </v-badge>
           <v-list-item-title>shopping cart</v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>
@@ -91,12 +99,14 @@ export default {
       drawer: false,
       loggedIn: false,
       scope:"",
+      cartSize: 0,
     }
   },
   mounted() {
     let token = this.$cookies.get("access_token");
     this.loggedIn = (token != null);
     this.scope = this.$cookies.get("scope");
+    this.cartSize = JSON.parse(this.$cookies.get("cart")).length;
   },
   methods:{
     Search: function () {
