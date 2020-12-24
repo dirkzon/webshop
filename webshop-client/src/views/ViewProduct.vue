@@ -2,11 +2,9 @@
   <v-app>
     <TopBar></TopBar>
     <v-row>
-      <v-card width="40%">
-        <v-responsive :aspect-ratio="16/9">
+      <v-card width="40%" height="min-content">
           <v-img :src="product.image.url">
           </v-img>
-        </v-responsive>
       </v-card>
 
       <v-card style="height:min-content"

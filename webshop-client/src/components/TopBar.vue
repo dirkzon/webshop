@@ -71,8 +71,7 @@
               color="warning"
               overlap
               :content="cartSize"
-              :value="cartSize"
-          >
+              :value="cartSize">
             <v-icon large>shopping_cart</v-icon>
           </v-badge>
           <v-list-item-title>shopping cart</v-list-item-title>

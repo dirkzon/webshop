@@ -80,6 +80,7 @@ export default {
       minPrice: 0,
       maxPrice: 0,
       minRating:0,
+      query:"",
       sortTypes:[
           'price',
           'rating',
@@ -92,10 +93,11 @@ export default {
   },
   methods:{
     browse: async function(){
+      this.query = this.$route.query.query;
       let browseVars = JSON.stringify({
         minPrice: this.minPrice,
         maxPrice: this.maxPrice,
-        query: this.$route.query.query,
+        query: this.query,
         minRating: this.minRating,
       })
       this.products = await productService.browseProducts(browseVars)
@@ -120,6 +122,13 @@ export default {
     sortBy: function() {
       this.sortArray()
     },
+    '$route.query.query': {
+      handler: function() {
+        this.browse()
+      },
+      deep: true,
+      immediate: true
+    }
   }
 }
 </script>

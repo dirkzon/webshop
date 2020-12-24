@@ -6,7 +6,7 @@
                width="50%">
         <v-responsive :aspect-ratio="16/7" >
           <v-form  v-model="valid">
-            <v-card-title>Edit {{name}}:</v-card-title>
+            <v-card-title>Create product:</v-card-title>
             <v-card-subtitle>Name:</v-card-subtitle>
             <v-text-field
                 :rules="requiredFieldRules"
