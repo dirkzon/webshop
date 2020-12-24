@@ -6,7 +6,7 @@
                icon="error_outline"
                style="margin: 0px">
         You are not logged in.
-        <v-btn v-on:click="$router.push('login')" small>Log in</v-btn>
+        <v-btn v-on:click="$router.push('/login')" small>Log in</v-btn>
       </v-alert>
       <router-view></router-view>
     </v-content>
@@ -22,10 +22,10 @@ export default {
       loggedIn: false,
     }
   },
-  mounted() {
-    let token = this.$cookies.get("access_token")
+  async mounted() {
+    let token = await this.$cookies.get("access_token")
     this.loggedIn = (token != null);
-  }
+  },
 }
 </script>
 

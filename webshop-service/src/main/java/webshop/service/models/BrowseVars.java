@@ -17,9 +17,13 @@ public class BrowseVars {
     public double minRating;
 
     public boolean isValid(){
-        return (minPrice >= 0 &&
-                maxPrice >= 0 &&
-                minPrice < maxPrice &&
-                !query.isEmpty());
+        if (minPrice >= 0 && maxPrice >= 0){
+            if(minPrice == maxPrice){
+                return true;
+            }else{
+                return minPrice < maxPrice;
+            }
+        }
+        return false;
     }
 }

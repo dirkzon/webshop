@@ -86,6 +86,7 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> browseProducts(BrowseVars fields)throws Exception{
         try{
+            if(!fields.isValid()) throw new Exception("Fields are not valid");
             List<Product> products= repository.browseProducts(fields);
             for(Product product : products) product.setReviews(null);
             return products;
