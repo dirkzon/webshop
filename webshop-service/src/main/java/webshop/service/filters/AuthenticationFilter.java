@@ -55,7 +55,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             account = accountService.isAccountValid(username, password);
         }catch (Exception e){
             Response response = Response.status(Response.Status.UNAUTHORIZED).
-                    entity("Could not log in:, " + e.getMessage()).build();
+                    entity("Could not log in: " + e.getMessage()).build();
             requestContext.abortWith(response);
             return;
         }

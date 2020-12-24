@@ -55,7 +55,7 @@ public class ProductService implements IProductService {
                     product.getPrice() == null ||
                     product.getPrice() < 0 ||
                     id == 0) {
-                throw new Exception("Cannot update Product");
+                throw new Exception("Cannot update Product.");
             }
             return repository.updateProductById(id, product);
         }catch (Exception e){
@@ -86,7 +86,7 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> browseProducts(BrowseVars fields)throws Exception{
         try{
-            if(!fields.isValid()) throw new Exception("Fields are not valid");
+            if(!fields.isValid()) throw new Exception("Fields are not valid.");
             List<Product> products= repository.browseProducts(fields);
             for(Product product : products) product.setReviews(null);
             return products;

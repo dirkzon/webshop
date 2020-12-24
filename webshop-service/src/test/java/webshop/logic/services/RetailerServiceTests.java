@@ -27,7 +27,7 @@ class RetailerServiceTests {
     static IRetailerService service;
 
     @BeforeAll
-    static void setUpRetailerServiceMock(){
+    static void setUpRetailerServiceMock()throws Exception{
         repository = mock(IRetailerRepository.class);
         service = new RetailerService(repository);
 
@@ -50,7 +50,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void getRetailerByIdShouldSucceed() {
+    void getRetailerByIdShouldSucceed() throws Exception{
         //arrange
 
         //act
@@ -60,7 +60,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void getRetailerByIdWithNegativeIdShouldSucceed() {
+    void getRetailerByIdWithNegativeIdShouldSucceed() throws Exception{
         //arrange
 
         //act
@@ -70,7 +70,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void saveRetailerShouldSucceed() {
+    void saveRetailerShouldSucceed() throws Exception{
         //arrange
         Retailer newRetailer = new Retailer();
         newRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
@@ -82,7 +82,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void saveRetailerMissingAccountShouldNotSucceed() {
+    void saveRetailerMissingAccountShouldNotSucceed() throws Exception{
         //arrange
         Retailer newRetailer = new Retailer();
         newRetailer.setAvatar(new Image("testurl"));
@@ -93,7 +93,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void saveRetailerMissingAvatarShouldNotSucceed() {
+    void saveRetailerMissingAvatarShouldNotSucceed() throws Exception{
         //arrange
         Retailer newRetailer = new Retailer();
         newRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
@@ -104,7 +104,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void updateRetailerShouldSucceed() {
+    void updateRetailerShouldSucceed() throws Exception{
         //arrange
         Retailer updatedRetailer = new Retailer();
         updatedRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
@@ -117,7 +117,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void updateRetailerMissingAccountShouldNotSucceed() {
+    void updateRetailerMissingAccountShouldNotSucceed() throws Exception{
         //arrange
         Retailer updatedRetailer = new Retailer();
         updatedRetailer.setAvatar(new Image("testurl"));
@@ -129,7 +129,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void updateRetailerMissingAvatarShouldNotSucceed() {
+    void updateRetailerMissingAvatarShouldNotSucceed() throws Exception{
         //arrange
         Retailer updatedRetailer = new Retailer();
         updatedRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
@@ -141,7 +141,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void updateRetailerWithNegativeIdShouldNotSucceed() {
+    void updateRetailerWithNegativeIdShouldNotSucceed() throws Exception{
         //arrange
         Retailer updatedRetailer = new Retailer();
         updatedRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
@@ -154,17 +154,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void removeRetailerByIdByIdWithNegativeIdShouldNotSucceed() {
-        //arrange
-
-        //act
-        var bool = service.removeRetailerById(-4);
-        //assert
-        assertFalse(bool);
-    }
-
-    @Test
-    void getAllProductsInCatalogShouldSucceed() {
+    void getAllProductsInCatalogShouldSucceed() throws Exception{
         //arrange
         List<Product> expected = new ArrayList<>();
         Image image = new Image("testurl");
@@ -179,7 +169,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void createNewProduct() {
+    void createNewProduct() throws Exception{
         //arrange
         Product newProduct = new Product();
         newProduct.setDescription("description tv");
@@ -194,7 +184,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void createNewProductMissingDescriptionShouldNotSucceed() {
+    void createNewProductMissingDescriptionShouldNotSucceed() throws Exception{
         //arrange
         Product newProduct = new Product();
         newProduct.setImage(new Image("testurl"));
@@ -208,7 +198,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void createNewProductMissingNameShouldNotSucceed() {
+    void createNewProductMissingNameShouldNotSucceed() throws Exception{
         //arrange
         Product newProduct = new Product();
         newProduct.setImage(new Image("testurl"));
@@ -222,7 +212,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void createNewProductMissingPriceShouldNotSucceed() {
+    void createNewProductMissingPriceShouldNotSucceed() throws Exception{
         //arrange
         Product newProduct = new Product();
         newProduct.setImage(new Image("testurl"));
@@ -236,7 +226,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void createNewProductMissingImageShouldNotSucceed() {
+    void createNewProductMissingImageShouldNotSucceed()throws Exception {
         //arrange
         Product newProduct = new Product();
         newProduct.setPrice(200.0);

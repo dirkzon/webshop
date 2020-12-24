@@ -25,7 +25,7 @@ class ProductServiceTests {
     static IProductService service;
 
     @BeforeAll
-    static void setUpProductServiceMock(){
+    static void setUpProductServiceMock()throws Exception{
         repository = mock(IProductRepository.class);
         service = new ProductService(repository);
 
@@ -51,7 +51,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void getProductByIdShouldSucceed() {
+    void getProductByIdShouldSucceed() throws Exception{
         //arrange
 
         //act
@@ -61,7 +61,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void getProductByIdWithNegativeIdShouldNotSucceed() {
+    void getProductByIdWithNegativeIdShouldNotSucceed() throws Exception{
         //arrange
 
         //act
@@ -71,7 +71,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void removeProductByIdWithNegativeIdShouldNotSucceed() {
+    void removeProductByIdWithNegativeIdShouldNotSucceed() throws Exception{
         //arrange
 
         //act
@@ -81,7 +81,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void updateProductShouldSucceed() {
+    void updateProductShouldSucceed() throws Exception{
         //arrange
         Product updatedProduct = new Product();
         updatedProduct.setId(1);
@@ -98,7 +98,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void updateProductWithoutIdImageShouldNotSucceed() {
+    void updateProductWithoutIdImageShouldNotSucceed() throws Exception{
         //arrange
         Product updatedProduct = new Product();
         updatedProduct.setId(1);
@@ -114,7 +114,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void updateProductWithoutDescriptionShouldNotSucceed() {
+    void updateProductWithoutDescriptionShouldNotSucceed() throws Exception{
         //arrange
         Product updatedProduct = new Product();
         updatedProduct.setId(1);
@@ -130,7 +130,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void updateProductWithoutNameShouldNotSucceed() {
+    void updateProductWithoutNameShouldNotSucceed() throws Exception{
         //arrange
         Product updatedProduct = new Product();
         updatedProduct.setId(1);
@@ -146,7 +146,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void updateProductWithoutPriceShouldNotSucceed() {
+    void updateProductWithoutPriceShouldNotSucceed() throws Exception{
         //arrange
         Product updatedProduct = new Product();
         updatedProduct.setId(1);
@@ -162,7 +162,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void updateProductWithoutRetailerShouldNotSucceed() {
+    void updateProductWithoutRetailerShouldNotSucceed() throws Exception{
         //arrange
         Product updatedProduct = new Product();
         updatedProduct.setId(1);
@@ -178,7 +178,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void createReviewOnProductShouldSucceed() {
+    void createReviewOnProductShouldSucceed() throws Exception{
         //arrange
         Review review = new Review(4.5, "body", LocalDate.parse("2018-10-02"), new Customer(), new Product());
         review.setId(1);
@@ -190,7 +190,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void createReviewOnProductWithoutCustomerShouldNotSucceed() {
+    void createReviewOnProductWithoutCustomerShouldNotSucceed() throws Exception{
         //arrange
         Review newReview = new Review();
         newReview.setId(1);
@@ -204,7 +204,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void createReviewOnProductWithoutBodyShouldNotSucceed() {
+    void createReviewOnProductWithoutBodyShouldNotSucceed() throws Exception{
         //arrange
         Review newReview = new Review();
         newReview.setCustomer(new Customer());
@@ -217,7 +217,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void createReviewOnProductWithoutRatingShouldNotSucceed() {
+    void createReviewOnProductWithoutRatingShouldNotSucceed() throws Exception{
         //arrange
         Review newReview = new Review();
         newReview.setCustomer(new Customer());
@@ -230,7 +230,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void createReviewOnProductWithNegativeIdsShouldNotSucceed() {
+    void createReviewOnProductWithNegativeIdsShouldNotSucceed() throws Exception{
         //arrange
         Review newReview = new Review();
         newReview.setCustomer(new Customer());
@@ -245,7 +245,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void browseProductsShouldSucceed(){
+    void browseProductsShouldSucceed()throws Exception{
         //arrange
         BrowseVars fields = new BrowseVars();
         fields.maxPrice = 50;
@@ -260,7 +260,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void browseProductsWithNegativeMinPriceShouldNotSucceed(){
+    void browseProductsWithNegativeMinPriceShouldNotSucceed()throws Exception{
         //arrange
         BrowseVars fields = new BrowseVars();
         fields.maxPrice = 50;
@@ -274,7 +274,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void browseProductsWithNegativeMaxPriceShouldNotSucceed(){
+    void browseProductsWithNegativeMaxPriceShouldNotSucceed()throws Exception{
         //arrange
         BrowseVars fields = new BrowseVars();
         fields.maxPrice = -50;
@@ -288,7 +288,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void browseProductsWithMinPriceGreaterThanMaxPriceShouldNotSucceed(){
+    void browseProductsWithMinPriceGreaterThanMaxPriceShouldNotSucceed()throws Exception{
         //arrange
         BrowseVars fields = new BrowseVars();
         fields.maxPrice = 50;
@@ -302,7 +302,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void browseProductsWithNegativeTargetRatingShouldNotSucceed(){
+    void browseProductsWithNegativeTargetRatingShouldNotSucceed()throws Exception{
         //arrange
         BrowseVars fields = new BrowseVars();
         fields.maxPrice = 50;
@@ -316,7 +316,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void browseProductsWithoutQueryShouldNotSucceed(){
+    void browseProductsWithoutQueryShouldNotSucceed()throws Exception{
         //arrange
         BrowseVars fields = new BrowseVars();
         fields.maxPrice = 50;

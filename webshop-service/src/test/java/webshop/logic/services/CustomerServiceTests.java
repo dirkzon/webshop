@@ -23,7 +23,7 @@ class CustomerServiceTests {
     static ICustomerService service;
 
     @BeforeAll
-    static void setUpCustomerServiceMock(){
+    static void setUpCustomerServiceMock() throws Exception {
         repository = mock(ICustomerRepository.class);
         service = new CustomerService(repository);
 
@@ -50,7 +50,7 @@ class CustomerServiceTests {
 
     //getCustomersById
     @Test
-    void getCustomerByIdShouldSucceed() {
+    void getCustomerByIdShouldSucceed() throws Exception {
         //arrange
 
         //act
@@ -60,7 +60,7 @@ class CustomerServiceTests {
     }
 
     @Test
-    void getCustomerByIdShouldNotSucceed() {
+    void getCustomerByIdShouldNotSucceed() throws Exception{
         //arrange
 
         //act
@@ -70,7 +70,7 @@ class CustomerServiceTests {
     }
 
     @Test
-    void getCustomerByIdWithNegativeIdShouldNotSucceed() {
+    void getCustomerByIdWithNegativeIdShouldNotSucceed() throws Exception{
         //arrange
 
         //act
@@ -81,7 +81,7 @@ class CustomerServiceTests {
 
     //saveCustomer
     @Test
-    void saveCustomerShouldSucceed(){
+    void saveCustomerShouldSucceed()throws Exception{
         //arrange
         Customer newCustomer = new Customer();
         newCustomer.setAvatar(new Image("testurl"));
@@ -94,7 +94,7 @@ class CustomerServiceTests {
     }
 
     @Test
-    void saveCustomerMissingAvatarShouldReturnnull(){
+    void saveCustomerMissingAvatarShouldReturnnull()throws Exception{
         //arrange
         Customer newCustomer = new Customer();
         newCustomer.setAddress(new Address("AU", "road", 24));
@@ -106,7 +106,7 @@ class CustomerServiceTests {
     }
 
     @Test
-    void saveCustomerMissingAddressShouldReturnnull(){
+    void saveCustomerMissingAddressShouldReturnnull()throws Exception{
         //arrange
         Customer newCustomer = new Customer();
         newCustomer.setAvatar(new Image("testurl"));
@@ -118,7 +118,7 @@ class CustomerServiceTests {
     }
 
     @Test
-    void saveCustomerMissingAccountShouldReturnnull(){
+    void saveCustomerMissingAccountShouldReturnnull()throws Exception{
         //arrange
         Customer newCustomer = new Customer();
         newCustomer.setAddress(new Address("AU", "road", 24));
@@ -132,7 +132,7 @@ class CustomerServiceTests {
     //updateCustomerById
 
     @Test
-    void updateCustomerShouldSucceed(){
+    void updateCustomerShouldSucceed()throws Exception{
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAddress(new Address("AU", "road", 24));
@@ -146,7 +146,7 @@ class CustomerServiceTests {
     }
 
     @Test
-    void updateCustomerMissingAddressShouldNotSucceed(){
+    void updateCustomerMissingAddressShouldNotSucceed()throws Exception{
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
@@ -159,7 +159,7 @@ class CustomerServiceTests {
     }
 
     @Test
-    void updateCustomerMissingAccountShouldNotSucceed(){
+    void updateCustomerMissingAccountShouldNotSucceed()throws Exception{
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAddress(new Address("AU", "road", 24));
@@ -172,7 +172,7 @@ class CustomerServiceTests {
     }
 
     @Test
-    void updateCustomerMissingAvatarShouldNotSucceed(){
+    void updateCustomerMissingAvatarShouldNotSucceed()throws Exception{
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAddress(new Address("AU", "road", 24));
@@ -185,7 +185,7 @@ class CustomerServiceTests {
     }
 
     @Test
-    void updateCustomerWithNegativeIdShouldNotSucceed(){
+    void updateCustomerWithNegativeIdShouldNotSucceed()throws Exception{
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAddress(new Address("AU", "road", 24));
@@ -195,17 +195,5 @@ class CustomerServiceTests {
         Customer customer = service.updateCustomerById(3, updatedCustomer);
         //assert
         assertNull(customer);
-    }
-
-    //removeCustomerById
-
-    @Test
-    void removeCustomerByIdWithNegativeIdShouldSucceed(){
-        //arrange
-
-        //act
-        var bool = service.removeCustomerById(-4);
-        //assert
-        assertFalse(bool);
     }
 }

@@ -24,7 +24,7 @@ class AccountServiceTests {
     static IAccountService service;
 
     @BeforeAll
-    static void setUpAccountServiceMock(){
+    static void setUpAccountServiceMock() throws Exception {
         repository = mock(IAccountRepository.class);
         service = new AccountService(repository);
 
@@ -44,7 +44,7 @@ class AccountServiceTests {
     }
 
     @Test
-    void isAccountValidShouldSucceed() {
+    void isAccountValidShouldSucceed() throws Exception {
         //arrange
 
         //act
@@ -54,7 +54,7 @@ class AccountServiceTests {
     }
 
     @Test
-    void isAccountValidWithoutUserDetailsShouldSucceed() {
+    void isAccountValidWithoutUserDetailsShouldSucceed() throws Exception {
         //arrange
 
         //act
@@ -64,7 +64,7 @@ class AccountServiceTests {
     }
 
     @Test
-    void isAccountValidWithoutPasswordDetailsShouldSucceed() {
+    void isAccountValidWithoutPasswordDetailsShouldNotSucceed() throws Exception {
         //arrange
 
         //act
@@ -74,7 +74,7 @@ class AccountServiceTests {
     }
 
     @Test
-    void isAccountValidWithoutPasswordAndDetailsDetailsShouldSucceed() {
+    void isAccountValidWithoutPasswordAndDetailsDetailsShouldSucceed() throws Exception {
         //arrange
 
         //act
