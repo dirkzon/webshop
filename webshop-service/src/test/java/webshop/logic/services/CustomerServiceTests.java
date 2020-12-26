@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.TestCase.assertNull;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -60,23 +59,14 @@ class CustomerServiceTests {
     }
 
     @Test
-    void getCustomerByIdShouldNotSucceed() throws Exception{
+    void getCustomerByIdWithNegativeIdShouldNotSucceed() {
         //arrange
 
         //act
-        Customer customer = service.getCustomerById(0);
-        //assert
-        assertNotEquals(2, customer.getId());
-    }
 
-    @Test
-    void getCustomerByIdWithNegativeIdShouldNotSucceed() throws Exception{
-        //arrange
-
-        //act
-        Customer customer = service.getCustomerById(-5);
         //assert
-        assertNull(customer);
+        assertThrows(Exception.class, () ->
+                service.getCustomerById(-5));
     }
 
     //saveCustomer
@@ -94,39 +84,29 @@ class CustomerServiceTests {
     }
 
     @Test
-    void saveCustomerMissingAvatarShouldReturnnull()throws Exception{
-        //arrange
-        Customer newCustomer = new Customer();
-        newCustomer.setAddress(new Address("AU", "road", 24));
-        newCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
-        //act
-        Customer customer = service.saveCustomer(newCustomer);
-        //assert
-        assertNull(customer);
-    }
-
-    @Test
-    void saveCustomerMissingAddressShouldReturnnull()throws Exception{
+    void saveCustomerMissingAddressShouldNotSucceed(){
         //arrange
         Customer newCustomer = new Customer();
         newCustomer.setAvatar(new Image("testurl"));
         newCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
         //act
-        Customer customer = service.saveCustomer(newCustomer);
+
         //assert
-        assertNull(customer);
+        assertThrows(Exception.class, () ->
+                service.saveCustomer(newCustomer));
     }
 
     @Test
-    void saveCustomerMissingAccountShouldReturnnull()throws Exception{
+    void saveCustomerMissingAccountShouldNotSucceed(){
         //arrange
         Customer newCustomer = new Customer();
         newCustomer.setAddress(new Address("AU", "road", 24));
         newCustomer.setAvatar(new Image("testurl"));
         //act
-        Customer customer = service.saveCustomer(newCustomer);
+
         //assert
-        assertNull(customer);
+        assertThrows(Exception.class, () ->
+                service.saveCustomer(newCustomer));
     }
 
     //updateCustomerById
@@ -146,54 +126,58 @@ class CustomerServiceTests {
     }
 
     @Test
-    void updateCustomerMissingAddressShouldNotSucceed()throws Exception{
+    void updateCustomerMissingAddressShouldNotSucceed(){
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
         updatedCustomer.setAvatar(new Image("testurl"));
         updatedCustomer.setId(3);
         //act
-        Customer customer = service.updateCustomerById(3, updatedCustomer);
+
         //assert
-        assertNull(customer);
+        assertThrows(Exception.class, () ->
+                service.updateCustomerById(3, updatedCustomer));
     }
 
     @Test
-    void updateCustomerMissingAccountShouldNotSucceed()throws Exception{
+    void updateCustomerMissingAccountShouldNotSucceed(){
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAddress(new Address("AU", "road", 24));
         updatedCustomer.setAvatar(new Image("testurl"));
         updatedCustomer.setId(3);
         //act
-        Customer customer = service.updateCustomerById(3, updatedCustomer);
+
         //assert
-        assertNull(customer);
+        assertThrows(Exception.class, () ->
+                service.updateCustomerById(3, updatedCustomer));
     }
 
     @Test
-    void updateCustomerMissingAvatarShouldNotSucceed()throws Exception{
+    void updateCustomerMissingAvatarShouldNotSucceed(){
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAddress(new Address("AU", "road", 24));
         updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
         updatedCustomer.setId(3);
         //act
-        Customer customer = service.updateCustomerById(3, updatedCustomer);
+
         //assert
-        assertNull(customer);
+        assertThrows(Exception.class, () ->
+                service.updateCustomerById(3, updatedCustomer));
     }
 
     @Test
-    void updateCustomerWithNegativeIdShouldNotSucceed()throws Exception{
+    void updateCustomerWithNegativeIdShouldNotSucceed(){
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAddress(new Address("AU", "road", 24));
         updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
         updatedCustomer.setId(-2);
         //act
-        Customer customer = service.updateCustomerById(3, updatedCustomer);
+
         //assert
-        assertNull(customer);
+        assertThrows(Exception.class, () ->
+                service.updateCustomerById(-2, updatedCustomer));
     }
 }

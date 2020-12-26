@@ -17,7 +17,8 @@ public class BrowseVars {
     public double minRating;
 
     public boolean isValid(){
-        if (minPrice >= 0 && maxPrice >= 0){
+        if(minRating < 0)return false;
+        if (minPrice >= 0 && maxPrice >= 0 ){
             if(minPrice == maxPrice){
                 return true;
             }else{

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
@@ -44,7 +45,7 @@ class ProductServiceTests {
         Review review = new Review(4.5, "review body", LocalDate.parse("2018-10-02"), customer, products.get(0));
         review.setId(1);
 
-        when(repository.getProductById(1)).thenReturn(products.get(1));
+        when(repository.getProductById(1)).thenReturn(products.get(0));
         when(repository.updateProductById(anyInt(), any(Product.class))).thenReturn(products.get(0));
         when(repository.createReviewOnProductById(anyInt(), any(Review.class))).thenReturn(review);
         when(repository.browseProducts(any(BrowseVars.class))).thenReturn(products);
@@ -57,27 +58,29 @@ class ProductServiceTests {
         //act
         Product product = service.getProductById(1);
         //assert
-        assertEquals(2, product.getId());
+        assertEquals(1, product.getId());
     }
 
     @Test
-    void getProductByIdWithNegativeIdShouldNotSucceed() throws Exception{
+    void getProductByIdWithNegativeIdShouldNotSucceed() {
         //arrange
 
         //act
-        Product product = service.getProductById(-3);
+
         //assert
-        assertNull(product);
+        assertThrows(Exception.class, () ->
+                service.getProductById(-3));
     }
 
     @Test
-    void removeProductByIdWithNegativeIdShouldNotSucceed() throws Exception{
+    void removeProductByIdWithNegativeIdShouldNotSucceed() {
         //arrange
 
         //act
-        var bool = service.removeProductById(-2);
+
         //assert
-        assertFalse(bool);
+        assertThrows(Exception.class, () ->
+                service.removeProductById(-2));
     }
 
     @Test
@@ -98,7 +101,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void updateProductWithoutIdImageShouldNotSucceed() throws Exception{
+    void updateProductWithoutIdImageShouldNotSucceed() {
         //arrange
         Product updatedProduct = new Product();
         updatedProduct.setId(1);
@@ -108,13 +111,14 @@ class ProductServiceTests {
         updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),new Image("image_url")));
 
         //act
-        Product product = service.updateProductById(1, updatedProduct);
+
         //assert
-        assertNull(product);
+        assertThrows(Exception.class, () ->
+                service.updateProductById(1, updatedProduct));
     }
 
     @Test
-    void updateProductWithoutDescriptionShouldNotSucceed() throws Exception{
+    void updateProductWithoutDescriptionShouldNotSucceed() {
         //arrange
         Product updatedProduct = new Product();
         updatedProduct.setId(1);
@@ -124,29 +128,31 @@ class ProductServiceTests {
         updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),new Image("image_url")));
 
         //act
-       Product product = service.updateProductById(1, updatedProduct);
+
         //assert
-        assertNull(product);
+        assertThrows(Exception.class, () ->
+                service.updateProductById(1, updatedProduct));
     }
 
     @Test
-    void updateProductWithoutNameShouldNotSucceed() throws Exception{
+    void updateProductWithoutNameShouldNotSucceed() {
         //arrange
         Product updatedProduct = new Product();
         updatedProduct.setId(1);
         updatedProduct.setImage(new Image("url"));
         updatedProduct.setDescription("description");
         updatedProduct.setPrice(10.50);
+        updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),new Image("image_url")));
 
         //act
-       updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),new Image("image_url")));
-        Product product = service.updateProductById(1, updatedProduct);
+
         //assert
-        assertNull(product);
+        assertThrows(Exception.class, () ->
+                service.updateProductById(1, updatedProduct));
     }
 
     @Test
-    void updateProductWithoutPriceShouldNotSucceed() throws Exception{
+    void updateProductWithoutPriceShouldNotSucceed() {
         //arrange
         Product updatedProduct = new Product();
         updatedProduct.setId(1);
@@ -156,92 +162,94 @@ class ProductServiceTests {
         updatedProduct.setRetailer(new Retailer(0, new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),new Image("image_url")));
 
         //act
-        Product product = service.updateProductById(1, updatedProduct);
-        //assert
-        assertNull(product);
-    }
 
-    @Test
-    void updateProductWithoutRetailerShouldNotSucceed() throws Exception{
-        //arrange
-        Product updatedProduct = new Product();
-        updatedProduct.setId(1);
-        updatedProduct.setImage(new Image("url"));
-        updatedProduct.setDescription("description");
-        updatedProduct.setName("product name");
-        updatedProduct.setPrice(10.50);
-        //act
-
-        Product product = service.updateProductById(1, updatedProduct);
         //assert
-        assertNull(product);
+        assertThrows(Exception.class, () ->
+                service.updateProductById(1, updatedProduct));
     }
 
     @Test
     void createReviewOnProductShouldSucceed() throws Exception{
         //arrange
-        Review review = new Review(4.5, "body", LocalDate.parse("2018-10-02"), new Customer(), new Product());
-        review.setId(1);
+        Customer customer = new Customer();
+        customer.setId(1);
+        Product product = new Product();
+        product.setId(1);
+        Review review = new Review();
+        review.setCustomer(customer);
+        review.setProduct(product);
+        review.setRating(4.5);
+        review.setBody("review body");
         //act
-
         service.createReviewOnProductById(1, review);
         //assert
-        assertEquals(1, review.getId());
+        assertEquals(0, review.getId());
     }
 
     @Test
-    void createReviewOnProductWithoutCustomerShouldNotSucceed() throws Exception{
+    void createReviewOnProductWithoutCustomerShouldNotSucceed() {
+        //arrange
+        Product product = new Product();
+        product.setId(1);
+        Review newReview = new Review();
+        newReview.setId(1);
+        newReview.setBody("body");
+        newReview.setRating(4.5);
+        newReview.setProduct(product);
+        //act
+
+        //assert
+        assertThrows(Exception.class, () ->
+                service.createReviewOnProductById(1, newReview));
+    }
+
+    @Test
+    void createReviewOnProductWithoutBodyShouldNotSucceed() {
+        //arrange
+        Product product = new Product();
+        product.setId(1);
+        Review newReview = new Review();
+        newReview.setCustomer(new Customer());
+        newReview.setId(1);
+        newReview.setRating(4.5);
+        newReview.setProduct(product);
+        //act
+
+        //assert
+        assertThrows(Exception.class, () ->
+                service.createReviewOnProductById(1, newReview));
+    }
+
+    @Test
+    void createReviewOnProductWithoutRatingShouldNotSucceed(){
+        //arrange
+        Product product = new Product();
+        product.setId(1);
+        Review newReview = new Review();
+        newReview.setCustomer(new Customer());
+        newReview.setId(1);
+        newReview.setBody("body");
+        newReview.setProduct(product);
+        //act
+
+        //assert
+        assertThrows(Exception.class, () ->
+                service.createReviewOnProductById(1, newReview));
+    }
+
+    @Test
+    void createReviewOnProductWithNegativeIdsShouldNotSucceed(){
         //arrange
         Review newReview = new Review();
+        newReview.setCustomer(new Customer());
         newReview.setId(1);
         newReview.setBody("body");
         newReview.setRating(4.5);
         //act
 
-        Review review = service.createReviewOnProductById(1, newReview);
         //assert
-        assertNull(review);
-    }
-
-    @Test
-    void createReviewOnProductWithoutBodyShouldNotSucceed() throws Exception{
-        //arrange
-        Review newReview = new Review();
-        newReview.setCustomer(new Customer());
-        newReview.setId(1);
-        newReview.setRating(4.5);
-        //act
-        Review review = service.createReviewOnProductById(1, newReview);
-        //assert
-        assertNull(review);
-    }
-
-    @Test
-    void createReviewOnProductWithoutRatingShouldNotSucceed() throws Exception{
-        //arrange
-        Review newReview = new Review();
-        newReview.setCustomer(new Customer());
-        newReview.setId(1);
-        newReview.setBody("body");
-        //act
-        Review review = service.createReviewOnProductById(1, newReview);
-        //assert
-        assertNull(review);
-    }
-
-    @Test
-    void createReviewOnProductWithNegativeIdsShouldNotSucceed() throws Exception{
-        //arrange
-        Review newReview = new Review();
-        newReview.setCustomer(new Customer());
-        newReview.setId(1);
-        newReview.setBody("body");
-        newReview.setRating(4.5);
-        //act
-
-        Review review = service.createReviewOnProductById(-3, newReview);
-        //assert
-        assertNull(review);
+        assertThrows(Exception.class, () ->
+                service.createReviewOnProductById(-3, newReview));
     }
 
     @Test
@@ -260,7 +268,7 @@ class ProductServiceTests {
     }
 
     @Test
-    void browseProductsWithNegativeMinPriceShouldNotSucceed()throws Exception{
+    void browseProductsWithNegativeMinPriceShouldNotSucceed(){
         //arrange
         BrowseVars fields = new BrowseVars();
         fields.maxPrice = 50;
@@ -268,13 +276,14 @@ class ProductServiceTests {
         fields.query = "new query";
         fields.minRating = 3.5;
         //act
-        List<Product> products = service.browseProducts(fields);
+
         //assert
-        assertNull(products);
+        assertThrows(Exception.class, () ->
+                service.browseProducts(fields));
     }
 
     @Test
-    void browseProductsWithNegativeMaxPriceShouldNotSucceed()throws Exception{
+    void browseProductsWithNegativeMaxPriceShouldNotSucceed(){
         //arrange
         BrowseVars fields = new BrowseVars();
         fields.maxPrice = -50;
@@ -282,13 +291,14 @@ class ProductServiceTests {
         fields.query = "new query";
         fields.minRating = 3.5;
         //act
-        List<Product> products = service.browseProducts(fields);
+
         //assert
-        assertNull(products);
+        assertThrows(Exception.class, () ->
+                service.browseProducts(fields));
     }
 
     @Test
-    void browseProductsWithMinPriceGreaterThanMaxPriceShouldNotSucceed()throws Exception{
+    void browseProductsWithMinPriceGreaterThanMaxPriceShouldNotSucceed(){
         //arrange
         BrowseVars fields = new BrowseVars();
         fields.maxPrice = 50;
@@ -296,13 +306,14 @@ class ProductServiceTests {
         fields.query = "new query";
         fields.minRating = 3.5;
         //act
-        List<Product> products = service.browseProducts(fields);
+
         //assert
-        assertNull(products);
+        assertThrows(Exception.class, () ->
+                service.browseProducts(fields));
     }
 
     @Test
-    void browseProductsWithNegativeTargetRatingShouldNotSucceed()throws Exception{
+    void browseProductsWithNegativeMinRatingShouldNotSucceed(){
         //arrange
         BrowseVars fields = new BrowseVars();
         fields.maxPrice = 50;
@@ -310,21 +321,9 @@ class ProductServiceTests {
         fields.query = "new query";
         fields.minRating = -3.5;
         //act
-        List<Product> products = service.browseProducts(fields);
-        //assert
-        assertNull(products);
-    }
 
-    @Test
-    void browseProductsWithoutQueryShouldNotSucceed()throws Exception{
-        //arrange
-        BrowseVars fields = new BrowseVars();
-        fields.maxPrice = 50;
-        fields.minPrice = 5;
-        fields.minRating = -3.5;
-        //act
-        List<Product> products = service.browseProducts(fields);
         //assert
-        assertNull(products);
+        assertThrows(Exception.class, () ->
+                service.browseProducts(fields));
     }
 }

@@ -21,12 +21,14 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProductById(int id)throws Exception{
-        if(id < 0) return null;
+        if(id < 0) throw new Exception("Id not valid");
         try{
             Product product = repository.getProductById(id);
-            for(Review review : product.getReviews()){
-                review.setProduct(null);
-                review.getCustomer().setReviews(null);
+            if(product.getReviews() != null){
+                for(Review review : product.getReviews()){
+                    review.setProduct(null);
+                    review.getCustomer().setReviews(null);
+                }
             }
             return product;
         }catch (Exception e){
@@ -36,6 +38,7 @@ public class ProductService implements IProductService {
 
     @Override
     public boolean removeProductById(int id)throws Exception{
+        if(id < 0) throw new Exception("Id not valid");
         try{
             Product productToRemove = repository.getProductById(id);
             if(productToRemove == null) return false;
@@ -70,7 +73,7 @@ public class ProductService implements IProductService {
                     review.getCustomer() == null ||
                     review.getRating() == 0 ||
                     id <= 0){
-                return null;
+                throw new Exception("Review not valid");
             }
             review.setCreated(LocalDate.now());
             repository.createReviewOnProductById(id, review);
@@ -97,9 +100,12 @@ public class ProductService implements IProductService {
 
     private double calculateRating(List<Review> reviews){
         double output = 0.0;
-        for(Review review : reviews){
-            output += review.getRating();
+        if(reviews !=null){
+            for(Review review : reviews){
+                output += review.getRating();
+            }
+            output = output / reviews.size();
         }
-        return output / reviews.size();
+        return output;
     }
 }

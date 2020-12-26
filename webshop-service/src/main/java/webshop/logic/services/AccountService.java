@@ -2,6 +2,7 @@ package webshop.logic.services;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import javassist.NotFoundException;
 import webshop.logic.interfaces.IAccountService;
 import webshop.persistence.interfaces.IAccountRepository;
 import webshop.service.models.Account;
@@ -23,15 +24,16 @@ public class AccountService implements IAccountService {
 
     public Account isAccountValid(String details, String password)throws Exception{
         try{
-            if(details.isEmpty() && password.isEmpty()) throw new Exception("Credentials missing");
+            if(details.isEmpty() || details == null
+                    && password.isEmpty() || password == null) throw new NullPointerException("Credentials missing");
             List<Account> accounts = repository.getAccountByDetails(details);
-            if(accounts.isEmpty()) throw new Exception("No account found");
+            if(accounts.isEmpty()) throw new NotFoundException("Account not found");
             for(Account account : accounts){
                 if(account.getPassword().equals(password)){
                     return account;
                 }
             }
-            throw new Exception("No account found");
+            throw new NotFoundException("Account not found");
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }

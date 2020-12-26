@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.TestCase.assertNull;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -54,32 +53,41 @@ class AccountServiceTests {
     }
 
     @Test
-    void isAccountValidWithoutUserDetailsShouldSucceed() throws Exception {
+    void isAccountValidWithoutUserDetailsShouldNotSucceed(){
         //arrange
 
         //act
-        var account = service.isAccountValid("", "abcd");
+
         //assert
-        assertNull(account);
+        assertThrows(Exception.class, () ->
+                service.isAccountValid("", "abcd"));
+        assertThrows(Exception.class, () ->
+                service.isAccountValid(null, "abcd"));
     }
 
     @Test
-    void isAccountValidWithoutPasswordDetailsShouldNotSucceed() throws Exception {
+    void isAccountValidWithoutPasswordDetailsShouldNotSucceed(){
         //arrange
 
         //act
-        var account = service.isAccountValid("peter", "");
+
         //assert
-        assertNull(account);
+        assertThrows(Exception.class, () ->
+                service.isAccountValid("peter", ""));
+        assertThrows(Exception.class, () ->
+                service.isAccountValid("peter", null));
     }
 
+
     @Test
-    void isAccountValidWithoutPasswordAndDetailsDetailsShouldSucceed() throws Exception {
+    void isAccountValidWithoutPasswordAndDetailsDetailsShouldSucceed() {
         //arrange
 
         //act
-        var account = service.isAccountValid("", "");
         //assert
-        assertNull(account);
+        assertThrows(Exception.class, () ->
+                service.isAccountValid("", ""));
+        assertThrows(Exception.class, () ->
+                service.isAccountValid(null, null));
     }
 }

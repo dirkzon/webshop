@@ -23,9 +23,11 @@ public class CustomerService implements ICustomerService {
         try{
             if(id < 0) throw new Exception("No id");
             Customer customer = repository.getCustomerById(id);
-            for(Review review : customer.getReviews()){
-                review.getProduct().setReviews(null);
-                review.setCustomer(null);
+            if(customer.getReviews() != null){
+                for(Review review : customer.getReviews()){
+                    review.getProduct().setReviews(null);
+                    review.setCustomer(null);
+                }
             }
             return customer;
         }catch (Exception e){
@@ -57,7 +59,7 @@ public class CustomerService implements ICustomerService {
                 customer.getAccount().setRole(UserRole.Customer);
                 return repository.updateCustomerById(id, customer);
             }
-            throw new Exception("Customer not valid.");
+            throw new Exception("Customer not valid");
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }

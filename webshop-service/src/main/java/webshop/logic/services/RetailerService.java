@@ -94,7 +94,7 @@ public class RetailerService implements IRetailerService {
                     product.getImage() == null ||
                     product.getPrice() == null ||
                     product.getPrice() < 0) {
-                return null;
+                throw new Exception("Product not valid");
             }
             product.setCreated(LocalDate.now());
             Retailer retailer = repository.getRetailerById(id);

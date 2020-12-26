@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.TestCase.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
@@ -41,11 +40,13 @@ class RetailerServiceTests {
         List<Product> products = new ArrayList<>();
         products.add(new Product(0, "tv", 200.0, "description tv", LocalDate.parse("2020-01-08"),retailer1,2.5, image));
         products.add(new Product(1, "mouse", 15.50, "computer mouse", LocalDate.parse("2020-11-29"),retailer1,4.5, image));
+        products.get(0).setReviews(new ArrayList<>());
+        products.get(1).setReviews(new ArrayList<>());
 
         when(repository.getRetailerById(0)).thenReturn(retailers.get(0));
         when(repository.saveRetailer(any(Retailer.class))).thenReturn(retailer1);
         when(repository.updateRetailerById(anyInt(), any(Retailer.class))).thenReturn(retailers.get(0));
-        when(repository.getProductsInCatalog(0)).thenReturn(products);
+        when(repository.getProductsInCatalog(1)).thenReturn(products);
         when(repository.createNewProductInCatalog(any(int.class), any(Product.class))).thenReturn(products.get(0));
     }
 
@@ -60,13 +61,14 @@ class RetailerServiceTests {
     }
 
     @Test
-    void getRetailerByIdWithNegativeIdShouldSucceed() throws Exception{
+    void getRetailerByIdWithNegativeIdShouldSucceed() {
         //arrange
 
         //act
-        Retailer retailer = service.getRetailerById(-3);
+
         //assert
-        assertNull(retailer);
+        assertThrows(Exception.class, () ->
+                service.getRetailerById(-3));
     }
 
     @Test
@@ -82,25 +84,15 @@ class RetailerServiceTests {
     }
 
     @Test
-    void saveRetailerMissingAccountShouldNotSucceed() throws Exception{
+    void saveRetailerMissingAccountShouldNotSucceed() {
         //arrange
         Retailer newRetailer = new Retailer();
         newRetailer.setAvatar(new Image("testurl"));
         //act
-        Retailer retailer = service.saveRetailer(newRetailer);
-        //assert
-        assertNull(retailer);
-    }
 
-    @Test
-    void saveRetailerMissingAvatarShouldNotSucceed() throws Exception{
-        //arrange
-        Retailer newRetailer = new Retailer();
-        newRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
-        //act
-        Retailer retailer = service.saveRetailer(newRetailer);
         //assert
-        assertNull(retailer);
+        assertThrows(Exception.class, () ->
+                service.saveRetailer(newRetailer));
     }
 
     @Test
@@ -117,40 +109,43 @@ class RetailerServiceTests {
     }
 
     @Test
-    void updateRetailerMissingAccountShouldNotSucceed() throws Exception{
+    void updateRetailerMissingAccountShouldNotSucceed() {
         //arrange
         Retailer updatedRetailer = new Retailer();
         updatedRetailer.setAvatar(new Image("testurl"));
         updatedRetailer.setId(0);
         //act
-        Retailer retailer = service.updateRetailerById(0,updatedRetailer);
+
         //assert
-        assertNull(retailer);
+        assertThrows(Exception.class, () ->
+                service.updateRetailerById(0,updatedRetailer));
     }
 
     @Test
-    void updateRetailerMissingAvatarShouldNotSucceed() throws Exception{
+    void updateRetailerMissingAvatarShouldNotSucceed() {
         //arrange
         Retailer updatedRetailer = new Retailer();
         updatedRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
         updatedRetailer.setId(0);
         //act
-        Retailer retailer = service.updateRetailerById(0,updatedRetailer);
+
         //assert
-        assertNull(retailer);
+        assertThrows(Exception.class, () ->
+                service.updateRetailerById(0,updatedRetailer));
     }
 
     @Test
-    void updateRetailerWithNegativeIdShouldNotSucceed() throws Exception{
+    void updateRetailerWithNegativeIdShouldNotSucceed(){
         //arrange
         Retailer updatedRetailer = new Retailer();
         updatedRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
         updatedRetailer.setAvatar(new Image("testurl"));
         updatedRetailer.setId(-2);
         //act
-        Retailer retailer = service.updateRetailerById(0,updatedRetailer);
+
         //assert
-        assertNull(retailer);
+        assertThrows(Exception.class, () ->
+                service.updateRetailerById(0,updatedRetailer));
     }
 
     @Test
@@ -162,14 +157,14 @@ class RetailerServiceTests {
         expected.add(new Product(0, "tv", 200.0, "description tv", LocalDate.parse("2020-01-08"),retailer,2.5, image));
         expected.add(new Product(1, "mouse", 15.50, "computer mouse", LocalDate.parse("2020-11-29"),retailer,4.5, image));
         //act
-        List<Product> actual = service.getAllProductsInCatalog(0);
+        List<Product> actual = service.getAllProductsInCatalog(1);
         //assert
         assertEquals(expected.get(0).getId(), actual.get(0).getId());
         assertEquals(expected.get(1).getId(), actual.get(1).getId());
     }
 
     @Test
-    void createNewProduct() throws Exception{
+    void createNewProductShouldSucceed() throws Exception{
         //arrange
         Product newProduct = new Product();
         newProduct.setDescription("description tv");
@@ -184,7 +179,7 @@ class RetailerServiceTests {
     }
 
     @Test
-    void createNewProductMissingDescriptionShouldNotSucceed() throws Exception{
+    void createNewProductMissingDescriptionShouldNotSucceed() {
         //arrange
         Product newProduct = new Product();
         newProduct.setImage(new Image("testurl"));
@@ -192,13 +187,14 @@ class RetailerServiceTests {
         newProduct.setPrice(200.0);
         newProduct.setId(0);
         //act
-        Product product = service.createNewProduct(0, newProduct);
+
         //assert
-        assertNull(product);
+        assertThrows(Exception.class, () ->
+                service.createNewProduct(0, newProduct));
     }
 
     @Test
-    void createNewProductMissingNameShouldNotSucceed() throws Exception{
+    void createNewProductMissingNameShouldNotSucceed() {
         //arrange
         Product newProduct = new Product();
         newProduct.setImage(new Image("testurl"));
@@ -206,13 +202,14 @@ class RetailerServiceTests {
         newProduct.setPrice(200.0);
         newProduct.setId(0);
         //act
-        Product product = service.createNewProduct(0, newProduct);
+
         //assert
-        assertNull(product);
+        assertThrows(Exception.class, () ->
+                service.createNewProduct(0, newProduct));
     }
 
     @Test
-    void createNewProductMissingPriceShouldNotSucceed() throws Exception{
+    void createNewProductMissingPriceShouldNotSucceed() {
         //arrange
         Product newProduct = new Product();
         newProduct.setImage(new Image("testurl"));
@@ -220,13 +217,14 @@ class RetailerServiceTests {
         newProduct.setDescription("description tv");
         newProduct.setId(0);
         //act
-        Product product = service.createNewProduct(0, newProduct);
+
         //assert
-        assertNull(product);
+        assertThrows(Exception.class, () ->
+                service.createNewProduct(0, newProduct));
     }
 
     @Test
-    void createNewProductMissingImageShouldNotSucceed()throws Exception {
+    void createNewProductMissingImageShouldNotSucceed(){
         //arrange
         Product newProduct = new Product();
         newProduct.setPrice(200.0);
@@ -234,8 +232,9 @@ class RetailerServiceTests {
         newProduct.setDescription("description tv");
         newProduct.setId(0);
         //act
-        Product product = service.createNewProduct(0, newProduct);
+
         //assert
-        assertNull(product);
+        assertThrows(Exception.class, () ->
+                service.createNewProduct(0, newProduct));
     }
 }
