@@ -1,11 +1,8 @@
 <template>
   <v-row style="padding: 20px">
     <Review v-bind:review="report.review"></Review>
-    <v-divider
-        vertical
-    ></v-divider>
-    <div style="margin-top: 60px">
-      <v-col style="padding: 30px">
+    <div>
+      <v-row style="padding: 30px">
         <div>
           <v-btn @click="removeReview"
                  color="#ec5858"
@@ -27,7 +24,7 @@
             Dismiss
           </v-btn>
         </div>
-      </v-col>
+      </v-row>
     </div>
   </v-row>
 </template>

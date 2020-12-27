@@ -1,9 +1,13 @@
 <template>
   <div>
     <TopBar></TopBar>
-    <div v-bind:key="report.id" v-for="report in reports">
-      <Report v-bind:report="report"></Report>
-    </div>
+    <span v-if="reports.length == 0"> No reports.</span>
+    <v-col style="width: min-content; padding: 50px">
+      <div v-bind:key="report.id" v-for="report in reports">
+        <Report v-bind:report="report"></Report>
+        <v-divider></v-divider>
+      </div>
+    </v-col>
   </div>
 </template>
 
@@ -22,9 +26,7 @@ export default {
     }
   },
   async mounted() {
-    let reports = await reportService.getAllReportsForRetailer();
-    console.log(reports);
-    this.reports = reports;
+    this.reports = await reportService.getAllReportsForRetailer();
   }
 }
 </script>
