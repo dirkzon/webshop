@@ -81,7 +81,6 @@ export default{
       this.$cookies.set("scope", response.scope, "1d")
       this.$cookies.set("cart", JSON.stringify([]))
       await this.$router.push('/')
-      window.location.reload()
     }
 }
 

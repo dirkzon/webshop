@@ -3,7 +3,17 @@
       class="mx-8 my-8"
       width="600px">
     <v-responsive :aspect-ratio="16/7" >
-      <UserCard v-bind:user="review.customer"></UserCard>
+      <v-row>
+        <UserCard v-bind:user="review.customer"></UserCard>
+        <v-spacer></v-spacer>
+        <v-btn v-if="review.canReport"
+               @click="report"
+               style="margin:20px"
+               flat
+               icon>
+          <v-icon >report</v-icon>
+        </v-btn>
+      </v-row>
       <v-divider></v-divider>
       <v-subheader>
         <v-rating :value="review.rating"
@@ -33,7 +43,12 @@ import UserCard from "@/components/UserCard";
 export default {
   name: "Review",
   components: {UserCard},
-  props:["review"]
+  props:["review"],
+  methods:{
+    report: function(){
+      this.$emit('report', this.review.id);
+    }
+  }
 }
 </script>
 

@@ -38,3 +38,5 @@ insert into products(product_id, created, description, name, price, rating, imag
 
 insert into reviews(id, body, created, rating, customer_id, prod_id) values('1', 'body', '2020-06-14', '4.0', '1', '1')
 
+insert into reports(id, review_id, retailer_id) values('1', '1', '1')
+

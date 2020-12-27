@@ -49,6 +49,9 @@ public class Review {
             foreignKey=@ForeignKey(name = "review_product_id"))
     @JsonIgnore private Product product;
 
+    @Transient
+    private boolean canReport = false;
+
     public int getId() {
         return id;
     }
@@ -98,4 +101,8 @@ public class Review {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+    public boolean isCanReport() {return canReport; }
+
+    public void setCanReport(boolean canReport) { this.canReport = canReport; }
 }

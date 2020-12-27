@@ -34,7 +34,6 @@ public class RetailerRepository implements IRetailerRepository {
         }finally {
             em.close();
         }
-
     }
 
     @Override

@@ -25,12 +25,14 @@ public class DependencyBinder extends AbstractBinder {
         bind(RetailerRepository.class).to(IRetailerRepository.class);
         bind(AccountRepository.class).to(IAccountRepository.class);
         bind(ProductRepository.class).to(IProductRepository.class);
+        bind(ReportRepository.class).to(IReportRepository.class);
 
         //services
         bind(CustomerService.class).to(ICustomerService.class);
         bind(RetailerService.class).to(IRetailerService.class);
         bind(AccountService.class).to(IAccountService.class);
         bind(ProductService.class).to(IProductService.class);
+        bind(ReportService.class).to(IReportService.class);
 
         //context
         if(context.equals("Memory")){

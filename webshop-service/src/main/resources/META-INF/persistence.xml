@@ -11,6 +11,7 @@
         <class>webshop.service.models.Product</class>
         <class>webshop.service.models.Image</class>
         <class>webshop.service.models.Review</class>
+        <class>webshop.service.models.Report</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
@@ -36,6 +37,7 @@
         <class>webshop.service.models.Product</class>
         <class>webshop.service.models.Image</class>
         <class>webshop.service.models.Review</class>
+        <class>webshop.service.models.Report</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>

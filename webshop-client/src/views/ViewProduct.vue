@@ -49,7 +49,7 @@
       </v-card>
     </v-row>
     <div v-bind:key="review.id" v-for="review in product.reviews">
-      <Review v-bind:review="review"></Review>
+      <Review v-bind:review="review" @report="report"></Review>
     </div>
     <v-card
         :disabled="!product.canReview"
@@ -103,6 +103,8 @@ import TopBar from "@/components/TopBar";
 import productService from "@/services/product-service";
 import UserCard from "@/components/UserCard";
 import Review from "@/components/Review";
+
+import reportService from "@/services/report-service"
 
 export default {
   name: "ViewProduct",
@@ -162,6 +164,18 @@ export default {
      },
      editProduct: function(){
       this.$router.push({name: 'editProduct' , params: {id:this.product.id}})
+     },
+     report: async function(review_id){
+      alert("Review has been reported");
+      let report = JSON.stringify({
+        retailer: {
+          id: this.product.retailer.id,
+        },
+        review:{
+          id: review_id
+        }
+      })
+      await reportService.reportReview(report);
      }
   }
 }

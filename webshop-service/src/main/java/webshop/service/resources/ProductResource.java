@@ -47,7 +47,10 @@ public class ProductResource {
                 product.setCanReview(false);
             }else{
                 for(Review review : product.getReviews()){
-                    if(review.getCustomer().getId() == userId) product.setCanReview(false);
+                    if(review.getCustomer().getId() == userId){
+                        product.setCanReview(false);
+                    }
+                    review.setCanReport(true);
                 }
             }
             return Response.ok(product).build();

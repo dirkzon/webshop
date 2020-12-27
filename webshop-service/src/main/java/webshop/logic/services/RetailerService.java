@@ -20,7 +20,7 @@ public class RetailerService implements IRetailerService {
     @Override
     public Retailer getRetailerById(int id)throws Exception{
         try{
-            if(id < 0) throw new Exception("No id");
+            if(id < 0) throw new Exception("Invalid id");
             return repository.getRetailerById(id);
         }catch (Exception e){
             throw new Exception(e.getMessage());

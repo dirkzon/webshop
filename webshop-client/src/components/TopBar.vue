@@ -77,6 +77,11 @@
           <v-list-item-title>shopping cart</v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>
+        <v-list-item v-if="scope == 'Retailer'" v-on:click="goToReports">
+          <v-icon large>report</v-icon>
+          <v-list-item-title>reports</v-list-item-title>
+        </v-list-item>
+        <v-divider></v-divider>
         <v-list-item>
           <v-icon large>exit_to_app</v-icon>
           <v-list-item-title v-on:click="logOut">log out</v-list-item-title>
@@ -127,6 +132,9 @@ export default {
     },
     goToCart: function(){
       router.push({name: 'shoppingCart'})
+    },
+    goToReports: function(){
+      router.push({name: 'viewReports'})
     }
   }
 }

@@ -67,5 +67,11 @@ export default new Router({
             component:() =>
                 import("./views/EditProduct")
         },
+        {
+            path: '/reports',
+            name:'viewReports',
+            component:() =>
+                import("./views/ViewReports")
+        },
     ]
 })
