@@ -46,6 +46,8 @@ public class ReportService implements IReportService {
 
     @Override
     public Report reportReview(Report report)throws Exception{
+        if(report.getReview().getId() < 0 || report.getRetailer().getId() < 0)
+            throw new Exception("Report not valid");
         try{
             Report newReport = repository.reportReview(report);
             newReport.getReview().getCustomer().setReviews(null);
