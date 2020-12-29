@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
+    "cypress": "^6.2.0",
     "prismic-dom": "^2.2.4",
     "prismic-javascript": "^3.0.2",
     "prismic-vue": "^2.0.1",
