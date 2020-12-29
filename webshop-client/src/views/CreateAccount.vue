@@ -8,12 +8,14 @@
           <v-divider></v-divider>
           <v-card-subtitle>your e-mail:</v-card-subtitle>
           <v-form
-              v-model="valid">
+              v-model="valid"
+              data-cy="createAccountForm">
             <v-text-field
                 v-model="email"
                 :rules="emailRules"
                 outlined
                 required
+                data-cy="email"
             ></v-text-field>
             <v-card-subtitle>username:</v-card-subtitle>
             <v-text-field
@@ -22,6 +24,7 @@
                 :rules="requiredFieldRules"
                 outlined
                 required
+                data-cy="username"
             ></v-text-field>
             <v-card-subtitle>password:</v-card-subtitle>
             <v-text-field
@@ -31,13 +34,15 @@
                 :rules="requiredFieldRules"
                 outlined
                 required
+                data-cy="password"
             ></v-text-field>
             <v-card-subtitle>account type:</v-card-subtitle>
             <v-select
                 required
                 outlined
                 v-model="type"
-                :items="items">
+                :items="items"
+                data-cy="accountType">
             </v-select>
             <div v-if='type == "Customer"'>
               <v-card-title>address:</v-card-title>
@@ -48,6 +53,7 @@
                   :rules="requiredFieldRules"
                   outlined
                   required
+                  data-cy="country"
               ></v-text-field>
               <v-card-subtitle>Street name:</v-card-subtitle>
               <v-text-field
@@ -55,6 +61,7 @@
                   :rules="requiredFieldRules"
                   outlined
                   required
+                  data-cy="streetName"
               ></v-text-field>
               <v-card-subtitle>House number:</v-card-subtitle>
               <v-text-field
@@ -63,6 +70,7 @@
                   :rules="requiredNumberRules"
                   outlined
                   required
+                  data-cy="houseNumber"
               ></v-text-field>
             </div>
             <v-card-text class="red--text">{{errormsg}}</v-card-text>
@@ -70,7 +78,8 @@
                 :disabled="!valid"
                 @click="CreateAccount()"
                 class="mx-2 my-2"
-                color="secondary">
+                color="secondary"
+                data-cy="createAccount">
               <v-icon dark>
                 done
               </v-icon>

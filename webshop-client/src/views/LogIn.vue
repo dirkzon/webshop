@@ -8,12 +8,14 @@
           <v-divider></v-divider>
           <v-card-subtitle>username or e-mail:</v-card-subtitle>
           <v-form
-              v-model="valid">
+              v-model="valid"
+              data-cy="loginForm">
           <v-text-field
               v-model="username"
               :rules="userNameRules"
               outlined
               required
+              data-cy="username"
           ></v-text-field>
           <v-card-subtitle>password:</v-card-subtitle>
           <v-text-field
@@ -22,13 +24,15 @@
               :rules="passwordRules"
               outlined
               required
+              data-cy="password"
           ></v-text-field>
           <v-card-text class="red--text">{{errormsg}}</v-card-text>
           <v-btn
               :disabled="!valid"
               @click="LogIn()"
               class="mx-2 my-2"
-              color="secondary">
+              color="secondary"
+              data-cy="loginButton">
             <v-icon dark>
               login
             </v-icon>
@@ -38,7 +42,8 @@
           <v-btn
               @click="test()"
               class="mx-2 my-2"
-              color="#cdc9c3">
+              color="#cdc9c3"
+              data-cy="createAccountButton">
             <v-icon dark>
               add
             </v-icon>
