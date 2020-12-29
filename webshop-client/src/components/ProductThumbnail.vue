@@ -27,7 +27,8 @@
                   length="5"
         ></v-rating>
         <v-divider></v-divider>
-        <v-card-subtitle style="font-size: 20px"> $ {{product.price.toFixed(2)}}</v-card-subtitle>
+        <v-card-subtitle style="font-size: 20px"
+                         data-cy="price"> $ {{product.price.toFixed(2)}}</v-card-subtitle>
       </div>
     </v-responsive>
   </v-card>

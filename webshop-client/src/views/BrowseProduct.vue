@@ -17,7 +17,8 @@
                         min="1"
                         :max="maxPrice - 1"
                         color="warning"
-                        v-model="minPrice">
+                        v-model="minPrice"
+                        data-cy="minPrice">
           </v-text-field>
 
           <v-card-subtitle class="font-weight-bold">max price:</v-card-subtitle>
@@ -26,7 +27,8 @@
                         v-on:change="browse"
                         v-on:click="browse"
                         :min="minPrice"
-                        v-model="maxPrice">
+                        v-model="maxPrice"
+                        data-cy="maxPrice">
           </v-text-field>
 
           <v-card-subtitle class="font-weight-bold">min rating:</v-card-subtitle>
@@ -40,6 +42,7 @@
                     full-icon="star"
                     half-icon="star_half"
                     length="5"
+                    data-cy="minRating"
           ></v-rating>
 
           <v-card-subtitle class="font-weight-bold">sort by:</v-card-subtitle>

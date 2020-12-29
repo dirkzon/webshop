@@ -82,11 +82,13 @@
               full-width
               counter="200"
               v-model="body"
+              data-cy="reviewBody"
           ></v-textarea>
           <v-btn @click="createReview"
                  :disabled="!valid"
                  color="secondary"
-                style="margin: 10px">
+                 style="margin: 10px"
+                 data-cy="postReview">
             <v-icon>
               add_comment
             </v-icon>
