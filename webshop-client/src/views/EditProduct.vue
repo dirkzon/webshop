@@ -15,14 +15,16 @@
                 outlined
                 :counter="20"
                 required
-            ></v-text-field>
+                data-cy="name">
+            </v-text-field>
             <v-card-subtitle>Description:</v-card-subtitle>
             <v-textarea
                 :rules="descriptionRules"
                 v-model="description"
                 outlined
                 required
-                :counter="250">
+                :counter="250"
+                data-cy="description">
             </v-textarea>
             <v-card-subtitle>Price </v-card-subtitle>
             <v-text-field
@@ -31,20 +33,23 @@
                 outlined
                 aria-required="true"
                 prefix="$"
-                type="number">
+                type="number"
+                data-cy="price">
             </v-text-field>
             <v-card-subtitle>Image url </v-card-subtitle>
             <v-text-field
                 v-model="image"
                 outlined
                 aria-required="true"
-                :rules="descriptionRules">
+                :rules="descriptionRules"
+                data-cy="image">
             </v-text-field>
             <v-btn
                 @click="UpdateProduct"
                 :disabled="!valid"
                 class="mx-2 my-2"
-                color="secondary">
+                color="secondary"
+                data-cy="update">
               <v-icon dark>
                 save
               </v-icon>
@@ -56,7 +61,8 @@
           <v-btn
               @click="remove_warning = true"
               class="mx-2 my-2"
-              color="#f05454">
+              color="#f05454"
+              data-cy="remove">
             <v-icon dark>
               delete
             </v-icon>
@@ -82,7 +88,8 @@
             <v-btn
                 @click="DeleteProduct"
                 color="warning"
-                text>
+                text
+                data-cy="confirmRemove">
               Yes, remove {{ name }}
             </v-btn>
           </v-card-actions>

@@ -1,6 +1,5 @@
 describe("Create review", function () {
 
-
     context("Successfully create a review on a product", function () {
         beforeEach(function () {
             cy.server();

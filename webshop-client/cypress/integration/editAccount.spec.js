@@ -3,11 +3,11 @@ describe("Editing account", function () {
         beforeEach(function () {
             cy.clearCookie("access_token")
             cy.setCookie("access_token", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5rIiwianRpIjoiMSIsIlJvbGUiOiJDdXN0b21lciIsImlhdCI6MTYwOTQwODUwNn0.-FiQD0LTRPqbywjC0Qhp9hbH9S_zkPhkYHvtunER0nA")
+            cy.visit("/customer/me");
+            cy.wait(2000)
         });
 
         it("Successfully update customer account", () => {
-            cy.visit("/customer/me");
-            cy.wait(2000)
             cy.get("[data-cy=username]").clear().type("updated_name");
             cy.get("[data-cy=email]").clear().type("updated_email");
             cy.get("[data-cy=password]").clear().type("updated_password");
@@ -24,8 +24,6 @@ describe("Editing account", function () {
         });
 
         it("Successfully delete customer account", () => {
-            cy.visit("/customer/me");
-            cy.wait(2000)
             cy.get("[data-cy=remove]").click();
             cy.get("[data-cy=confirmRemove]").click();
             cy.wait(1000);
@@ -45,11 +43,11 @@ describe("Editing account", function () {
         beforeEach(function () {
             cy.clearCookie("access_token")
             cy.setCookie("access_token", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huIiwianRpIjoiMSIsIlJvbGUiOiJSZXRhaWxlciIsImlhdCI6MTYwOTQyMzMwOH0.qYkCmfEweoAbHxO5HiKX2amWWgIQjWTiE_ffKepUeVw")
+            cy.visit("/retailer/me");
+            cy.wait(2000)
         });
 
         it("Successfully update retailer account", () => {
-            cy.visit("/retailer/me");
-            cy.wait(2000)
             cy.get("[data-cy=username]").clear().type("updated_name");
             cy.get("[data-cy=email]").clear().type("updated_email");
             cy.get("[data-cy=password]").clear().type("updated_password");
@@ -60,8 +58,6 @@ describe("Editing account", function () {
         });
 
         it("Successfully delete retailer account", () => {
-            cy.visit("/retailer/me");
-            cy.wait(2000)
             cy.get("[data-cy=remove]").click();
             cy.get("[data-cy=confirmRemove]").click();
             cy.wait(1000);

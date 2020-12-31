@@ -3,7 +3,8 @@
     <TopBar></TopBar>
     <v-row>
       <v-card width="40%" height="min-content">
-          <v-img :src="product.image.url">
+          <v-img :src="product.image.url"
+                  data-cy="image">
           </v-img>
       </v-card>
 
