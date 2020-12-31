@@ -24,7 +24,8 @@
               <v-btn style="margin:20px"
                       @click="removeProduct(product.id)"
                      flat
-                     icon>
+                     icon
+                     data-cy="remove">
                 <v-icon x-large>delete</v-icon>
               </v-btn>
             </v-row>
@@ -34,7 +35,7 @@
       <v-divider></v-divider>
     </v-col>
 
-    <v-card-title>Total: ${{total.toFixed(2)}}</v-card-title>
+    <v-card-title data-cy="total">Total: ${{total.toFixed(2)}}</v-card-title>
   </div>
 </template>
 
@@ -54,6 +55,7 @@ export default {
   },
   async mounted() {
     let cart = JSON.parse(this.$cookies.get("cart"));
+    console.log(cart);
     if(cart == null || cart.length < 0){
       this.error = "There are no products in your cart."
     }else{

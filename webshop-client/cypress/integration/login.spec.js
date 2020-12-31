@@ -37,8 +37,8 @@ describe("Logging in", function () {
         it("Unsuccessful login", () =>{
             cy.server();
 
-            cy.get("[data-cy=username]").type("test");
-            cy.get("[data-cy=password]").type("test");
+            cy.get("[data-cy=username]").type("invalid");
+            cy.get("[data-cy=password]").type("LetMeIn");
 
             cy.get("[data-cy=loginButton]").click();
 

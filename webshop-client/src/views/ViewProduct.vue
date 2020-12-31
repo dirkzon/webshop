@@ -40,7 +40,8 @@
         <v-btn :disabled="!canAddToCart"
                @click="addToCart"
                color="secondary"
-               style="margin: 10px">
+               style="margin: 10px"
+               data-cy="addToCart">
           <v-icon>
             shop
           </v-icon>
@@ -158,7 +159,11 @@ export default {
       this.$cookies.set("cart", JSON.stringify(cart))
      },
      canAddProductToCart: function(){
-       if(!JSON.parse(this.$cookies.get("cart").includes(this.product.id))){
+      let cart = JSON.parse(this.$cookies.get("cart"));
+       if(cart == null){
+         cart = [];
+       }
+       if(!cart.includes(this.product.id)){
          if(this.$cookies.get("scope") == "Customer"){
            this.canAddToCart = true;
          }

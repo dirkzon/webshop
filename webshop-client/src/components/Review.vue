@@ -31,7 +31,8 @@
           {{review.created}}
         </v-card-text>
       </v-subheader>
-      <v-card-text class="subtitle-2">
+      <v-card-text class="subtitle-2"
+      data-cy="body">
         {{review.body}}
       </v-card-text>
     </v-responsive>

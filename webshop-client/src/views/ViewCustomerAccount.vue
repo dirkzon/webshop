@@ -10,7 +10,7 @@
           <v-row no-gutters>
             <v-responsive :aspect-ratio="14/7" >
               <v-card flat>
-                <v-form  v-model="valid">
+                <v-form v-model="valid">
                   <v-card-title>Account:</v-card-title>
                   <v-divider></v-divider>
                   <v-card-subtitle>Name:</v-card-subtitle>
@@ -19,7 +19,8 @@
                       :rules="requiredFieldRules"
                       outlined
                       :counter="25"
-                      required>
+                      required
+                      data-cy="username">
                   </v-text-field>
                   <v-card-subtitle>e-mail:</v-card-subtitle>
                   <v-text-field
@@ -27,7 +28,8 @@
                       outlined
                       :counter="25"
                       :rules="requiredFieldRules"
-                      required>
+                      required
+                      data-cy="email">
                   </v-text-field>
                   <v-card-subtitle>password:</v-card-subtitle>
                   <v-text-field
@@ -35,7 +37,8 @@
                       outlined
                       :counter="25"
                       :rules="requiredFieldRules"
-                      required>
+                      required
+                      data-cy="password">
                   </v-text-field>
                   <v-divider></v-divider>
                   <v-card-title>Address:</v-card-title>
@@ -45,7 +48,8 @@
                       outlined
                       :counter="25"
                       :rules="requiredFieldRules"
-                      required>
+                      required
+                      data-cy="address">
                   </v-text-field>
                   <v-card-subtitle>street name:</v-card-subtitle>
                   <v-text-field
@@ -53,7 +57,8 @@
                       outlined
                       :counter="25"
                       :rules="requiredFieldRules"
-                      required>
+                      required
+                      data-cy="streetName">
                   </v-text-field>
                   <v-card-subtitle>house number:</v-card-subtitle>
                   <v-text-field
@@ -61,13 +66,15 @@
                       type="number"
                       :rules="requiredNumberRules"
                       outlined
-                      required>
+                      required
+                      data-cy="houseNumber">
                   </v-text-field>
                   <v-btn
                       :disabled="!valid"
                       class="mx-2 my-2"
                       color="secondary"
-                      @click="updateAccount">
+                      @click="updateAccount"
+                      data-cy="update">
                     <v-icon dark>
                       create
                     </v-icon>
@@ -96,7 +103,8 @@
               <v-btn
                   @click="remove_warning = true"
                   class="mx-2 my-2"
-                  color="#f05454">
+                  color="#f05454"
+                  data-cy="remove">
                 <v-icon dark>
                   delete
                 </v-icon>
@@ -119,7 +127,8 @@
                       <v-btn
                           @click="removeAccount"
                           color="warning"
-                          text>
+                          text
+                          data-cy="confirmRemove">
                         Yes, remove my account
                       </v-btn>
                     </v-card-actions>
