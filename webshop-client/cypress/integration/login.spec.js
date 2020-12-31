@@ -9,12 +9,14 @@ describe("Logging in", function () {
         it("Successful login for customer", () =>{
             cy.server();
 
+            cy.intercept("/").as("homePage")
+
             cy.get("[data-cy=username]").type("henk");
             cy.get("[data-cy=password]").type("1234");
 
             cy.get("[data-cy=loginButton]").click();
 
-            cy.wait(1000);
+            cy.wait(2000);
 
             cy.getCookie("access_token").should('exist');
         })
@@ -27,7 +29,7 @@ describe("Logging in", function () {
 
             cy.get("[data-cy=loginButton]").click();
 
-            cy.wait(1000);
+            cy.wait(2000);
 
             cy.getCookie("access_token").should('exist');
         })
@@ -40,7 +42,7 @@ describe("Logging in", function () {
 
             cy.get("[data-cy=loginButton]").click();
 
-            cy.wait(1000);
+            cy.wait(2000);
 
             cy.getCookie("access_token").should('not.exist');
         })
