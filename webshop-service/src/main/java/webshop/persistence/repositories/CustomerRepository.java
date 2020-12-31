@@ -2,6 +2,7 @@ package webshop.persistence.repositories;
 
 import webshop.persistence.interfaces.ICustomerRepository;
 import webshop.service.models.Customer;
+import webshop.service.models.Report;
 import webshop.service.models.Review;
 
 import javax.inject.Inject;
@@ -49,6 +50,12 @@ public class CustomerRepository implements ICustomerRepository {
         try{
             em.getTransaction().begin();
             for (Review review : customer.getReviews()) {
+                for(Report report : review.getReports()){
+                    report.setRetailer(null);
+                    report.getReview().setProduct(null);
+                    report.getReview().setCustomer(null);
+                    em.remove(em.contains(report) ? report : em.merge(report));
+                }
                 review.setProduct(null);
                 em.remove(em.contains(review) ? review : em.merge(review));
             }

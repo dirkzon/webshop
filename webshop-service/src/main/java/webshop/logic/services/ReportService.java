@@ -37,6 +37,7 @@ public class ReportService implements IReportService {
             for(Report report : reports){
                 report.getReview().getCustomer().setReviews(null);
                 report.getReview().getProduct().setReviews(null);
+                report.getReview().setReports(null);
             }
             return reports;
         }catch (Exception e){

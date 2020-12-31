@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "reviews")
@@ -40,6 +41,12 @@ public class Review {
             referencedColumnName = "id",
             foreignKey=@ForeignKey(name = "review_customer_id"))
     private Customer customer;
+
+    @OneToMany(mappedBy="review",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    List<Report> reports;
 
     //Field must not get serialized, will create infinite recursion
     @JsonBackReference
@@ -105,4 +112,8 @@ public class Review {
     public boolean isCanReport() {return canReport; }
 
     public void setCanReport(boolean canReport) { this.canReport = canReport; }
+
+    public List<Report> getReports() {return reports;}
+
+    public void setReports(List<Report> reports) {this.reports = reports;}
 }

@@ -78,6 +78,7 @@ public class RetailerService implements IRetailerService {
                 for(Review review : product.getReviews()){
                     review.setProduct(null);
                     review.getCustomer().setReviews(null);
+                    review.setReports(null);
                 }
             }
             return products;

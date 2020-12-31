@@ -241,6 +241,7 @@ export default {
     },
     removeAccount: async function() {
       await customerService.removeCustomerById();
+      await this.$cookies.remove("access_token");
       await router.push('/login');
     }
   }

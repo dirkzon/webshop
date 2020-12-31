@@ -4,6 +4,7 @@ import webshop.logic.interfaces.IProductService;
 import webshop.persistence.interfaces.IProductRepository;
 import webshop.service.models.BrowseVars;
 import webshop.service.models.Product;
+import webshop.service.models.Report;
 import webshop.service.models.Review;
 
 import javax.inject.Inject;
@@ -28,6 +29,10 @@ public class ProductService implements IProductService {
                 for(Review review : product.getReviews()){
                     review.setProduct(null);
                     review.getCustomer().setReviews(null);
+                    for(Report report : review.getReports()){
+                        report.setReview(null);
+                        report.setRetailer(null);
+                    }
                 }
             }
             return product;

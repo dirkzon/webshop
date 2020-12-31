@@ -18,13 +18,13 @@ public class Report {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "review_id",
             referencedColumnName = "id",
             foreignKey=@ForeignKey(name = "report_review_id"))
     private Review review;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne
     @JoinColumn(name = "retailer_id",
             referencedColumnName = "id",
             foreignKey=@ForeignKey(name = "report_retailer_id"))
