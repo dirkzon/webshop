@@ -18,7 +18,7 @@ build site frontend:
 unit test backend:
   stage: test_backend
   script:
-    - gradlew check
+    -$ ./gradlew check
 
 sonarqube:
   stage: sonarqube
