@@ -49,7 +49,7 @@ class AccountServiceTests {
         //act
         var account = service.isAccountValid("peter", "abcd");
         //assert
-        assertEquals(account.getId(), 1);
+        assertEquals(1, account.getId());
     }
 
     @Test

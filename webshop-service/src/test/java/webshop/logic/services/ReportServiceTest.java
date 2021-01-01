@@ -53,7 +53,7 @@ class ReportServiceTest {
         //act
         Report report = service.getReportById(1);
         //assert
-        assertEquals(report.getId(), 1);
+        assertEquals(1, report.getId());
     }
 
     @Test
@@ -74,7 +74,7 @@ class ReportServiceTest {
         //act
         List<Report> reports = service.getAllReportsForRetailer(1);
         //assert
-        assertEquals(reports.get(0).getId(), 1);
+        assertEquals(1, reports.get(0).getId());
     }
 
     @Test
@@ -99,7 +99,7 @@ class ReportServiceTest {
         //act
         Report newReport = service.reportReview(report);
         //assert
-        assertEquals(newReport.getId(), 1);
+        assertEquals(1, newReport.getId());
     }
 
     @Test
