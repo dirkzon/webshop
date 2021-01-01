@@ -27,7 +27,6 @@ build site frontend:
     - npm install
     - npm run build
 
-
 sonarqube:
   stage: sonarqube
   script:
