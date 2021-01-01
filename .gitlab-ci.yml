@@ -1,25 +1,35 @@
 image: node:10.6.0
 
 stages:
+  - build_backend
   - test_backend
   - build_frontend
   - test_frontend
-  - build_backend
   - sonarqube
+
+build site backend:
+  stage: build_backend
+  script:
+    - cd webshop-service
+    - ./gradlew check
+
+unit test backend:
+  stage: test_backend
+  script:
+    - ./gradlew check
 
 build site frontend:
   image: node:6
   stage: build_frontend
   script:
+    - cd ..
     - cd webshop-client
     - npm install
     - npm run build
 
-unit test backend:
-  stage: test_backend
+test frontend:
+  stage:test_frontend
   script:
-    - cd webshop-service
-    - ./gradlew check
 
 sonarqube:
   stage: sonarqube
