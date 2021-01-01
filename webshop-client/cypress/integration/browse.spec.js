@@ -9,7 +9,7 @@ describe("Browsing products", function () {
             cy.visit("/browse?query=");
             cy.get("[data-cy=minPrice]").type("10");
             cy.get("[data-cy=maxPrice]").type("600").type('{enter}', {force: true});
-            cy.wait(1000);
+            cy.wait(2000);
             cy.get("[data-cy=price]").each(function ($el) {
                 let price = $el.text().replace("$ ", "");
                 expect(price * 100).to.be.greaterThan(1000);

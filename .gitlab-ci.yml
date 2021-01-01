@@ -11,8 +11,7 @@ build site frontend:
   image: node:6
   stage: build_frontend
   script:
-    - cd C:\Users\dirkv\IdeaProjects\redesign\webshop-s3\webshop-client
-    - npm install --progress=false
+    - cd webshop-client
     - npm run build
   artifacts:
     expire_in: 1 week
@@ -22,7 +21,8 @@ build site frontend:
 build site backend:
   stage: build_backend
   script:
-    - cd C:\Users\dirkv\IdeaProjects\redesign\webshop-s3\webshop-service
+    - cd ..
+    - cd webshop-service
     - ./gradlew assemble
   artifacts:
     paths:
@@ -34,12 +34,10 @@ build site backend:
 unit test backend:
   stage: test_backend
   script:
-    - cd C:\Users\dirkv\IdeaProjects\redesign\webshop-s3\webshop-service
     - ./gradlew check
 
 sonarqube:
   stage: sonarqube
   script:
-    - cd C:\Users\dirkv\IdeaProjects\redesign\webshop-s3\webshop-service
     - ls
     - .\gradlew sonarqube
