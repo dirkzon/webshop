@@ -14,28 +14,11 @@ build site frontend:
     - cd webshop-client
     - npm install
     - npm run build
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - dist
-
-build site backend:
-  stage: build_backend
-  script:
-    - cd ..
-    - cd webshop-service
-    - ./gradlew assemble
-  artifacts:
-    paths:
-      - build/libs/*.jar
-    expire_in: 1 week
-  only:
-    - master
 
 unit test backend:
   stage: test_backend
   script:
-    - ./gradlew check
+    - gradlew check
 
 sonarqube:
   stage: sonarqube
