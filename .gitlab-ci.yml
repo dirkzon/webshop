@@ -1,10 +1,10 @@
 image: node:10.6.0
 
 stages:
+  - test_backend
   - build_frontend
   - test_frontend
   - build_backend
-  - test_backend
   - sonarqube
 
 build site frontend:
@@ -18,7 +18,7 @@ build site frontend:
 unit test backend:
   stage: test_backend
   script:
-    - gradlew check
+    - ./gradlew check
 
 sonarqube:
   stage: sonarqube
