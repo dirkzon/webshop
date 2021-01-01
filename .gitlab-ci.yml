@@ -30,6 +30,7 @@ build site frontend:
 test frontend:
   stage:test_frontend
   script:
+    - echo "not yet implemented"
 
 sonarqube:
   stage: sonarqube
