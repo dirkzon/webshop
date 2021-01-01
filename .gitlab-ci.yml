@@ -3,9 +3,9 @@ image: node:10.6.0
 stages:
   - build_backend
   - test_backend
+  - sonarqube
   - build_frontend
   - test_frontend
-  - sonarqube
 
 build site backend:
   stage: build_backend
