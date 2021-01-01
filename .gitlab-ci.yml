@@ -31,5 +31,6 @@ build site frontend:
 sonarqube:
   stage: sonarqube
   script:
+    - cd webshop-serice
     - ls
     - .\gradlew sonarqube
