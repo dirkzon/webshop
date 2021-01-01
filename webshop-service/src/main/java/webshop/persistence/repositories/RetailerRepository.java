@@ -1,7 +1,6 @@
 package webshop.persistence.repositories;
 
 import webshop.persistence.interfaces.IRetailerRepository;
-import webshop.service.models.Customer;
 import webshop.service.models.Product;
 import webshop.service.models.Retailer;
 import webshop.service.models.Review;

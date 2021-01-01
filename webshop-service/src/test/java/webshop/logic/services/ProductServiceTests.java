@@ -256,10 +256,10 @@ class ProductServiceTests {
     void browseProductsShouldSucceed()throws Exception{
         //arrange
         BrowseVars fields = new BrowseVars();
-        fields.maxPrice = 50;
-        fields.minPrice = 5;
-        fields.query = "new query";
-        fields.minRating = 3.5;
+        fields.setMaxPrice(50);
+        fields.setMinPrice(5);
+        fields.setQuery("new query");
+        fields.setMinRating(3.5);
         //act
         List<Product> products = service.browseProducts(fields);
         //assert
@@ -271,10 +271,10 @@ class ProductServiceTests {
     void browseProductsWithNegativeMinPriceShouldNotSucceed(){
         //arrange
         BrowseVars fields = new BrowseVars();
-        fields.maxPrice = 50;
-        fields.minPrice = -5;
-        fields.query = "new query";
-        fields.minRating = 3.5;
+        fields.setMaxPrice(50);
+        fields.setMinPrice(-5);
+        fields.setQuery("new query");
+        fields.setMinRating(3.5);
         //act
 
         //assert
@@ -286,10 +286,10 @@ class ProductServiceTests {
     void browseProductsWithNegativeMaxPriceShouldNotSucceed(){
         //arrange
         BrowseVars fields = new BrowseVars();
-        fields.maxPrice = -50;
-        fields.minPrice = 5;
-        fields.query = "new query";
-        fields.minRating = 3.5;
+        fields.setMaxPrice(-50);
+        fields.setMinPrice(5);
+        fields.setQuery("new query");
+        fields.setMinRating(3.5);
         //act
 
         //assert
@@ -301,10 +301,10 @@ class ProductServiceTests {
     void browseProductsWithMinPriceGreaterThanMaxPriceShouldNotSucceed(){
         //arrange
         BrowseVars fields = new BrowseVars();
-        fields.maxPrice = 50;
-        fields.minPrice = 100;
-        fields.query = "new query";
-        fields.minRating = 3.5;
+        fields.setMaxPrice(50);
+        fields.setMinPrice(100);
+        fields.setQuery("new query");
+        fields.setMinRating(3.5);
         //act
 
         //assert
@@ -316,10 +316,10 @@ class ProductServiceTests {
     void browseProductsWithNegativeMinRatingShouldNotSucceed(){
         //arrange
         BrowseVars fields = new BrowseVars();
-        fields.maxPrice = 50;
-        fields.minPrice = 5;
-        fields.query = "new query";
-        fields.minRating = -3.5;
+        fields.setMaxPrice(50);
+        fields.setMinPrice(5);
+        fields.setQuery("new query");
+        fields.setMinRating(-3.5);
         //act
 
         //assert

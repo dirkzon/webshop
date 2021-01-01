@@ -52,7 +52,7 @@ public class ReportResource {
     @Path("/all")
     public Response getAllReportsForRetailer(){
         try{
-            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
             List<Report> reports = service.getAllReportsForRetailer(id);
             return Response.ok(reports).build();
         }catch (Exception e){

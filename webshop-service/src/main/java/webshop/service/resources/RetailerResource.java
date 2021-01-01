@@ -39,7 +39,7 @@ public class RetailerResource {
     @Path("/me")
     public Response getMe(){
         try{
-            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
             Retailer retailer =  service.getRetailerById(id);
             return Response.ok(retailer).build();
         }catch (Exception e){
@@ -78,7 +78,7 @@ public class RetailerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeRetailerById(){
         try {
-            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
             service.removeRetailerById(id);
             return Response.ok().build();
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class RetailerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateRetailer(Retailer retailer){
         try{
-            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
             Retailer updatedCustomer = service.updateRetailerById(id, retailer);
             return Response.ok(updatedCustomer).build();
         }catch (Exception e){
@@ -123,7 +123,7 @@ public class RetailerResource {
     @Path("/catalog")
     public Response createProductInCatalog(Product product){
         try{
-            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
             Product newProduct = service.createNewProduct(id, product);
             return Response.ok(newProduct).build();
         }catch (Exception e){

@@ -36,7 +36,7 @@ public class CustomerResource {
     @Path("/me")
     public Response getMe(){
         try{
-            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
             Customer customer =  service.getCustomerById(id);
             return Response.ok(customer).build();
         }catch (Exception e){
@@ -76,7 +76,7 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeCustomerById() {
         try {
-            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
             service.removeCustomerById(id);
             return Response.ok().build();
         } catch (Exception e) {
@@ -91,7 +91,7 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateCustomerById(Customer customer){
         try{
-            int id = Integer.valueOf(request.getProperty(USER_ID).toString());
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
             var updatedCustomer = service.updateCustomerById(id, customer);
             return Response.ok(updatedCustomer).build();
         }catch (Exception e){
