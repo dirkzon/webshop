@@ -23,7 +23,6 @@ build site frontend:
   image: node:6
   stage: build_frontend
   script:
-    - cd ..
     - cd webshop-client
     - npm install
     - npm run build
