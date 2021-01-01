@@ -11,11 +11,12 @@ build site backend:
   stage: build_backend
   script:
     - cd webshop-service
-    - ./gradlew check
+    - ./gradlew build
 
 unit test backend:
   stage: test_backend
   script:
+    - cd webshop-service
     - ./gradlew check
 
 build site frontend:
