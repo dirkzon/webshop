@@ -12,6 +12,7 @@ build site frontend:
   stage: build_frontend
   script:
     - cd webshop-client
+    - npm install
     - npm run build
   artifacts:
     expire_in: 1 week
