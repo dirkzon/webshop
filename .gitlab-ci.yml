@@ -27,10 +27,6 @@ build site frontend:
     - npm install
     - npm run build
 
-test frontend:
-  stage:test_frontend
-  script:
-    - echo "not yet implemented"
 
 sonarqube:
   stage: sonarqube
