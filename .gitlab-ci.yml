@@ -18,6 +18,8 @@ build site frontend:
 unit test backend:
   stage: test_backend
   script:
+    - cd ..
+    - cd webshop-service
     - ./gradlew check
 
 sonarqube:
