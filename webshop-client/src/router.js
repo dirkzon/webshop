@@ -14,46 +14,64 @@ export default new Router({
                 import("./views/Home")
         },
         {
+            path: "/login",
+            name: "login",
+            component: ()=>
+                import("./views/LogIn")
+        },
+        {
+            path: '/account/new',
+            name:'createAccount',
+            component: ()=>
+                import("./views/CreateAccount")
+        },
+        {
             path:'/product/:id',
             name:'product',
             component: () =>
                 import("./views/ViewProduct")
         },
         {
-            path: '/product/:id/edit',
-            name: 'editProduct',
-            component: ()=>
-                import("./views/EditProduct")
+          path:'/browse',
+          name:'broseProducts',
+          component:() =>
+            import("./views/BrowseProduct")
         },
         {
-            path: '/account/me',
-            name: 'viewAccount',
-            component: () =>
-                import("./views/ViewAccount")
-        },
-        {
-            path: '/product/new',
-            name: 'createProduct',
+            path:'/customer/me',
+            name:'customerAccount',
             component:() =>
+                import("./views/ViewCustomerAccount")
+        },
+        {
+            path:'/retailer/me',
+            name:'retailerAccount',
+            component:() =>
+                import("./views/ViewRetailerAccount")
+        },
+        {
+          path: '/products/new',
+          name:'createProduct',
+          component:() =>
                 import("./views/CreateProduct")
         },
         {
-            path: '/search',
-            name: 'search',
-            component: () =>
-                import("./views/SearchProducts")
-        },
-        {
             path: '/cart',
-            name: 'shoppingCart',
-            component: () =>
-                import("./views/ViewCart")
+            name:'shoppingCart',
+            component:() =>
+                import("./views/ShoppingCart")
         },
         {
-            path: "/login",
-            name: "login",
-            component: ()=>
-                import("./views/LogIn")
-        }
+            path: '/product/:id/edit',
+            name:'editProduct',
+            component:() =>
+                import("./views/EditProduct")
+        },
+        {
+            path: '/reports',
+            name:'viewReports',
+            component:() =>
+                import("./views/ViewReports")
+        },
     ]
 })

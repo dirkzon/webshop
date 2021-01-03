@@ -1,33 +1,34 @@
 image: node:10.6.0
 
 stages:
+  - build_backend
+  - test_backend
   - sonarqube
-  - build
-  - test
+  - build_frontend
+  - test_frontend
 
-cache:
-  paths:
-    - node_modules/
-
-build site:
-  stage: build
+build site backend:
+  stage: build_backend
   script:
-    - npm install --progress=false
+    - cd webshop-service
+    - ./gradlew build
+
+unit test backend:
+  stage: test_backend
+  script:
+    - cd webshop-service
+    - ./gradlew check
+
+build site frontend:
+  image: node:6
+  stage: build_frontend
+  script:
+    - cd webshop-client
+    - npm install
     - npm run build
-
-unit test:
-  stage: test
-  script:
-    - npm test
-  artifacts:
-    paths:
-      - dist/
-      - node_modules/
-      - package.json
 
 sonarqube:
   stage: sonarqube
   script:
-    - cd C:\Users\dirkv\Documents\school\semester3\WebshopProject\Project\webshop-s3\webshop-service
-    - ls
+    - cd webshop-service
     - .\gradlew sonarqube

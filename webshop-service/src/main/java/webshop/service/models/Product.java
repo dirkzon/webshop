@@ -1,87 +1,162 @@
 package webshop.service.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "products")
 public class Product {
 
+    public Product(){}
+
+    public Product(int id, String name, Double price, String description, LocalDate created, Retailer retailer, Double rating, Image image) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.created = created;
+        this.retailer = retailer;
+        this.rating = rating;
+        this.image = image;
+    }
+
     @Id
+    @GeneratedValue(generator = "incrementor")
+    @GenericGenerator(name = "incrementor", strategy = "increment")
     @Column(name = "product_id")
-    private String id;
+    private int id;
 
     @Column(name = "name")
     private String name;
 
-
     @Column(name = "price")
     private Double price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "product_category_id"))
-    private Category category;
-
     @Column(name = "description")
     private String description;
-
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "product")
-    private List<ProductImage> images;
 
     @Column(name = "created")
     private LocalDate created;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "retailer_id", foreignKey = @ForeignKey(name = "product_retailer_id"))
+    @JoinColumn(name = "retailer_id",
+            referencedColumnName = "id",
+            foreignKey=@ForeignKey(name = "product_retailer_id"))
     private Retailer retailer;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private List<ProductReview> reviews;
 
     @Column(name = "rating")
     private Double rating;
 
-    @Transient
-    private boolean reviewed;
+    @JsonManagedReference
+    @OneToMany(mappedBy="product",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Review> reviews;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id",
+            referencedColumnName = "id",
+            foreignKey=@ForeignKey(name = "product_image_id"))
+    private Image image;
 
     @Transient
-    private boolean canEdit;
-
-    @Column(name = "url")
-    private String url;
+    private boolean canEdit = false;
 
     @Transient
-    private List<ProductProperty> productProperties;
+    private boolean canReview = true;
 
-    public String getName(){return name;}
-    public String getId(){return id;}
-    public Double getPrice(){return price;}
-    public Category getCategory(){return category;}
-    public String getDescription(){return description;}
-    public List<ProductImage> getImages(){return images;}
-    public LocalDate getCreated(){return created;}
-    public Retailer getRetailer(){return retailer;}
-    public List<ProductReview> getReviews(){return reviews;}
-    public Double getRating(){return rating;}
-    public Boolean getReviewed(){return reviewed;}
-    public String getUrl(){return url;}
-    public List<ProductProperty> getProductProperties(){return productProperties;}
-    public boolean canEdit(){return canEdit;}
+    public int getId() {
+        return id;
+    }
 
-    public void setName(String name) { this.name = name; }
-    public void setId(String id) { this.id = id; }
-    public void setPrice(Double price) { this.price = price; }
-    public void setCategory(Category category) { this.category = category; }
-    public void setDescription(String description) { this.description = description; }
-    public void setImages(List<ProductImage> images) { this.images = images; }
-    public void setCreated(LocalDate created) { this.created = created; }
-    public void setRetailer(Retailer retailer) { this.retailer = retailer; }
-    public void setReviews(List<ProductReview> reviews) { this.reviews = reviews; }
-    public void setRating(Double rating) { this.rating = rating; }
-    public void setReviewed(boolean reviewed) { this.reviewed = reviewed; }
-    public void setUrl(String url) { this.url = url; }
-    public void setProductProperties(List<ProductProperty> productProperties) { this.productProperties = productProperties; }
-    public void setCanEdit(boolean canEdit){this.canEdit = canEdit;}
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDate getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDate created) {
+        this.created = created;
+    }
+
+    public Retailer getRetailer() {
+        return retailer;
+    }
+
+    public void setRetailer(Retailer retailer) {
+        this.retailer = retailer;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void addReview(Review review){reviews.add(review);}
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public boolean isCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+    }
+
+    public boolean isCanReview() {
+        return canReview;
+    }
+
+    public void setCanReview(boolean canReview) {
+        this.canReview = canReview;
+    }
 }

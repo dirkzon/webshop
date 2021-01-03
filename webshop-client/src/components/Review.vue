@@ -1,31 +1,38 @@
 <template>
   <v-card
-          class="mx-8 my-8"
-          width="600px">
+      class="mx-8 my-8"
+      width="600px">
     <v-responsive :aspect-ratio="16/7" >
-      <v-subheader style="margin:15px">
-        <v-avatar>
-          <img v-bind:src="review.customer.avatar.url"/>
-        </v-avatar>
-        <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
-          <v-card-title v-bind="attrs"
-                        v-on="on"> {{review.customer.name}}
-          </v-card-title>
-          </template>
-          <span>
-            joined: {{review.customer.joined.day}}-{{review.customer.joined.month}}-{{review.customer.joined.year}}
-          </span>
-        </v-tooltip>
-      </v-subheader>
+      <v-row>
+        <UserCard v-bind:user="review.customer"></UserCard>
+        <v-spacer></v-spacer>
+        <v-btn v-if="review.canReport"
+               @click="report"
+               style="margin:20px"
+               flat
+               icon>
+          <v-icon >report</v-icon>
+        </v-btn>
+      </v-row>
       <v-divider></v-divider>
       <v-subheader>
-        <Rating v-bind:size="14" :value="review.rating"></Rating>
+        <v-rating :value="review.rating"
+                  :size="15"
+                  color="warning"
+                  background-color="warning"
+                  readonly
+                  half-increments
+                  empty-icon="star_border"
+                  full-icon="star"
+                  half-icon="star_half"
+                  length="5"
+        ></v-rating>
         <v-card-text class="text-right">
-          {{review.created.day}}-{{review.created.month}}-{{review.created.year}}
+          {{review.created}}
         </v-card-text>
       </v-subheader>
-      <v-card-text class="subtitle-2">
+      <v-card-text class="subtitle-2"
+      data-cy="body">
         {{review.body}}
       </v-card-text>
     </v-responsive>
@@ -33,12 +40,16 @@
 </template>
 
 <script>
-import Rating from "@/components/Rating";
-
+import UserCard from "@/components/UserCard";
 export default {
-  components: {Rating},
   name: "Review",
-  props:["review"]
+  components: {UserCard},
+  props:["review"],
+  methods:{
+    report: function(){
+      this.$emit('report', this.review.id);
+    }
+  }
 }
 </script>
 

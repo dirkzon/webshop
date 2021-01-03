@@ -1,5 +1,9 @@
 package webshop.service.filters;
 
+import webshop.logic.interfaces.IAccountService;
+import webshop.service.models.Account;
+
+import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
@@ -10,16 +14,21 @@ import java.util.Base64;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import static webshop.service.filters.Constants.ACCOUNT_PROPERTY;
+import static webshop.service.filters.Constants.AUTHENTICATION_SCHEME;
+
 @UseAuthenticationFilter
 public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Context
     private ResourceInfo resourceInfo;
 
+    @Inject
+    private IAccountService accountService;
+
     @Override
     public void filter(ContainerRequestContext requestContext){
         final String AUTHORIZATION_PROPERTY = "Authentication";
-        final String AUTHENTICATION_SCHEME = "Bearer";
 
         final MultivaluedMap<String, String> headers = requestContext.getHeaders();
 
@@ -40,7 +49,17 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         final String username = tokenizer.nextToken();
         final String password = tokenizer.nextToken();
 
-        //requestContext.getHeaders().add("username", username);
-        //requestContext.getHeaders().add("password", password);
+        Account account;
+
+        try{
+            account = accountService.isAccountValid(username, password);
+        }catch (Exception e){
+            Response response = Response.status(Response.Status.UNAUTHORIZED).
+                    entity("Could not log in: " + e.getMessage()).build();
+            requestContext.abortWith(response);
+            return;
+        }
+
+        requestContext.setProperty(ACCOUNT_PROPERTY, account);
     }
 }

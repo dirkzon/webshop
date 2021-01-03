@@ -1,4 +1,5 @@
 <template>
+  <div>
   <v-app-bar
       app
       color="secondary"
@@ -21,44 +22,74 @@
     </router-link>
     <v-spacer></v-spacer>
     <v-text-field
+        style="margin: 80px"
         @keydown.enter="Search"
         label="Search for products"
         dark
         bottom
+        append-icon="search"
         v-model="searchQuery"
     ></v-text-field>
-      <v-btn v-on:click="Search"
-             icon
-             fab
-             small>
-        <v-icon color="white">
-          search
-        </v-icon>
-      </v-btn>
     <v-spacer></v-spacer>
-      <v-btn v-on:click="redirect"
-            small
+      <v-btn v-if="loggedIn"
+             icon
              class="mx-2 my-2"
-             fab
-             color="secondary">
-        <v-badge content="2"
-                 color="warning">
-          <v-icon large>
-            account_circle
-          </v-icon>
-        </v-badge>
-      </v-btn>
-    <router-link :to="{name: 'shoppingCart'}">
-      <v-btn small
-             class="mx-2 my-2"
-             fab
-             color="secondary">
+             color="white"
+             @click.stop="drawer = !drawer">
         <v-icon large>
-          shopping_cart
+          menu
         </v-icon>
       </v-btn>
-    </router-link>
   </v-app-bar>
+  <v-navigation-drawer
+      v-model="drawer"
+      style="position: fixed"
+      absolute
+      right
+      temporary>
+    <v-list
+        nav
+        dense>
+      <v-list-item-group active-class="warning--text">
+        <v-list-item v-on:click="drawer = !drawer">
+          <v-spacer></v-spacer>
+            <v-icon x-large
+                    color="gray">
+              menu
+            </v-icon>
+        </v-list-item>
+        <br>
+        <v-divider></v-divider>
+        <v-list-item>
+          <v-icon large>person</v-icon>
+          <v-list-item-title v-on:click="viewAccount">account</v-list-item-title>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item v-if="scope == 'Customer'" v-on:click="goToCart">
+          <v-badge
+              bordered
+              color="warning"
+              overlap
+              :content="cartSize"
+              :value="cartSize">
+            <v-icon large>shopping_cart</v-icon>
+          </v-badge>
+          <v-list-item-title>shopping cart</v-list-item-title>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item v-if="scope == 'Retailer'" v-on:click="goToReports">
+          <v-icon large>report</v-icon>
+          <v-list-item-title>reports</v-list-item-title>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item>
+          <v-icon large>exit_to_app</v-icon>
+          <v-list-item-title v-on:click="logOut">log out</v-list-item-title>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-navigation-drawer>
+  </div>
 </template>
 
 <script>
@@ -68,19 +99,42 @@ export default {
   name: "TopBar",
   data() {
     return {
-      searchQuery: ""
+      searchQuery: "",
+      drawer: false,
+      loggedIn: false,
+      scope:"",
+      cartSize: 0,
     }
+  },
+  mounted() {
+    let token = this.$cookies.get("access_token");
+    this.loggedIn = (token != null);
+    this.scope = this.$cookies.get("scope");
+    this.cartSize = JSON.parse(this.$cookies.get("cart")).length;
   },
   methods:{
     Search: function () {
-      router.push({name: 'search' , query: {query : this.searchQuery}})
+      router.push({name: 'broseProducts' , query: {query : this.searchQuery}})
     },
-    redirect: function (){
-      let token = localStorage.getItem('token')
-      if(token != null){
-        router.push('/account/me')
-      }
+    logOut: function(){
+      this.$cookies.remove("access_token")
+      this.$cookies.remove("scope")
+      this.$cookies.remove("cart")
       router.push('/login')
+    },
+    viewAccount: function(){
+      if(this.scope == "Customer"){
+        router.push({name: 'customerAccount'})
+      }
+      if(this.scope == "Retailer") {
+        router.push({name: 'retailerAccount'})
+      }
+    },
+    goToCart: function(){
+      router.push({name: 'shoppingCart'})
+    },
+    goToReports: function(){
+      router.push({name: 'viewReports'})
     }
   }
 }

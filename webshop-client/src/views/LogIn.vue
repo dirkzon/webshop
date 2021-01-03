@@ -8,12 +8,14 @@
           <v-divider></v-divider>
           <v-card-subtitle>username or e-mail:</v-card-subtitle>
           <v-form
-              v-model="valid">
+              v-model="valid"
+              data-cy="loginForm">
           <v-text-field
               v-model="username"
               :rules="userNameRules"
               outlined
               required
+              data-cy="username"
           ></v-text-field>
           <v-card-subtitle>password:</v-card-subtitle>
           <v-text-field
@@ -22,27 +24,32 @@
               :rules="passwordRules"
               outlined
               required
+              data-cy="password"
           ></v-text-field>
           <v-card-text class="red--text">{{errormsg}}</v-card-text>
           <v-btn
               :disabled="!valid"
               @click="LogIn()"
               class="mx-2 my-2"
-              color="secondary">
+              color="secondary"
+              data-cy="loginButton">
             <v-icon dark>
               login
             </v-icon>
             Log in
           </v-btn>
+          <router-link :to="{name: 'createAccount'}">
           <v-btn
               @click="test()"
               class="mx-2 my-2"
-              color="#cdc9c3">
+              color="#cdc9c3"
+              data-cy="createAccountButton">
             <v-icon dark>
               add
             </v-icon>
             Create account
           </v-btn>
+          </router-link>
           </v-form>
         </v-responsive>
       </v-card>
@@ -51,38 +58,37 @@
 </template>
 
 <script>
-import axios from "axios";
-import router from "@/router";
+import accountService from "@/services/account-service";
 
-export default {
+export default{
   name: "LogIn",
-  data(){
-    return{
+  data() {
+    return {
       username: "",
       userNameRules: [
         v => !!v || 'Name is required'
       ],
       password: "",
-      passwordRules:[
-          v => !!v || 'Password is required'
+      passwordRules: [
+        v => !!v || 'Password is required'
       ],
       valid: false,
-      errormsg:"",
+      errormsg: "",
     }
   },
-  methods:{
-    LogIn: function () {
-      let token = btoa(`${this.username}:${this.password}`);
-      axios
-          .get('http://localhost:4545/v1/authentication/', {
-            headers: {'Authentication': `Bearer ${token}`}
-          })
-          .then(response => (axios.defaults.headers.common["Authorization"] = response.data,
-          router.push("/"),
-          console.log(response.data)))
-          .catch(error => this.errormsg = `Could not log in: ${error.response.statusText}`)
+  methods: {
+    LogIn: async function(){
+      const response = await accountService.login(this.username, this.password);
+      let token = `${response.token_type} ${response.access_token}`
+      console.log(token)
+      this.$cookies.remove("access_token")
+      this.$cookies.set("access_token", token, "1d")
+      this.$cookies.set("scope", response.scope, "1d")
+      this.$cookies.set("cart", JSON.stringify([]))
+      await this.$router.push('/')
     }
-  }
+}
+
 }
 </script>
 

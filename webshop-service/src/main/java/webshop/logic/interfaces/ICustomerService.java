@@ -1,11 +1,11 @@
 package webshop.logic.interfaces;
 
-import webshop.service.models.AbstractUser;
-import webshop.service.models.ProductReview;
+import webshop.service.models.Customer;
 
-import java.util.List;
+public interface ICustomerService {
 
-public interface ICustomerService extends IUserService{
-    List<ProductReview> GetAllReviewsById(String id);
-    AbstractUser IsUserValid(String userName);
+    Customer getCustomerById(int id)throws Exception;
+    Customer saveCustomer(Customer customer)throws Exception;
+    Customer updateCustomerById(int id, Customer customer)throws Exception;
+    void removeCustomerById(int id)throws Exception;
 }

@@ -1,22 +1,88 @@
 package webshop.service.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
-public class Customer extends AbstractUser {
+public class Customer {
+
+    public Customer(){}
+
+    public Customer(int id,Account account, Address address, Image avatar) {
+        this.id = id;
+        this.account = account;
+        this.address = address;
+        this.avatar = avatar;
+    }
 
     @Id
-    @Column(name = "customer_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
-    @OneToOne
-    @JoinColumn(name = "address_id", foreignKey = @ForeignKey(name = "customer_address_id"))
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "account_id",
+            referencedColumnName = "id",
+            foreignKey=@ForeignKey(name = "customer_account_id"))
+    private Account account;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "address_id",
+            referencedColumnName = "id",
+            foreignKey=@ForeignKey(name = "customer_address_id"))
     private Address address;
 
-    public String getId(){return id;}
-    public Address getAddress(){return address;}
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "avatar_id",
+            referencedColumnName = "id",
+            foreignKey=@ForeignKey(name = "customer_avatar_id"))
+    private Image avatar;
 
-    public void setId(String id){this.id = id;}
-    public void setAddress(Address address){this.address = address;}
+    //Field must not get serialized, will create infinite recursion
+    @OneToMany(mappedBy="customer",
+            fetch = FetchType.EAGER,
+            orphanRemoval=true,
+            cascade = CascadeType.REMOVE)
+    private List<Review> reviews;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Image getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 }

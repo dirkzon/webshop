@@ -6,36 +6,57 @@ import javax.persistence.*;
 @Table(name = "addresses")
 public class Address {
 
+    public Address(){}
+
+    public Address(String country, String streetName, int houseNumber) {
+        this.country = country;
+        this.streetName = streetName;
+        this.houseNumber = houseNumber;
+    }
+
     @Id
-    @Column(name = "address_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
     @Column(name = "country")
     private String country;
 
-    @Column(name = "postal_code")
-    private String postalCode;
-
-    @Column(name = "street")
-    private String street;
+    @Column(name = "street_name")
+    private String streetName;
 
     @Column(name = "house_number")
-    private int houseNr;
+    private int houseNumber;
 
-    @Column(name = "house_number_addition")
-    private String houseNrAddition;
+    public int getId() {
+        return id;
+    }
 
-    public String getId(){return id;}
-    public String getCountry(){return country;}
-    public String getPostalCode(){return postalCode;}
-    public String getStreet(){return street;}
-    public int getHouseNr() {return houseNr;}
-    public String getHouseNrAddition() {return houseNrAddition;}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public void setId(String id) { this.id = id; }
-    public void setCountry(String country) { this.country = country; }
-    public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
-    public void setStreet(String street) { this.street = street; }
-    public void setHouseNr(int houseNr) { this.houseNr = houseNr; }
-    public void setHouseNrAddition(String houseNrAddition) { this.houseNrAddition = houseNrAddition; }
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
+    }
+
+    public int getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(int houseNumber) {
+        this.houseNumber = houseNumber;
+    }
 }
