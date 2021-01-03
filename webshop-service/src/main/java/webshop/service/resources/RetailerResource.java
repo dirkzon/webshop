@@ -1,10 +1,7 @@
 package webshop.service.resources;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.IRetailerService;
-import webshop.persistence.HibernateProxyTypeAdapter;
 import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.Product;
 import webshop.service.models.Retailer;
@@ -12,90 +9,110 @@ import webshop.service.models.Retailer;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import java.util.List;
+
+import static webshop.service.filters.Constants.USER_ID;
 
 @Path("/retailers")
 @Service
 public class RetailerResource {
 
+    private final IRetailerService service;
+
+    @Context
+    ContainerRequestContext request;
+
     @Inject
-    private IRetailerService service;
+    public RetailerResource(IRetailerService service){
+        this.service = service;
+    }
 
-    private GsonBuilder gsonBuilder;
-
-    public RetailerResource(){
-        gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+    @GET
+    @UseAuthorisationFilter
+    @RolesAllowed({"Retailer"})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/me")
+    public Response getMe(){
+        try{
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
+            Retailer retailer =  service.getRetailerById(id);
+            return Response.ok(retailer).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     @GET
     @UseAuthorisationFilter
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}")
-    public Response GetRetailerById(@PathParam("retailer_id") String id){
-        Gson gson = gsonBuilder.create();
-        var retailer = service.GetUserById(id);
-        if(retailer != null){
-            return Response.ok(gson.toJson(retailer)).build();
-        }else{
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("id was not valid").build();
+    public Response getRetailerById(@PathParam("retailer_id") int id){
+        try{
+            Retailer retailer = service.getRetailerById(id);
+            return Response.ok(retailer).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
     }
 
     @POST
-    @UseAuthorisationFilter
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response CreateRetailer(Retailer retailer){
-        Gson gson = gsonBuilder.create();
-        var newRetailer = service.CreateUser(retailer);
-        return Response.ok(gson.toJson(newRetailer)).build();
+    public Response createRetailer(Retailer retailer){
+        try{
+            Retailer newRetailer = service.saveRetailer(retailer);
+            return Response.ok(newRetailer).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     @DELETE
     @UseAuthorisationFilter
     @RolesAllowed("Retailer")
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{retailer_id}")
-    public Response RemoveRetailerById(@PathParam("retailer_id") String id){
-        if(id != null){
-            service.RemoveUserById(id);
+    public Response removeRetailerById(){
+        try {
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
+            service.removeRetailerById(id);
             return Response.ok().build();
-        }else{
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("No id given").build();
+        } catch (Exception e) {
+            return Response.serverError().entity(e.getMessage()).build();
         }
     }
 
     @PUT
     @UseAuthorisationFilter
     @RolesAllowed("Retailer")
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/{retailer_id}")
-    public Response UpdateRetailer(@PathParam("retailer_id") String id, Retailer retailer){
-        Gson gson = gsonBuilder.create();
-        if(id != null){
-            var updatedRetailer = service.UpdateUserById(id, retailer);
-            return Response.ok(gson.toJson(updatedRetailer)).build();
-        }else{
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("No id given").build();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateRetailer(Retailer retailer){
+        try{
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
+            Retailer updatedCustomer = service.updateRetailerById(id, retailer);
+            return Response.ok(updatedCustomer).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
     }
 
     @GET
     @UseAuthorisationFilter
-    @RolesAllowed("Retailer")
+    @RolesAllowed({"Retailer", "Customer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}/catalog")
-    public Response GetAllProductsInCatalog(@PathParam("retailer_id") String id){
-        Gson gson = gsonBuilder.create();
-        var products = service.GetAllProductsInCatalog(id);
-        if(products.size() == 0){
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no products found").build();
+    public Response getAllProductsInCatalog(@PathParam("retailer_id") int id){
+        try{
+            List<Product> products = service.getAllProductsInCatalog(id);
+            return Response.ok(products).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
-        return Response.ok(gson.toJson(products)).build();
     }
 
     @POST
@@ -103,10 +120,14 @@ public class RetailerResource {
     @RolesAllowed("Retailer")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{retailer_id}/catalog")
-    public Response CreateProductInCatalog(@PathParam("retailer_id") String id ,Product product){
-        Gson gson = gsonBuilder.create();
-        var newProduct = service.CreateNewProductInCatalog(id, product);
-        return Response.ok(gson.toJson(newProduct)).build();
+    @Path("/catalog")
+    public Response createProductInCatalog(Product product){
+        try{
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
+            Product newProduct = service.createNewProduct(id, product);
+            return Response.ok(newProduct).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 }

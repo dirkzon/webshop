@@ -1,29 +1,35 @@
 <template>
   <v-app>
     <TopBar></TopBar>
-    <ProductList v-bind:products="products"></ProductList>
+      <v-row align="center"
+             justify="center">
+        <div v-bind:key="product.id" v-for="product in products">
+          <ProductThumbnail v-bind:product="product"></ProductThumbnail>
+        </div>
+        <NewProduct></NewProduct>
+      </v-row>
   </v-app>
 </template>
-
 <script>
-import ProductList from '@/components/ProductList'
+
 import TopBar from "@/components/TopBar";
-import axios from "axios";
+import productService from "@/services/product-service"
+import ProductThumbnail from "@/components/ProductThumbnail";
+import NewProduct from "@/components/NewProduct"
 
 export default {
   components: {
-    ProductList,
+    NewProduct,
+    ProductThumbnail,
     TopBar
   },
   data(){
     return{
-      products: Object
+      products: []
     }
   },
-  mounted() {
-    axios.get('http://localhost:4545/v1/retailers/retailer:1/catalog')
-        .then(response => this.products = response.data)
-        .catch(error => alert(error))
+  async mounted() {
+    this.products = await productService.browseProducts("{}")
   }
 }
 </script>

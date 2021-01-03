@@ -1,84 +1,113 @@
 package webshop.persistence.repositories;
 
-import webshop.service.models.Category;
-import webshop.service.models.Product;
-import webshop.service.models.ProductReview;
 import webshop.persistence.interfaces.IProductRepository;
+import webshop.service.models.BrowseVars;
+import webshop.service.models.Customer;
+import webshop.service.models.Product;
+import webshop.service.models.Review;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 public class ProductRepository implements IProductRepository {
 
-    private EntityManager entityManager;
+    private final EntityManagerFactory emf;
 
     @Inject
-    public ProductRepository(EntityManagerFactory emf){
-        this.entityManager = emf.createEntityManager();
+    public ProductRepository(EntityManagerFactory entityManagerFactory){
+        emf = entityManagerFactory;
     }
 
     @Override
-    public void DeleteProductById(String id) {
-        entityManager.remove(GetProductById(id));
-    }
-
-    @Override
-    public Product GetProductById(String id){
-        return entityManager.find(Product.class, id);
-    }
-
-    @Override
-    public Product UpdateProductById(String id, Product product) {
-        return entityManager.merge(product);
-    }
-
-    @Override
-    public ProductReview CreateReviewById(String id, ProductReview review) {
-        String sql = "INSERT INTO reviews(rating, body, created, customer_id, product_id, review_id) VALUES (?,?,?,?,?,?)";
-        Query query = entityManager.createNativeQuery(sql);
-        entityManager.getTransaction().begin();
-        query.setParameter(1, review.getRating());
-        query.setParameter(2, review.getBody());
-        query.setParameter(3, LocalDate.now());
-        query.setParameter(4, review.getCustomer().getId());
-        query.setParameter(5, review.getProduct().getId());
-        query.setParameter(6, "review:" + UUID.randomUUID());
-        query.executeUpdate();
-        entityManager.getTransaction().commit();
-        return null;
-    }
-
-    @Override
-    public List<ProductReview> GetAllReviewsOnProductById(String id) {
-        String sql = "SELECT * FROM reviews WHERE product_id = ?1";
-        Query query = entityManager.createNativeQuery(sql, ProductReview.class);
-        query.setParameter(1, id);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Product> BrowseProducts(int minPrice, int maxPrice, String query, String category, int targetRating) {
-        String sql = "SELECT * FROM products WHERE name LIKE CONCAT('%',?1,'%') OR description LIKE CONCAT('%',?1,'%')";
-        if(targetRating != 0){
-            sql += " AND review BETWEEN 0 AND 3";
+    public Product getProductById(int id)throws Exception{
+        EntityManager em = emf.createEntityManager();
+        try{
+            return em.find(Product.class, id);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }finally {
+            em.close();
         }
-        Query SearchQuery = entityManager.createNativeQuery(sql, Product.class);
-        SearchQuery.setParameter(1, query);
-        return SearchQuery.getResultList();
     }
 
     @Override
-    public List<Category> GetAllCategories() {
-        return entityManager.createNativeQuery("FROM Category", Category.class).getResultList();
+    public void removeProduct(Product product)throws Exception{
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            for(Review review : product.getReviews()){
+                review.setCustomer(null);
+                em.remove(em.contains(review) ? review : em.merge(review));
+            }
+            product.setRetailer(null);
+            em.remove(em.contains(product) ? product : em.merge(product));
+            em.getTransaction().commit();
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }finally {
+            em.close();
+        }
     }
 
     @Override
-    public Category GetCategoryById(String id) {
-        return entityManager.find(Category.class, id);
+    public Product updateProductById(int id, Product product)throws Exception{
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            Product productToUpdate = em.find(Product.class, id);
+            productToUpdate.setPrice(product.getPrice());
+            productToUpdate.setName(product.getName());
+            productToUpdate.setDescription(product.getDescription());
+            productToUpdate.setImage(product.getImage());
+            productToUpdate.setRating(product.getRating());
+            em.merge(productToUpdate);
+            em.getTransaction().commit();
+            return product;
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Review createReviewOnProductById(int id, Review review)throws Exception{
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            review.setCustomer(em.getReference(Customer.class, review.getCustomer().getId()));
+            review.setProduct(em.getReference(Product.class, id));
+            em.persist(review);
+            em.getTransaction().commit();
+            return review;
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Product> browseProducts(BrowseVars fields)throws Exception{
+        EntityManager em = emf.createEntityManager();
+        try{
+            String sql = "SELECT * FROM products Where name LIKE CONCAT('%',:search_query,'%') " +
+                    "And price > :min_price " +
+                    "And rating >= :min_rating ";
+            if(fields.getMaxPrice() > 0) sql +="And price < :max_price ";
+            Query query = em.createNativeQuery(sql, Product.class);
+            query.setParameter("search_query", fields.getQuery());
+            query.setParameter("min_price", fields.getMinPrice());
+            query.setParameter("min_rating", fields.getMinRating());
+            if(fields.getMaxPrice() > 0) query.setParameter("max_price", fields.getMaxPrice());
+            return query.getResultList();
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }finally {
+            em.close();
+        }
     }
 }

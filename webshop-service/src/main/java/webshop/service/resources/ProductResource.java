@@ -1,52 +1,62 @@
 package webshop.service.resources;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.IProductService;
-import webshop.logic.services.ProductService;
-import webshop.persistence.HibernateProxyTypeAdapter;
 import webshop.service.filters.UseAuthorisationFilter;
-import webshop.service.gsonExclusionStrategies.IgnoreAddress;
-import webshop.service.models.Product;
-import webshop.service.models.ProductReview;
+import webshop.service.models.*;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
+
+import static webshop.service.filters.Constants.USER_ID;
+import static webshop.service.filters.Constants.USER_ROLE;
 
 @Path("/products")
 @Service
 public class ProductResource {
 
+    private final IProductService service;
+
     @Inject
-    private IProductService service;
-
-    private ProductService logic= new ProductService();
-
-    private GsonBuilder gsonBuilder;
-
-    public ProductResource(){
-        gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+    public ProductResource(IProductService service){
+        this.service = service;
     }
+
+    @Context
+    ContainerRequestContext request;
 
     @GET
     @UseAuthorisationFilter
     @RolesAllowed({"Customer", "Retailer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
-    public Response GetProductById(@PathParam("product_id") String id){
-        Gson gson = gsonBuilder.create();
-        String test = "";
-        var product = service.GetProductById(id);
-        test = gson.toJson(product);
-        if(product != null) {
-            return Response.ok(test).build();
+    public Response getProductById(@PathParam("product_id") int id){
+        try{
+            Product product = service.getProductById(id);
+            UserRole role = UserRole.valueOf(request.getProperty(USER_ROLE).toString());
+            int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
+            if(role == UserRole.Retailer){
+                if(product.getRetailer().getId() == userId) product.setCanEdit(true);
+                product.setCanReview(false);
+            }else{
+                for(Review review : product.getReviews()){
+                    if(review.getCustomer().getId() == userId){
+                        product.setCanReview(false);
+                    }
+                    review.setCanReport(true);
+                }
+            }
+            return Response.ok(product).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
-        return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no product found").build();
     }
 
     @DELETE
@@ -54,9 +64,13 @@ public class ProductResource {
     @RolesAllowed("Retailer")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
-    public Response DeleteProductById(@PathParam("product_id") String id){
-        service.DeleteProductById(id);
-        return Response.ok().build();
+    public Response removeProductById(@PathParam("product_id") int id){
+        try{
+            service.removeProductById(id);
+            return Response.ok().build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     @PUT
@@ -65,13 +79,13 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
-    public Response UpdateProductById(@PathParam("product_id") String id, Product product){
-        Gson gson = gsonBuilder.create();
-        var updatedProduct = service.UpdateProductById(id, product);
-        if(updatedProduct == null){
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Product was not found").build();
+    public Response updateProductById(@PathParam("product_id") int id, Product product){
+        try{
+            var updatedProduct = service.updateProductById(id, product);
+            return Response.ok(updatedProduct).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
-        return Response.ok(gson.toJson(updatedProduct)).build();
     }
 
     @POST
@@ -80,60 +94,27 @@ public class ProductResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}/reviews")
-    public Response CreateReviewOnProductById(@PathParam("product_id") String id, ProductReview review){
-        logic.CreateReview(id,review);
-        return Response.status(Response.Status.CREATED).build();
+    public Response createReviewOnProductById(@PathParam("product_id") int id, Review review){
+        try{
+            int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
+            review.getCustomer().setId(userId);
+            service.createReviewOnProductById(id,review);
+            return Response.status(Response.Status.CREATED).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
-    @GET
-    @UseAuthorisationFilter
-    @RolesAllowed({"Customer", "Retailer"})
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{product_id}/reviews")
-    public Response GetAllReviewsOnProductById(@PathParam("product_id") String id){
-        Gson gson = gsonBuilder.setExclusionStrategies(new IgnoreAddress()).create();;
-        var reviews = service.GetAllReviewsOnProduct(id);
-        return Response.ok(gson.toJson(reviews)).build();
-    }
-
-    @GET
-    @UseAuthorisationFilter
-    @RolesAllowed({"Customer", "Retailer"})
+    @PUT
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/browse")
-    public Response BrowseProducts(@QueryParam("min_price") int minPrice,
-                                  @QueryParam("max_price") int maxPrice,
-                                  @QueryParam("query") String query,
-                                  @QueryParam("category") String category,
-                                  @QueryParam("target_rating") int targetRating){
-        Gson gson = gsonBuilder.create();
-        var products= service.BrowseProducts(minPrice, maxPrice, query, category, targetRating);
-        if(products.size() == 0){
-            return Response.status(Response.Status.NO_CONTENT).entity("No products where found").build();
+    public Response browseProducts(BrowseVars variables){
+        try{
+            List<Product> products = service.browseProducts(variables);
+            return Response.ok(products).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
-        var json = gson.toJson(products);
-        return Response.ok(json).build();
-    }
-
-    @GET
-    @UseAuthorisationFilter
-    @RolesAllowed({"Customer", "Retailer"})
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/categories")
-    public Response GetAllCategories(@QueryParam("limit") int limit, @QueryParam("offset") int offset){
-        Gson gson = gsonBuilder.create();
-        var categories = service.GetAllCategories();
-        return Response.ok(gson.toJson(categories)).build();
-    }
-
-    @GET
-    @UseAuthorisationFilter
-    @RolesAllowed({"Customer", "Retailer"})
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/categories/{category_id}")
-    public Response GetCategoryById(@PathParam("category_id") String id){
-        Gson gson = gsonBuilder.create();
-        var category = service.GetCategoryById(id);
-        return Response.ok(gson.toJson(category)).build();
     }
 }

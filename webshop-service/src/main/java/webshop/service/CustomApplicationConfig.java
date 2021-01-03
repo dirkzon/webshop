@@ -1,9 +1,7 @@
 package webshop.service;
 
-
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import webshop.persistence.Context;
 import webshop.service.filters.AuthenticationFilter;
 import webshop.service.filters.AuthorisationFilter;
 
@@ -12,7 +10,6 @@ import java.util.logging.Logger;
 
 public class CustomApplicationConfig extends ResourceConfig {
 
-	public static final Context context = Context.Memory;
 
 	public CustomApplicationConfig()
 	{
@@ -23,7 +20,7 @@ public class CustomApplicationConfig extends ResourceConfig {
 
 		register(new CorsFilter());
 
-		register(new DependencyBinder(context));
+		register(new DependencyBinder("Memory"));
 
 		register(new AuthorisationFilter());
 		register(new AuthenticationFilter());

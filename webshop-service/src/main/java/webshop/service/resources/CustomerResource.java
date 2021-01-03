@@ -1,31 +1,47 @@
 package webshop.service.resources;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.ICustomerService;
-import webshop.persistence.HibernateProxyTypeAdapter;
 import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.Customer;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import static webshop.service.filters.Constants.USER_ID;
 
 @Path("/customers")
 @Service
 public class CustomerResource {
 
+    private final ICustomerService service;
+
+    @Context
+    ContainerRequestContext request;
+
     @Inject
-    private ICustomerService service;
+    public CustomerResource(ICustomerService service){
+        this.service = service;
+    }
 
-    private GsonBuilder gsonBuilder;
-
-    public CustomerResource(){
-        gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+    @GET
+    @UseAuthorisationFilter
+    @RolesAllowed({"Customer"})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/me")
+    public Response getMe(){
+        try{
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
+            Customer customer =  service.getCustomerById(id);
+            return Response.ok(customer).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     @GET
@@ -33,27 +49,24 @@ public class CustomerResource {
     @RolesAllowed({"Customer"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
-    public Response GetCustomerById(@PathParam("customer_id") String id){
-        Gson gson = gsonBuilder.create();
-        var customer = service.GetUserById(id);
-        if(customer != null){
-            return Response.ok(gson.toJson(customer)).build();
-        }else{
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("id was not valid").build();
+    public Response getCustomerById(@PathParam("customer_id") int id){
+        try{
+            Customer customer = service.getCustomerById(id);
+            return Response.ok(customer).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
     }
 
     @POST
-    @UseAuthorisationFilter
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response CreateCustomer(Customer customer){
-        Gson gson = gsonBuilder.create();
-        if(customer != null){
-            var newCustomer = service.CreateUser(customer);
-            return Response.ok(gson.toJson(newCustomer)).build();
-        }else{
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no customer given").build();
+    public Response createCustomer(Customer customer){
+        try{
+            Customer newCustomer = service.saveCustomer(customer);
+            return Response.ok(newCustomer).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
     }
 
@@ -61,10 +74,14 @@ public class CustomerResource {
     @UseAuthorisationFilter
     @RolesAllowed({"Customer"})
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{customer_id}")
-    public Response RemoveCustomerById(@PathParam("customer_id") String id){
-        service.RemoveUserById(id);
-        return Response.ok().build();
+    public Response removeCustomerById() {
+        try {
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
+            service.removeCustomerById(id);
+            return Response.ok().build();
+        } catch (Exception e) {
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     @PUT
@@ -72,14 +89,13 @@ public class CustomerResource {
     @RolesAllowed({"Customer"})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{customer_id}")
-    public Response UpdateCustomerById(@PathParam("customer_id") String id, Customer customer){
-        Gson gson = gsonBuilder.create();
-        if(customer != null){
-            var updatedCustomer = service.UpdateUserById(id, customer);
-            return Response.ok(gson.toJson(updatedCustomer)).build();
-        }else{
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity("no customer given").build();
+    public Response updateCustomerById(Customer customer){
+        try{
+            int id = Integer.parseInt(request.getProperty(USER_ID).toString());
+            var updatedCustomer = service.updateCustomerById(id, customer);
+            return Response.ok(updatedCustomer).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
         }
     }
 }

@@ -2,10 +2,8 @@ package webshop.service.filters;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import webshop.service.injector.UserServiceInjector;
 
 import javax.annotation.security.RolesAllowed;
-import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
@@ -15,20 +13,18 @@ import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.List;
 
+import static webshop.service.filters.Constants.*;
+
 @UseAuthorisationFilter
 public class AuthorisationFilter implements ContainerRequestFilter {
 
     @Context
     private ResourceInfo resourceInfo;
 
-    @Inject
-    UserServiceInjector injector;
-
     @Override
     public void filter(ContainerRequestContext requestContext){
 
         final String AUTHORIZATION_PROPERTY = "Authorization";
-        final String AUTHENTICATION_SCHEME = "Bearer";
 
         final MultivaluedMap<String, String> headers = requestContext.getHeaders();
 
@@ -46,7 +42,10 @@ public class AuthorisationFilter implements ContainerRequestFilter {
         Claims credentials;
 
         try {
-            credentials = Jwts.parser().setSigningKey("secret").parseClaimsJws(encodedCredentials).getBody();
+            credentials = Jwts.parser()
+                    .setSigningKey("eW91IGdvdCB0aGlzIQ==")
+                    .parseClaimsJws(encodedCredentials)
+                    .getBody();
         } catch (Exception e) {
             Response response = Response.status(Response.Status.UNAUTHORIZED).
                     entity(e.getCause()).build();
@@ -54,22 +53,22 @@ public class AuthorisationFilter implements ContainerRequestFilter {
             return;
         }
 
-        final String id = credentials.getId();
-        final String username = credentials.getSubject();
-        final String role = credentials.get("role").toString();
+        final String role = credentials.get(USER_ROLE).toString();
 
-        if(!isUserAllowed(role)){
+        if(Boolean.TRUE.equals(isUserAllowed(role))){
             Response response = Response.status(Response.Status.FORBIDDEN).
                     entity("You do not have the right role(s).").build();
             requestContext.abortWith(response);
-            return;
         }
 
-        var service = injector.getImplementation(role);
+        final String userId = credentials.getId();
 
+        requestContext.setProperty(USER_ROLE, role);
+        requestContext.setProperty(USER_ID, userId);
     }
 
     private Boolean isUserAllowed(String role){
+        if(!resourceInfo.getResourceMethod().isAnnotationPresent(RolesAllowed.class)) return true;
         String[] allowedRoles = resourceInfo.getResourceMethod().getAnnotation(RolesAllowed.class).value();
         return Arrays.asList(allowedRoles).contains(role);
     }

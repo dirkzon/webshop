@@ -1,64 +1,88 @@
 package webshop.persistence.repositories;
 
-import org.hibernate.Criteria;
 import webshop.persistence.interfaces.ICustomerRepository;
-import webshop.service.models.AbstractUser;
 import webshop.service.models.Customer;
-import webshop.service.models.ProductReview;
-import webshop.service.models.Retailer;
+import webshop.service.models.Report;
+import webshop.service.models.Review;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import java.util.List;
 
 public class CustomerRepository implements ICustomerRepository {
 
-    private EntityManager entityManager;
+    private final EntityManagerFactory emf;
 
     @Inject
-    public CustomerRepository(EntityManagerFactory emf){
-        this.entityManager = emf.createEntityManager();
+    public CustomerRepository(EntityManagerFactory entityManagerFactory){
+        emf = entityManagerFactory;
     }
 
-    @Override
-    public List<ProductReview> GetAllReviewsById(String id) {
-        String sql = "SELECT * FROM reviews WHERE customer_id = ?1";
-        Query query = entityManager.createNativeQuery(sql, ProductReview.class);
-        query.setParameter(1, id);
-        return query.getResultList();
-    }
-
-    @Override
-    public AbstractUser GetUserById(String id) {
-        return entityManager.find(Customer.class, id);
-    }
-
-    @Override
-    public AbstractUser UpdateUserById(String id, AbstractUser updatedUser) {
-        return null;
-    }
-
-    @Override
-    public void RemoveUserById(String id) {
-
-    }
-
-    @Override
-    public AbstractUser CreateUser(AbstractUser newUser) {
-        return null;
-    }
-
-    @Override
-    public AbstractUser IsUserValid(String userName) {
-        String sql = "SELECT * FROM customers WHERE name = :name OR email = :name";
-        Query query = entityManager.createNativeQuery(sql, Customer.class);
-        query.setParameter("name", userName);
-        var result =  query.getResultList();
-        if (result.isEmpty()){
-            return null;
+    public Customer saveCustomer(Customer customer)throws Exception{
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.persist(customer);
+            em.getTransaction().commit();
+            return customer;
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }finally {
+            em.close();
         }
-        return (Customer) result.get(0);
+    }
+
+    @Override
+    public Customer getCustomerById(int id)throws Exception {
+        EntityManager em = emf.createEntityManager();
+        try{
+            return em.find(Customer.class, id);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }finally{
+            em.close();
+        }
+    }
+
+    @Override
+    public void removeCustomer(Customer customer)throws Exception{
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            for (Review review : customer.getReviews()) {
+                for(Report report : review.getReports()){
+                    report.setRetailer(null);
+                    report.getReview().setProduct(null);
+                    report.getReview().setCustomer(null);
+                    em.remove(em.contains(report) ? report : em.merge(report));
+                }
+                review.setProduct(null);
+                em.remove(em.contains(review) ? review : em.merge(review));
+            }
+            em.remove(em.contains(customer) ? customer : em.merge(customer));
+            em.getTransaction().commit();
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }finally{
+            em.close();
+        }
+    }
+
+    @Override
+    public Customer updateCustomerById(int id, Customer customer)throws Exception{
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            Customer customerToUpdate = em.find(Customer.class, id);
+            customerToUpdate.setAddress(customer.getAddress());
+            customerToUpdate.setAvatar(customer.getAvatar());
+            customerToUpdate.setAccount(customer.getAccount());
+            em.getTransaction().commit();
+            return customer;
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }finally {
+            em.close();
+        }
     }
 }

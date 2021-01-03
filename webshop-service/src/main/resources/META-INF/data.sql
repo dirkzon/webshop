@@ -1,34 +1,42 @@
---addresses:
-INSERT INTO addresses(address_id, country, postal_code, street, house_number, house_number_addition) VALUES('address:1', 'NL', '4321AB','Oosterweg', '23', 'A')
+insert into accounts(id, joined, email, password, role, user_name) values('1', '2018-10-02','john@outlook.com' ,'abcd', 'Retailer', 'john')
+insert into accounts(id, joined, email,  password, role, user_name) values('2', '2020-03-18','henk@gmail.com', '1234', 'Customer', 'henk')
+insert into accounts(id, joined, email,  password, role, user_name) values('3', '2020-03-18','peter@hotmail.com', 'pass', 'Customer', 'peter')
 
---images:
-INSERT INTO images(image_id, url, height, width) VALUES('image:1', 'https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg', 800, 800)
-INSERT INTO images(image_id, url, height, width) VALUES('image:2', 'https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg', 800, 800)
+insert into addresses(id, country, house_number, street_name) values('1', 'netherlands', '12', 'street')
+insert into addresses(id, country, house_number, street_name) values('2', 'germany', '72', 'bakkerstraat')
 
---customers:
-INSERT INTO customers(customer_id, address_id, name, password, image_id, email, joined) VALUES('customer:1', 'address:1', 'peter', 'password', 'image:2', 'peter@outlook.com', '2019-7-05')
-INSERT INTO customers(customer_id, address_id, name, password, image_id, email, joined) VALUES('customer:2', 'address:1', 'henk', '1234', 'image:2', 'henk@hotmail.com', '2020-4-9')
+insert into images(id, url) values('1', 'https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg')
+insert into images(id, url) values('2', 'https://3.bp.blogspot.com/-xne-2R0z87A/UVKbpL9j_UI/AAAAAAAAIFo/JaLg41ePh-8/s320/red_panda-2013-02.jpg')
+insert into images(id, url) values('3', 'https://pbs.twimg.com/profile_images/3528062742/367430a3bbafcccd59c595bf3349590e.jpeg')
+insert into images(id, url) values('4', 'https://ekameco.com/wp-content/uploads/2019/03/product-placeholder.jpg')
+insert into images(id, url) values('5', 'https://i.redd.it/53j4qmv9jtn31.jpg')
+insert into images(id, url) values('6', 'https://audio-head.com/wp-content/uploads/2014/03/AE_30744.jpg')
+insert into images(id, url) values('7', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Canon_EOS_60D_01.jpg/1200px-Canon_EOS_60D_01.jpg')
+insert into images(id, url) values('8', 'https://gadgetstouse.com/wp-content/uploads/2018/08/Motorola-One-Power-1024x726-1024x726.jpg')
+insert into images(id, url) values('9', 'https://i.ytimg.com/vi/FGZOf-F05yM/maxresdefault.jpg')
+insert into images(id, url) values('10', 'https://i.dell.com/sites/csimages/Video_Imagery/all/26188-notebooks-xps-15-9570-1280x720.jpg')
+insert into images(id, url) values('11', 'https://www.noelleeming.co.nz/shop/content/images/products/180/180899.jpg')
+insert into images(id, url) values('12', 'https://news-cdn.softpedia.com/images/news2/download-firmware-1-1-4-for-linksys-ea8500-mu-mimo-ac2600-router-498803-2.jpg')
+insert into images(id, url) values('13', 'https://i.redd.it/kkt8or0fod351.png')
 
---retailers:
-INSERT INTO retailers(retailer_id, rating, url, name, password, image_id, email, joined) VALUES('retailer:1', 4.5, 'testurl', 'john', 'abcd', 'image:2', 'john@gmail.com', '2020-3-11')
+insert into retailers(id, account_id, avatar_id) values('1','1','1')
 
---catagories:
-INSERT INTO categories(category_id, name, image_id, url) VALUES('category:1', 'tech', 'image:1', 'testcategoryurl')
-INSERT INTO categories(category_id, name, image_id, url) VALUES('category:2', 'house', 'image:1', 'testcategoryurl')
+insert into customers(id, account_id, address_id, avatar_id) values('1', '2', '1', '2')
+insert into customers(id, account_id, address_id, avatar_id) values('2', '3', '2', '3')
 
---products:
-INSERT INTO products(product_id, name, price, category_id, description, created, retailer_id, rating, url) VALUES('product:1', 'usb', 10.50, 'category:1', '8GB 2.0 usb stick', '2020-4-15', 'retailer:1', 4.0, 'testurlproduct')
-INSERT INTO products(product_id, name, price, category_id, description, created, retailer_id, rating, url) VALUES('product:2', 'keyboard', 65.95, 'category:1', 'keyboard for typing', '2020-6-22', 'retailer:1', 2.5, 'testurlproduct')
-INSERT INTO products(product_id, name, price, category_id, description, created, retailer_id, rating, url) VALUES('product:3', 'tv', 300.00, 'category:2', '72 inch oled lg flatscreen', '2019-11-08', 'retailer:1', 4.5, 'testurlproduct')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('1', '2020-11-30', 'computer mouse', 'mouse', '12.50', '4.5', '4', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('2', '2019-02-15', 'tofu 65% with cherry mx black switches', 'keyboard', '200.0', '3.5', '5', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('3', '2018-06-12', '300 watt speakers', 'speakers', '150.50', '4.5', '6', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('4', '2015-08-10', '500 megapixel camera ', 'camera', '240.95', '2.0', '7', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('5', '2013-11-11', 'phone ', 'motorola power', '170.89', '5.0', '8', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('6', '2019-05-21', 'the newest playstation', 'playstation 6', '623.60', '3.5', '9', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('7', '2020-09-23', '15 inch laptop with intell i10', 'laptop', '1020.70', '0.0', '10', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('8', '2018-06-09', 'headphones for on your head ', 'jbl headphones', '200.0', '2.5', '11', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('9', '2017-01-15', '6g router ', 'router', '200.0', '1.0', '12', '1')
+insert into products(product_id, created, description, name, price, rating, image_id, retailer_id) values('10', '2017-12-25', 'gtx 4090 videocard with 200gb of vram', 'gtx 4090 videocard', '860.80', '0.0', '13', '1')
 
---product-images:
-INSERT INTO product_images(product_id, image_id, url, height, width) VALUES('product:1', 'product_image:1', 'https://www.topsjop.nl/99-large_default/4gb-usb-stick-met-voice-recorder.jpg', 800, 800)
-INSERT INTO product_images(product_id, image_id, url, height, width) VALUES('product:2', 'product_image:2', 'https://i.redd.it/53j4qmv9jtn31.jpg', 3115, 2082)
-INSERT INTO product_images(product_id, image_id, url, height, width) VALUES('product:3', 'product_image:5', 'https://media.s-bol.com/lZnyXPOOXq5/550x495.jpg', 550, 495)
-INSERT INTO product_images(product_id, image_id, url, height, width) VALUES('product:3', 'product_image:4', 'https://media.s-bol.com/RoJN2jRKoQ5w/550x358.jpg', 550, 358)
 
---reviews:
-INSERT INTO reviews(review_id, rating, body, created, customer_id, product_id) VALUES('review:1', 4.5, 'Great product!', '2020-4-18', 'customer:1', 'product:1')
-INSERT INTO reviews(review_id, rating, body, created, customer_id, product_id) VALUES('review:2', 2.0, 'would not recommend', '2020-5-10', 'customer:2', 'product:1')
-INSERT INTO reviews(review_id, rating, body, created, customer_id, product_id) VALUES('review:3', 3.5, 'not bad', '2019-7-12', 'customer:2', 'product:2')
-INSERT INTO reviews(review_id, rating, body, created, customer_id, product_id) VALUES('review:4', 5.0, 'awesome', '2020-1-30', 'customer:1', 'product:3')
+insert into reviews(id, body, created, rating, customer_id, prod_id) values('1', 'body', '2020-06-14', '4.0', '1', '1')
+
+insert into reports(id, review_id, retailer_id) values('1', '1', '1')
+

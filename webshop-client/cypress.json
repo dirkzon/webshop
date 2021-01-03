@@ -1,0 +1,5 @@
+{
+  "baseUrl": "http://localhost:2121",
+  "video": false,
+  "taskTimeout": 300000
+}

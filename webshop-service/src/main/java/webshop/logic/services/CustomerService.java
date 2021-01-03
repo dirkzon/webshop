@@ -2,48 +2,76 @@ package webshop.logic.services;
 
 import webshop.logic.interfaces.ICustomerService;
 import webshop.persistence.interfaces.ICustomerRepository;
-import webshop.service.models.AbstractUser;
-import webshop.service.models.ProductReview;
+import webshop.service.models.*;
 
 import javax.inject.Inject;
-import java.util.List;
+import java.time.LocalDate;
 
 public class CustomerService implements ICustomerService {
 
-    private ICustomerRepository repository;
+    private final ICustomerRepository repository;
 
     @Inject
-    public CustomerService(ICustomerRepository repository){
+    public CustomerService(ICustomerRepository repository) {
         this.repository = repository;
     }
 
-    @Override
-    public List<ProductReview> GetAllReviewsById(String id) {
-        return repository.GetAllReviewsById(id);
+    public Customer getCustomerById(int id)throws Exception{
+        try{
+            if(id < 0) throw new Exception("No id");
+            Customer customer = repository.getCustomerById(id);
+            if(customer.getReviews() != null){
+                for(Review review : customer.getReviews()){
+                    review.getProduct().setReviews(null);
+                    review.setCustomer(null);
+                    for(Report report : review.getReports()){
+                        report.setReview(null);
+                        report.setRetailer(null);
+                    }
+                }
+            }
+            return customer;
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
-    @Override
-    public AbstractUser GetUserById(String id) {
-        return repository.GetUserById(id);
+    public Customer saveCustomer(Customer customer)throws Exception{
+        try{
+            customer.setAvatar(new Image("https://cnaca.ca/wp-content/uploads/2018/10/user-icon-image-placeholder.jpg"));
+            if(customer.getAccount() != null &&
+                    customer.getAvatar() != null &&
+                    customer.getAddress() != null){
+                customer.getAccount().setJoined(LocalDate.now());
+                return repository.saveCustomer(customer);
+            }
+            throw new Exception("customer not valid");
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
-    @Override
-    public AbstractUser UpdateUserById(String id, AbstractUser updatedUser) {
-        return repository.UpdateUserById(id, updatedUser);
+    public Customer updateCustomerById(int id, Customer customer)throws Exception{
+        try{
+            if(customer.getAccount() != null &&
+                    customer.getAvatar() != null &&
+                    customer.getAddress() != null &&
+                    customer.getId() >= 0){
+                customer.getAccount().setRole(UserRole.Customer);
+                return repository.updateCustomerById(id, customer);
+            }
+            throw new Exception("Customer not valid");
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
-    @Override
-    public void RemoveUserById(String id) {
-        repository.RemoveUserById(id);
-    }
-
-    @Override
-    public AbstractUser CreateUser(AbstractUser newUser) {
-        return repository.CreateUser(newUser);
-    }
-
-    @Override
-    public AbstractUser IsUserValid(String userDetails) {
-        return repository.IsUserValid(userDetails);
+    public void removeCustomerById(int id)throws Exception{
+        try{
+            Customer customer = repository.getCustomerById(id);
+            repository.removeCustomer(customer);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 }
