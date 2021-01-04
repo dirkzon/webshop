@@ -20,40 +20,32 @@ public class AccountService implements IAccountService {
     private final IAccountRepository repository;
 
     @Inject
-    public AccountService(IAccountRepository repository){
+    public AccountService(IAccountRepository repository) {
         this.repository = repository;
     }
 
-    public Account isAccountValid(String details, String password)throws Exception{
-        try{
-            if(details.isEmpty() || details == null
-                    && password.isEmpty() || password == null) throw new NullPointerException("Credentials missing");
-            List<Account> accounts = repository.getAccountByDetails(details);
-            if(accounts.isEmpty()) throw new NotFoundException("Account not found");
-            for(Account account : accounts){
-                if(account.getPassword().equals(password)){
-                    return account;
-                }
+    public Account isAccountValid(String details, String password) throws Exception {
+        if (details.isEmpty() || details == null
+                && password.isEmpty() || password == null) throw new NullPointerException("Credentials missing");
+        List<Account> accounts = repository.getAccountByDetails(details);
+        if (accounts.isEmpty()) throw new NotFoundException("Account not found");
+        for (Account account : accounts) {
+            if (account.getPassword().equals(password)) {
+                return account;
             }
-            throw new NotFoundException("Account not found");
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }
+        throw new NotFoundException("Account not found");
     }
 
-    public String createToken(Account account)throws Exception{
-        try{
-            int id = repository.getUserIdFromAccountId(account.getId(), account.getRole());
-            Logger.getGlobal().log(Level.INFO, "User with id: " + account.getId() + " has logged in.");
-            return Jwts.builder()
-                    .setSubject(account.getUsername())
-                    .setId(Integer.toString(id))
-                    .claim(USER_ROLE, account.getRole())
-                    .setIssuedAt(new Date())
-                    .signWith(SignatureAlgorithm.HS256, "eW91IGdvdCB0aGlzIQ==")
-                    .compact();
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
-        }
+    public String createToken(Account account) throws Exception {
+        int id = repository.getUserIdFromAccountId(account.getId(), account.getRole());
+        Logger.getGlobal().log(Level.INFO, "User with id: " + account.getId() + " has logged in.");
+        return Jwts.builder()
+                .setSubject(account.getUsername())
+                .setId(Integer.toString(id))
+                .claim(USER_ROLE, account.getRole())
+                .setIssuedAt(new Date())
+                .signWith(SignatureAlgorithm.HS256, "eW91IGdvdCB0aGlzIQ==")
+                .compact();
     }
 }

@@ -7,7 +7,6 @@ import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.Customer;
 import webshop.service.models.UserRole;
 
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;

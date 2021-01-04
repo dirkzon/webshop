@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import webshop.service.AllowedRoles;
 import webshop.service.models.UserRole;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;

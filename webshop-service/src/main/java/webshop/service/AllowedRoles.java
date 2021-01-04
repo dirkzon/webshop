@@ -2,7 +2,6 @@ package webshop.service;
 
 import webshop.service.models.UserRole;
 
-import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 

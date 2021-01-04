@@ -16,62 +16,46 @@ public class CustomerService implements ICustomerService {
         this.repository = repository;
     }
 
-    public Customer getCustomerById(int id)throws Exception{
-        try{
-            if(id < 0) throw new Exception("No id");
-            Customer customer = repository.getCustomerById(id);
-            if(customer.getReviews() != null){
-                for(Review review : customer.getReviews()){
-                    review.getProduct().setReviews(null);
-                    review.setCustomer(null);
-                    for(Report report : review.getReports()){
-                        report.setReview(null);
-                        report.setRetailer(null);
-                    }
+    public Customer getCustomerById(int id) throws Exception {
+        if (id < 0) throw new IllegalArgumentException("No id");
+        Customer customer = repository.getCustomerById(id);
+        if (customer.getReviews() != null) {
+            for (Review review : customer.getReviews()) {
+                review.getProduct().setReviews(null);
+                review.setCustomer(null);
+                for (Report report : review.getReports()) {
+                    report.setReview(null);
+                    report.setRetailer(null);
                 }
             }
-            return customer;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }
+        return customer;
     }
 
-    public Customer saveCustomer(Customer customer)throws Exception{
-        try{
-            customer.setAvatar(new Image("https://cnaca.ca/wp-content/uploads/2018/10/user-icon-image-placeholder.jpg"));
-            if(customer.getAccount() != null &&
-                    customer.getAvatar() != null &&
-                    customer.getAddress() != null){
-                customer.getAccount().setJoined(LocalDate.now());
-                return repository.saveCustomer(customer);
-            }
-            throw new Exception("customer not valid");
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
+    public Customer saveCustomer(Customer customer) throws Exception {
+        customer.setAvatar(new Image("https://cnaca.ca/wp-content/uploads/2018/10/user-icon-image-placeholder.jpg"));
+        if (customer.getAccount() != null &&
+                customer.getAvatar() != null &&
+                customer.getAddress() != null) {
+            customer.getAccount().setJoined(LocalDate.now());
+            return repository.saveCustomer(customer);
         }
+        throw new NullPointerException("customer not valid");
     }
 
-    public Customer updateCustomerById(int id, Customer customer)throws Exception{
-        try{
-            if(customer.getAccount() != null &&
-                    customer.getAvatar() != null &&
-                    customer.getAddress() != null &&
-                    customer.getId() >= 0){
-                customer.getAccount().setRole(UserRole.CUSTOMER);
-                return repository.updateCustomerById(id, customer);
-            }
-            throw new Exception("Customer not valid");
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
+    public Customer updateCustomerById(int id, Customer customer) throws Exception {
+        if (customer.getAccount() != null &&
+                customer.getAvatar() != null &&
+                customer.getAddress() != null &&
+                customer.getId() >= 0) {
+            customer.getAccount().setRole(UserRole.CUSTOMER);
+            return repository.updateCustomerById(id, customer);
         }
+        throw new NullPointerException("Customer not valid");
     }
 
-    public void removeCustomerById(int id)throws Exception{
-        try{
-            Customer customer = repository.getCustomerById(id);
-            repository.removeCustomer(customer);
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
-        }
+    public void removeCustomerById(int id) throws Exception {
+        Customer customer = repository.getCustomerById(id);
+        repository.removeCustomer(customer);
     }
 }

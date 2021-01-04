@@ -8,7 +8,6 @@ import webshop.service.models.Product;
 import webshop.service.models.Retailer;
 import webshop.service.models.UserRole;
 
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;

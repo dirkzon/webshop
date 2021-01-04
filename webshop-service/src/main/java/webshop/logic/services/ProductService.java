@@ -16,97 +16,77 @@ public class ProductService implements IProductService {
     private final IProductRepository repository;
 
     @Inject
-    public ProductService(IProductRepository repository){
+    public ProductService(IProductRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public Product getProductById(int id)throws Exception{
-        if(id < 0) throw new Exception("Id not valid");
-        try{
-            Product product = repository.getProductById(id);
-            if(product.getReviews() != null){
-                for(Review review : product.getReviews()){
-                    review.setProduct(null);
-                    review.getCustomer().setReviews(null);
-                    for(Report report : review.getReports()){
-                        report.setReview(null);
-                        report.setRetailer(null);
-                    }
+    public Product getProductById(int id) throws Exception {
+        if (id < 0) throw new IllegalArgumentException("Id not valid");
+        Product product = repository.getProductById(id);
+        if (product.getReviews() != null) {
+            for (Review review : product.getReviews()) {
+                review.setProduct(null);
+                review.getCustomer().setReviews(null);
+                for (Report report : review.getReports()) {
+                    report.setReview(null);
+                    report.setRetailer(null);
                 }
             }
-            return product;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }
+        return product;
     }
 
     @Override
-    public boolean removeProductById(int id)throws Exception{
-        if(id < 0) throw new Exception("Id not valid");
-        try{
-            Product productToRemove = repository.getProductById(id);
-            if(productToRemove == null) return false;
-            repository.removeProduct(productToRemove);
-            return true;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
-        }
+    public boolean removeProductById(int id) throws Exception {
+        if (id < 0) throw new IllegalArgumentException("Id not valid");
+        Product productToRemove = repository.getProductById(id);
+        if (productToRemove == null) return false;
+        repository.removeProduct(productToRemove);
+        return true;
     }
 
     @Override
-    public Product updateProductById(int id, Product product)throws Exception{
-        try{
-            if(product.getDescription() == null ||
-                    product.getName() == null ||
-                    product.getImage() == null ||
-                    product.getPrice() == null ||
-                    product.getPrice() < 0 ||
-                    id == 0) {
-                throw new Exception("Cannot update Product.");
-            }
-            return repository.updateProductById(id, product);
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
+    public Product updateProductById(int id, Product product) throws Exception {
+        if (product.getDescription() == null ||
+                product.getName() == null ||
+                product.getImage() == null ||
+                product.getPrice() == null ||
+                product.getPrice() < 0 ||
+                id == 0) {
+            throw new IllegalArgumentException("Cannot update Product.");
         }
+        return repository.updateProductById(id, product);
     }
 
     @Override
-    public Review createReviewOnProductById(int id, Review review)throws Exception{
-        try{
-            if(review.getBody() == null ||
-                    review.getCustomer() == null ||
-                    review.getRating() == 0 ||
-                    id <= 0){
-                throw new Exception("Review not valid");
-            }
-            review.setCreated(LocalDate.now());
-            repository.createReviewOnProductById(id, review);
-            Product product = repository.getProductById(id);
-            product.setRating(calculateRating(product.getReviews()));
-            updateProductById(id, product);
-            return review;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
+    public Review createReviewOnProductById(int id, Review review) throws Exception {
+        if (review.getBody() == null ||
+                review.getCustomer() == null ||
+                review.getRating() == 0 ||
+                id <= 0) {
+            throw new IllegalArgumentException("Review not valid");
         }
+        review.setCreated(LocalDate.now());
+        repository.createReviewOnProductById(id, review);
+        Product product = repository.getProductById(id);
+        product.setRating(calculateRating(product.getReviews()));
+        updateProductById(id, product);
+        return review;
     }
 
     @Override
-    public List<Product> browseProducts(BrowseVars fields)throws Exception{
-        try{
-            if(!fields.isValid()) throw new Exception("Fields are not valid.");
-            List<Product> products= repository.browseProducts(fields);
-            for(Product product : products) product.setReviews(null);
-            return products;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
-        }
+    public List<Product> browseProducts(BrowseVars fields) throws Exception {
+        if (!fields.isValid()) throw new IllegalArgumentException("Fields are not valid.");
+        List<Product> products = repository.browseProducts(fields);
+        for (Product product : products) product.setReviews(null);
+        return products;
     }
 
-    private double calculateRating(List<Review> reviews){
+    private double calculateRating(List<Review> reviews) {
         double output = 0.0;
-        if(reviews !=null){
-            for(Review review : reviews){
+        if (reviews != null) {
+            for (Review review : reviews) {
                 output += review.getRating();
             }
             output = output / reviews.size();

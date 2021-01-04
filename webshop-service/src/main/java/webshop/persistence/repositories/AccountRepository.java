@@ -31,6 +31,8 @@ public class AccountRepository implements IAccountRepository {
             return result;
         }catch (Exception e) {
             throw new Exception(e.getMessage());
+        }finally {
+            em.close();
         }
     }
 
@@ -51,6 +53,8 @@ public class AccountRepository implements IAccountRepository {
             return (int) result.get(0);
         }catch (Exception e) {
             throw new Exception(e.getMessage());
+        }finally {
+            em.close();
         }
     }
 }
