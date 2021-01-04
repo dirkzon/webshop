@@ -10,7 +10,8 @@
                @click="report"
                style="margin:20px"
                flat
-               icon>
+               icon
+               data-cy="report">
           <v-icon >report</v-icon>
         </v-btn>
       </v-row>

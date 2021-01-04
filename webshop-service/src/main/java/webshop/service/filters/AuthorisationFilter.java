@@ -55,7 +55,7 @@ public class AuthorisationFilter implements ContainerRequestFilter {
 
         final String role = credentials.get(USER_ROLE).toString();
 
-        if(Boolean.TRUE.equals(isUserAllowed(role))){
+        if(!isUserAllowed(role)){
             Response response = Response.status(Response.Status.FORBIDDEN).
                     entity("You do not have the right role(s).").build();
             requestContext.abortWith(response);
