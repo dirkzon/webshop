@@ -57,7 +57,7 @@ public class CustomerService implements ICustomerService {
                     customer.getAvatar() != null &&
                     customer.getAddress() != null &&
                     customer.getId() >= 0){
-                customer.getAccount().setRole(UserRole.Customer);
+                customer.getAccount().setRole(UserRole.CUSTOMER);
                 return repository.updateCustomerById(id, customer);
             }
             throw new Exception("Customer not valid");

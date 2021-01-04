@@ -2,8 +2,10 @@ package webshop.service.resources;
 
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.ICustomerService;
+import webshop.service.AllowedRoles;
 import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.Customer;
+import webshop.service.models.UserRole;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -31,7 +33,7 @@ public class CustomerResource {
 
     @GET
     @UseAuthorisationFilter
-    @RolesAllowed({"Customer"})
+    @AllowedRoles({UserRole.CUSTOMER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/me")
     public Response getMe(){
@@ -46,7 +48,7 @@ public class CustomerResource {
 
     @GET
     @UseAuthorisationFilter
-    @RolesAllowed({"Customer"})
+    @AllowedRoles({UserRole.CUSTOMER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{customer_id}")
     public Response getCustomerById(@PathParam("customer_id") int id){
@@ -72,7 +74,7 @@ public class CustomerResource {
 
     @DELETE
     @UseAuthorisationFilter
-    @RolesAllowed({"Customer"})
+    @AllowedRoles({UserRole.CUSTOMER})
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeCustomerById() {
         try {
@@ -86,7 +88,7 @@ public class CustomerResource {
 
     @PUT
     @UseAuthorisationFilter
-    @RolesAllowed({"Customer"})
+    @AllowedRoles({UserRole.CUSTOMER})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateCustomerById(Customer customer){

@@ -2,6 +2,7 @@ package webshop.service.resources;
 
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.IProductService;
+import webshop.service.AllowedRoles;
 import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.*;
 
@@ -34,7 +35,7 @@ public class ProductResource {
 
     @GET
     @UseAuthorisationFilter
-    @RolesAllowed({"Customer", "Retailer"})
+    @AllowedRoles({UserRole.CUSTOMER, UserRole.RETAILER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
     public Response getProductById(@PathParam("product_id") int id){
@@ -42,7 +43,7 @@ public class ProductResource {
             Product product = service.getProductById(id);
             UserRole role = UserRole.valueOf(request.getProperty(USER_ROLE).toString());
             int userId = Integer.parseInt(request.getProperty(USER_ID).toString());
-            if(role == UserRole.Retailer){
+            if(role == UserRole.RETAILER){
                 if(product.getRetailer().getId() == userId) product.setCanEdit(true);
                 product.setCanReview(false);
             }else{
@@ -61,7 +62,7 @@ public class ProductResource {
 
     @DELETE
     @UseAuthorisationFilter
-    @RolesAllowed("Retailer")
+    @AllowedRoles({UserRole.RETAILER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
     public Response removeProductById(@PathParam("product_id") int id){
@@ -75,7 +76,7 @@ public class ProductResource {
 
     @PUT
     @UseAuthorisationFilter
-    @RolesAllowed("Retailer")
+    @AllowedRoles({UserRole.RETAILER})
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{product_id}")
@@ -90,7 +91,7 @@ public class ProductResource {
 
     @POST
     @UseAuthorisationFilter
-    @RolesAllowed("Customer")
+    @AllowedRoles({UserRole.CUSTOMER})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{product_id}/reviews")

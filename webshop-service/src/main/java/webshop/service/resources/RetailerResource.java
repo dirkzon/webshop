@@ -2,9 +2,11 @@ package webshop.service.resources;
 
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.IRetailerService;
+import webshop.service.AllowedRoles;
 import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.Product;
 import webshop.service.models.Retailer;
+import webshop.service.models.UserRole;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -34,7 +36,7 @@ public class RetailerResource {
 
     @GET
     @UseAuthorisationFilter
-    @RolesAllowed({"Retailer"})
+    @AllowedRoles({UserRole.CUSTOMER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/me")
     public Response getMe(){
@@ -74,7 +76,7 @@ public class RetailerResource {
 
     @DELETE
     @UseAuthorisationFilter
-    @RolesAllowed("Retailer")
+    @AllowedRoles({UserRole.RETAILER})
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeRetailerById(){
         try {
@@ -88,7 +90,7 @@ public class RetailerResource {
 
     @PUT
     @UseAuthorisationFilter
-    @RolesAllowed("Retailer")
+    @AllowedRoles({UserRole.RETAILER})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateRetailer(Retailer retailer){
@@ -103,7 +105,7 @@ public class RetailerResource {
 
     @GET
     @UseAuthorisationFilter
-    @RolesAllowed({"Retailer", "Customer"})
+    @AllowedRoles({UserRole.CUSTOMER, UserRole.RETAILER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{retailer_id}/catalog")
     public Response getAllProductsInCatalog(@PathParam("retailer_id") int id){
@@ -117,7 +119,7 @@ public class RetailerResource {
 
     @POST
     @UseAuthorisationFilter
-    @RolesAllowed("Retailer")
+    @AllowedRoles({UserRole.RETAILER})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/catalog")

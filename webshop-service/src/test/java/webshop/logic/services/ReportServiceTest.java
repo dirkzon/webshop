@@ -31,8 +31,8 @@ class ReportServiceTest {
 
         List<Report> reports = new ArrayList<>();
 
-        Retailer retailer = new Retailer(1,new Account("john", "john@outlook.com","1234", UserRole.Retailer, LocalDate.parse("2020-05-30")), new Image("testUrl"));
-        Customer customer = new Customer(1, new Account("peter", "password","peter@outlook.com",  UserRole.Customer, LocalDate.parse("2016-08-16")),
+        Retailer retailer = new Retailer(1,new Account("john", "john@outlook.com","1234", UserRole.RETAILER, LocalDate.parse("2020-05-30")), new Image("testUrl"));
+        Customer customer = new Customer(1, new Account("peter", "password","peter@outlook.com",  UserRole.CUSTOMER, LocalDate.parse("2016-08-16")),
                 new Address("GB", "Street", 7),
                 new Image("testUrl"));
         Review review = new Review(4.5, "review body", LocalDate.parse("2018-10-02"), customer,new Product(1, "tv", 200.0, "description tv", LocalDate.parse("2020-01-08"),retailer,2.5, new Image("testUrl")));

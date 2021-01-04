@@ -40,7 +40,7 @@ public class AccountRepository implements IAccountRepository {
         EntityManager em = emf.createEntityManager();
         try{
             String sql;
-            if(role == UserRole.Customer){
+            if(role == UserRole.CUSTOMER){
                 sql = "SELECT id FROM customers WHERE account_id = :id";
             }else{
                 sql = "SELECT id FROM retailers WHERE account_id = :id";

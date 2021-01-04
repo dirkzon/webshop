@@ -1,6 +1,6 @@
-insert into accounts(id, joined, email, password, role, user_name) values('1', '2018-10-02','john@outlook.com' ,'abcd', 'Retailer', 'john')
-insert into accounts(id, joined, email,  password, role, user_name) values('2', '2020-03-18','henk@gmail.com', '1234', 'Customer', 'henk')
-insert into accounts(id, joined, email,  password, role, user_name) values('3', '2020-03-18','peter@hotmail.com', 'pass', 'Customer', 'peter')
+insert into accounts(id, joined, email, password, role, user_name) values('1', '2018-10-02','john@outlook.com' ,'abcd', 'RETAILER', 'john')
+insert into accounts(id, joined, email,  password, role, user_name) values('2', '2020-03-18','henk@gmail.com', '1234', 'CUSTOMER', 'henk')
+insert into accounts(id, joined, email,  password, role, user_name) values('3', '2020-03-18','peter@hotmail.com', 'pass', 'CUSTOMER', 'peter')
 
 insert into addresses(id, country, house_number, street_name) values('1', 'netherlands', '12', 'street')
 insert into addresses(id, country, house_number, street_name) values('2', 'germany', '72', 'bakkerstraat')

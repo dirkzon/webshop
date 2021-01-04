@@ -130,7 +130,7 @@ export default {
         account: {
           email: this.email,
           password: this.password,
-          role: this.type,
+          role: this.type.toUpperCase(),
           username: this.username
         },
         address: {

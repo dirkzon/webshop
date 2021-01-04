@@ -28,17 +28,17 @@ class CustomerServiceTests {
 
         List<Customer> customers = new ArrayList<>();
 
-        customers.add(new Customer(0, new Account("henk", "1234","henk@gmail.com", UserRole.Customer, LocalDate.parse("2018-10-02")),
+        customers.add(new Customer(0, new Account("henk", "1234","henk@gmail.com", UserRole.CUSTOMER, LocalDate.parse("2018-10-02")),
                 new Address("NL", "street", 15),
                 new Image("testurl")));
-        customers.add(new Customer(1, new Account("peter", "abcd","peter@outlook.com",  UserRole.Customer, LocalDate.parse("2016-08-16")),
+        customers.add(new Customer(1, new Account("peter", "abcd","peter@outlook.com",  UserRole.CUSTOMER, LocalDate.parse("2016-08-16")),
                 new Address("GB", "otherstreet", 7),
                 new Image("testurl")));
-        customers.add(new Customer(2, new Account("john", "pass","mail", UserRole.Customer, LocalDate.parse("2020-01-05")),
+        customers.add(new Customer(2, new Account("john", "pass","mail", UserRole.CUSTOMER, LocalDate.parse("2020-01-05")),
                 new Address("DE", "thatstreet", 42),
                 new Image("testurl")));
 
-        Customer testCustomer = new Customer(3, new Account("piet", "letmein","emailaddress", UserRole.Customer, LocalDate.parse("2015-11-29")),
+        Customer testCustomer = new Customer(3, new Account("piet", "letmein","emailaddress", UserRole.CUSTOMER, LocalDate.parse("2015-11-29")),
                 new Address("AU", "road", 24),
                 new Image("testurl"));
 
@@ -76,7 +76,7 @@ class CustomerServiceTests {
         Customer newCustomer = new Customer();
         newCustomer.setAvatar(new Image("testurl"));
         newCustomer.setAddress(new Address("AU", "road", 24));
-        newCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
+        newCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.CUSTOMER, LocalDate.parse("2015-11-29")));
         //act
         Customer customer = service.saveCustomer(newCustomer);
         //assert
@@ -88,7 +88,7 @@ class CustomerServiceTests {
         //arrange
         Customer newCustomer = new Customer();
         newCustomer.setAvatar(new Image("testurl"));
-        newCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
+        newCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.CUSTOMER, LocalDate.parse("2015-11-29")));
         //act
 
         //assert
@@ -116,7 +116,7 @@ class CustomerServiceTests {
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAddress(new Address("AU", "road", 24));
-        updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
+        updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.CUSTOMER, LocalDate.parse("2015-11-29")));
         updatedCustomer.setAvatar(new Image("testurl"));
         updatedCustomer.setId(3);
         //act
@@ -129,7 +129,7 @@ class CustomerServiceTests {
     void updateCustomerMissingAddressShouldNotSucceed(){
         //arrange
         Customer updatedCustomer = new Customer();
-        updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
+        updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.CUSTOMER, LocalDate.parse("2015-11-29")));
         updatedCustomer.setAvatar(new Image("testurl"));
         updatedCustomer.setId(3);
         //act
@@ -158,7 +158,7 @@ class CustomerServiceTests {
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAddress(new Address("AU", "road", 24));
-        updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
+        updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.CUSTOMER, LocalDate.parse("2015-11-29")));
         updatedCustomer.setId(3);
         //act
 
@@ -172,7 +172,7 @@ class CustomerServiceTests {
         //arrange
         Customer updatedCustomer = new Customer();
         updatedCustomer.setAddress(new Address("AU", "road", 24));
-        updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.Customer, LocalDate.parse("2015-11-29")));
+        updatedCustomer.setAccount(new Account("piet", "letmein","mail", UserRole.CUSTOMER, LocalDate.parse("2015-11-29")));
         updatedCustomer.setId(-2);
         //act
 

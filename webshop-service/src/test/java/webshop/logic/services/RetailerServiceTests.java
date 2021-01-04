@@ -34,7 +34,7 @@ class RetailerServiceTests {
 
         Image image = new Image("testurl");
 
-        Retailer retailer1 = new Retailer(0, new Account("john", "abcd","mail",  UserRole.Retailer, LocalDate.parse("2018-10-02")),image );
+        Retailer retailer1 = new Retailer(0, new Account("john", "abcd","mail",  UserRole.RETAILER, LocalDate.parse("2018-10-02")),image );
         retailers.add(retailer1);
 
         List<Product> products = new ArrayList<>();
@@ -75,7 +75,7 @@ class RetailerServiceTests {
     void saveRetailerShouldSucceed() throws Exception{
         //arrange
         Retailer newRetailer = new Retailer();
-        newRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
+        newRetailer.setAccount(new Account("john", "abcd","mail", UserRole.RETAILER, LocalDate.parse("2018-10-02")));
         newRetailer.setAvatar(new Image("testurl"));
         //act
         Retailer retailer = service.saveRetailer(newRetailer);
@@ -99,7 +99,7 @@ class RetailerServiceTests {
     void updateRetailerShouldSucceed() throws Exception{
         //arrange
         Retailer updatedRetailer = new Retailer();
-        updatedRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
+        updatedRetailer.setAccount(new Account("john", "abcd","mail", UserRole.RETAILER, LocalDate.parse("2018-10-02")));
         updatedRetailer.setAvatar(new Image("testurl"));
         updatedRetailer.setId(0);
         //act
@@ -125,7 +125,7 @@ class RetailerServiceTests {
     void updateRetailerMissingAvatarShouldNotSucceed() {
         //arrange
         Retailer updatedRetailer = new Retailer();
-        updatedRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
+        updatedRetailer.setAccount(new Account("john", "abcd","mail", UserRole.RETAILER, LocalDate.parse("2018-10-02")));
         updatedRetailer.setId(0);
         //act
 
@@ -138,7 +138,7 @@ class RetailerServiceTests {
     void updateRetailerWithNegativeIdShouldNotSucceed(){
         //arrange
         Retailer updatedRetailer = new Retailer();
-        updatedRetailer.setAccount(new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")));
+        updatedRetailer.setAccount(new Account("john", "abcd","mail", UserRole.RETAILER, LocalDate.parse("2018-10-02")));
         updatedRetailer.setAvatar(new Image("testurl"));
         updatedRetailer.setId(-2);
         //act
@@ -153,7 +153,7 @@ class RetailerServiceTests {
         //arrange
         List<Product> expected = new ArrayList<>();
         Image image = new Image("testurl");
-        Retailer retailer = new Retailer(0, new Account("john", "abcd","mail", UserRole.Retailer, LocalDate.parse("2018-10-02")),image );
+        Retailer retailer = new Retailer(0, new Account("john", "abcd","mail", UserRole.RETAILER, LocalDate.parse("2018-10-02")),image );
         expected.add(new Product(0, "tv", 200.0, "description tv", LocalDate.parse("2020-01-08"),retailer,2.5, image));
         expected.add(new Product(1, "mouse", 15.50, "computer mouse", LocalDate.parse("2020-11-29"),retailer,4.5, image));
         //act

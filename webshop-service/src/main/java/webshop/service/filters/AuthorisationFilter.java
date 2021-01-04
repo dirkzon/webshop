@@ -2,6 +2,8 @@ package webshop.service.filters;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import webshop.service.AllowedRoles;
+import webshop.service.models.UserRole;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -53,7 +55,7 @@ public class AuthorisationFilter implements ContainerRequestFilter {
             return;
         }
 
-        final String role = credentials.get(USER_ROLE).toString();
+        final UserRole role = UserRole.valueOf(credentials.get(USER_ROLE).toString());
 
         if(!isUserAllowed(role)){
             Response response = Response.status(Response.Status.FORBIDDEN).
@@ -67,9 +69,9 @@ public class AuthorisationFilter implements ContainerRequestFilter {
         requestContext.setProperty(USER_ID, userId);
     }
 
-    private Boolean isUserAllowed(String role){
-        if(!resourceInfo.getResourceMethod().isAnnotationPresent(RolesAllowed.class)) return true;
-        String[] allowedRoles = resourceInfo.getResourceMethod().getAnnotation(RolesAllowed.class).value();
+    private Boolean isUserAllowed(UserRole role){
+        if(!resourceInfo.getResourceMethod().isAnnotationPresent(AllowedRoles.class)) return true;
+        UserRole[] allowedRoles = resourceInfo.getResourceMethod().getAnnotation(AllowedRoles.class).value();
         return Arrays.asList(allowedRoles).contains(role);
     }
 }

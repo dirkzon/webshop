@@ -2,8 +2,10 @@ package webshop.service.resources;
 
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.IReportService;
+import webshop.service.AllowedRoles;
 import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.Report;
+import webshop.service.models.UserRole;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -33,7 +35,7 @@ public class ReportResource {
 
     @GET
     @UseAuthorisationFilter
-    @RolesAllowed({"Retailer"})
+    @AllowedRoles({UserRole.RETAILER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{report_id}")
     public Response getReportById(@PathParam("report_id") int id){
@@ -47,7 +49,7 @@ public class ReportResource {
 
     @GET
     @UseAuthorisationFilter
-    @RolesAllowed({"Retailer"})
+    @AllowedRoles({UserRole.RETAILER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all")
     public Response getAllReportsForRetailer(){
@@ -62,7 +64,7 @@ public class ReportResource {
 
     @POST
     @UseAuthorisationFilter
-    @RolesAllowed({"Customer"})
+    @AllowedRoles({UserRole.CUSTOMER})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response reportReview(Report report){
@@ -76,7 +78,7 @@ public class ReportResource {
 
     @DELETE
     @UseAuthorisationFilter
-    @RolesAllowed({"Retailer"})
+    @AllowedRoles({UserRole.CUSTOMER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{report_id}")
     public Response removeReview(@PathParam("report_id") int id){
@@ -90,7 +92,7 @@ public class ReportResource {
 
     @PUT
     @UseAuthorisationFilter
-    @RolesAllowed({"Retailer"})
+    @AllowedRoles({UserRole.RETAILER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{report_id}")
     public Response dismissReport(@PathParam("report_id") int id){

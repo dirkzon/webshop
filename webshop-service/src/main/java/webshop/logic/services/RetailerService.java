@@ -50,7 +50,7 @@ public class RetailerService implements IRetailerService {
                     retailer.getId() >= 0){
                 Retailer oldRetailer = getRetailerById(id);
                 retailer.getAccount().setJoined(oldRetailer.getAccount().getJoined());
-                retailer.getAccount().setRole(UserRole.Retailer);
+                retailer.getAccount().setRole(UserRole.RETAILER);
                 return repository.updateRetailerById(id, retailer);
             }
             throw new Exception("Retailer not valid.");
