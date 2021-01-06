@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.util.Collections;
 import java.util.List;
 
 public class AccountRepository implements IAccountRepository {
@@ -26,8 +27,8 @@ public class AccountRepository implements IAccountRepository {
             String sql = "SELECT * FROM accounts WHERE user_name = :details OR email = :details";
             Query query = em.createNativeQuery(sql, Account.class);
             query.setParameter("details", details);
-            List result =  query.getResultList();
-            if (result.isEmpty()) return null;
+            List<Account> result =  query.getResultList();
+            if (result.isEmpty()) return Collections.emptyList();
             return result;
         }finally {
             em.close();

@@ -8,6 +8,8 @@ import webshop.service.models.*;
 import javax.inject.Inject;
 import java.time.LocalDate;
 
+import static webshop.logic.services.Constants.INVALID_ID;
+
 public class CustomerService implements ICustomerService {
 
     private final ICustomerRepository repository;
@@ -18,7 +20,7 @@ public class CustomerService implements ICustomerService {
     }
 
     public Customer getCustomerById(int id)throws NotFoundException {
-        if (id < 0) throw new IllegalArgumentException("No id");
+        if (id < 0) throw new IllegalArgumentException(INVALID_ID);
         Customer customer = repository.getCustomerById(id);
         if(customer == null) throw new NotFoundException("Customer not found");
         if (customer.getReviews() != null) {

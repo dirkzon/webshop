@@ -12,6 +12,8 @@ import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.List;
 
+import static webshop.logic.services.Constants.INVALID_ID;
+
 public class ProductService implements IProductService {
 
     private final IProductRepository repository;
@@ -23,7 +25,7 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProductById(int id)throws NotFoundException {
-        if (id < 0) throw new IllegalArgumentException("Id not valid");
+        if (id < 0) throw new IllegalArgumentException(INVALID_ID);
         Product product = repository.getProductById(id);
         if(product == null) throw new NotFoundException("Product not found");
         if (product.getReviews() != null) {
@@ -41,7 +43,7 @@ public class ProductService implements IProductService {
 
     @Override
     public boolean removeProductById(int id) {
-        if (id < 0) throw new IllegalArgumentException("Id not valid");
+        if (id < 0) throw new IllegalArgumentException(INVALID_ID);
         Product productToRemove = repository.getProductById(id);
         if (productToRemove == null) return false;
         repository.removeProduct(productToRemove);

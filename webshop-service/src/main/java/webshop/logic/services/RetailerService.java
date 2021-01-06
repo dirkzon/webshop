@@ -9,6 +9,8 @@ import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.List;
 
+import static webshop.logic.services.Constants.INVALID_ID;
+
 public class RetailerService implements IRetailerService {
 
     private final IRetailerRepository repository;
@@ -20,7 +22,7 @@ public class RetailerService implements IRetailerService {
 
     @Override
     public Retailer getRetailerById(int id) throws NotFoundException {
-        if (id < 0) throw new IllegalArgumentException("Invalid id");
+        if (id < 0) throw new IllegalArgumentException(INVALID_ID);
         Retailer retailer = repository.getRetailerById(id);
         if (retailer == null) throw new NotFoundException("Retailer not found");
         return retailer;
@@ -52,13 +54,14 @@ public class RetailerService implements IRetailerService {
 
     @Override
     public void removeRetailerById(int id) {
+        if (id < 0) throw new IllegalArgumentException(INVALID_ID);
         Retailer retailerToRemove = repository.getRetailerById(id);
         repository.removeRetailer(retailerToRemove);
     }
 
     @Override
     public List<Product> getAllProductsInCatalog(int id) {
-        if (id < 0) throw new IllegalArgumentException("Id not valid");
+        if (id < 0) throw new IllegalArgumentException(INVALID_ID);
         List<Product> products = repository.getProductsInCatalog(id);
         for (Product product : products) {
             for (Review review : product.getReviews()) {

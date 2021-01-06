@@ -38,7 +38,8 @@ public class AccountService implements IAccountService {
 
     public String createToken(Account account){
         int id = repository.getUserIdFromAccountId(account.getId(), account.getRole());
-        Logger.getGlobal().log(Level.INFO, "User with id: " + account.getId() + " has logged in.");
+        Logger.getGlobal().log(Level.INFO,
+                String.format("User with id:%d has logged in.", account.getId()));
         return Jwts.builder()
                 .setSubject(account.getUsername())
                 .setId(Integer.toString(id))
