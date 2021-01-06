@@ -10,7 +10,6 @@ import webshop.service.models.Account;
 import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static webshop.service.filters.Constants.USER_ROLE;
@@ -38,8 +37,7 @@ public class AccountService implements IAccountService {
 
     public String createToken(Account account){
         int id = repository.getUserIdFromAccountId(account.getId(), account.getRole());
-        Logger.getGlobal().log(Level.INFO,
-                String.format("User with id:%d has logged in.", account.getId()));
+        Logger.getGlobal().fine(String.format("User with id %d has logged in", account.getId()));
         return Jwts.builder()
                 .setSubject(account.getUsername())
                 .setId(Integer.toString(id))

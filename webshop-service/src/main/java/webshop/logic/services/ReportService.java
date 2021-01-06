@@ -19,7 +19,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public Report getReportById(int id) throws IllegalArgumentException {
+    public Report getReportById(int id) {
         if (id < 0) throw new IllegalArgumentException(INVALID_ID);
         Report report = repository.getReportById(id);
         report.getReview().getCustomer().setReviews(null);
