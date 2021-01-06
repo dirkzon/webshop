@@ -77,7 +77,7 @@ public class ReportResource {
 
     @DELETE
     @UseAuthorisationFilter
-    @AllowedRoles({UserRole.CUSTOMER})
+    @AllowedRoles({UserRole.RETAILER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{report_id}")
     public Response removeReview(@PathParam("report_id") int id){

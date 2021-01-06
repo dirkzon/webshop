@@ -20,34 +20,30 @@ public class ReportRepository implements IReportRepository {
         this.emf = emf;
     }
 
-    public Report getReportById(int id)throws Exception{
+    public Report getReportById(int id){
         EntityManager em = emf.createEntityManager();
         try{
             return em.find(Report.class, id);
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally{
             em.close();
         }
     }
 
     @Override
-    public List<Report> getReportsByRetailer(int id)throws Exception{
+    public List<Report> getReportsByRetailer(int id){
         EntityManager em = emf.createEntityManager();
         try{
             String sql = "SELECT * FROM Reports WHERE retailer_id = :id";
             Query query = em.createNativeQuery(sql, Report.class);
             query.setParameter("id", id);
             return query.getResultList();
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally{
             em.close();
         }
     }
 
     @Override
-    public Report reportReview(Report report)throws Exception{
+    public Report reportReview(Report report){
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
@@ -57,15 +53,13 @@ public class ReportRepository implements IReportRepository {
             em.persist(newReport);
             em.getTransaction().commit();
             return report;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }
     }
 
     @Override
-    public void removeReview(Report report)throws Exception{
+    public void removeReview(Report report){
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -79,15 +73,13 @@ public class ReportRepository implements IReportRepository {
                 em.remove(em.contains(reportToRemove) ? reportToRemove : em.merge(reportToRemove));
             }
             em.getTransaction().commit();
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }
     }
 
     @Override
-    public void dismissReport(Report report)throws Exception{
+    public void dismissReport(Report report){
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -100,8 +92,6 @@ public class ReportRepository implements IReportRepository {
                 em.remove(em.contains(reportToRemove) ? reportToRemove : em.merge(reportToRemove));
             }
             em.getTransaction().commit();
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }

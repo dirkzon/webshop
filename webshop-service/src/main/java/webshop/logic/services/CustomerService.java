@@ -16,7 +16,7 @@ public class CustomerService implements ICustomerService {
         this.repository = repository;
     }
 
-    public Customer getCustomerById(int id) throws Exception {
+    public Customer getCustomerById(int id) throws IllegalArgumentException {
         if (id < 0) throw new IllegalArgumentException("No id");
         Customer customer = repository.getCustomerById(id);
         if (customer.getReviews() != null) {
@@ -32,7 +32,7 @@ public class CustomerService implements ICustomerService {
         return customer;
     }
 
-    public Customer saveCustomer(Customer customer) throws Exception {
+    public Customer saveCustomer(Customer customer) throws NullPointerException {
         customer.setAvatar(new Image("https://cnaca.ca/wp-content/uploads/2018/10/user-icon-image-placeholder.jpg"));
         if (customer.getAccount() != null &&
                 customer.getAvatar() != null &&
@@ -43,7 +43,7 @@ public class CustomerService implements ICustomerService {
         throw new NullPointerException("customer not valid");
     }
 
-    public Customer updateCustomerById(int id, Customer customer) throws Exception {
+    public Customer updateCustomerById(int id, Customer customer) throws NullPointerException {
         if (customer.getAccount() != null &&
                 customer.getAvatar() != null &&
                 customer.getAddress() != null &&
@@ -54,7 +54,7 @@ public class CustomerService implements ICustomerService {
         throw new NullPointerException("Customer not valid");
     }
 
-    public void removeCustomerById(int id) throws Exception {
+    public void removeCustomerById(int id){
         Customer customer = repository.getCustomerById(id);
         repository.removeCustomer(customer);
     }

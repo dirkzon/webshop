@@ -7,9 +7,9 @@ import webshop.service.models.Review;
 import java.util.List;
 
 public interface IProductService {
-    Product getProductById(int id)throws Exception;
-    boolean removeProductById(int id)throws Exception;
-    Product updateProductById(int id, Product product)throws Exception;
-    Review createReviewOnProductById(int id, Review review)throws Exception;
-    List<Product> browseProducts(BrowseVars fields)throws Exception;
+    Product getProductById(int id)throws IllegalArgumentException;
+    boolean removeProductById(int id)throws IllegalArgumentException;
+    Product updateProductById(int id, Product product)throws IllegalArgumentException;
+    Review createReviewOnProductById(int id, Review review)throws IllegalArgumentException;
+    List<Product> browseProducts(BrowseVars fields)throws IllegalArgumentException;
 }

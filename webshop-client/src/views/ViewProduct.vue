@@ -165,7 +165,7 @@ export default {
          cart = [];
        }
        if(!cart.includes(this.product.id)){
-         if(this.$cookies.get("scope") == "Customer"){
+         if(this.$cookies.get("scope") == "CUSTOMER"){
            this.canAddToCart = true;
          }
        }

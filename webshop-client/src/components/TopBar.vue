@@ -65,7 +65,7 @@
           <v-list-item-title v-on:click="viewAccount">account</v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item v-if="scope == 'Customer'" v-on:click="goToCart">
+        <v-list-item v-if="scope == 'CUSTOMER'" v-on:click="goToCart">
           <v-badge
               bordered
               color="warning"
@@ -77,7 +77,7 @@
           <v-list-item-title>shopping cart</v-list-item-title>
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item v-if="scope == 'Retailer'" v-on:click="goToReports">
+        <v-list-item v-if="scope == 'RETAILER'" v-on:click="goToReports">
           <v-icon large>report</v-icon>
           <v-list-item-title>reports</v-list-item-title>
         </v-list-item>
@@ -123,10 +123,10 @@ export default {
       router.push('/login')
     },
     viewAccount: function(){
-      if(this.scope == "Customer"){
+      if(this.scope == "CUSTOMER"){
         router.push({name: 'customerAccount'})
       }
-      if(this.scope == "Retailer") {
+      if(this.scope == "RETAILER") {
         router.push({name: 'retailerAccount'})
       }
     },

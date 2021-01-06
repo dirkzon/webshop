@@ -79,6 +79,7 @@ export default{
   methods: {
     LogIn: async function(){
       const response = await accountService.login(this.username, this.password);
+      console.log(response);
       let token = `${response.token_type} ${response.access_token}`
       console.log(token)
       this.$cookies.remove("access_token")

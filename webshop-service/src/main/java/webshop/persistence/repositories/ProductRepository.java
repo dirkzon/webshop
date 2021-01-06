@@ -22,19 +22,17 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public Product getProductById(int id)throws Exception{
+    public Product getProductById(int id){
         EntityManager em = emf.createEntityManager();
         try{
             return em.find(Product.class, id);
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }
     }
 
     @Override
-    public void removeProduct(Product product)throws Exception{
+    public void removeProduct(Product product){
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
@@ -45,15 +43,13 @@ public class ProductRepository implements IProductRepository {
             product.setRetailer(null);
             em.remove(em.contains(product) ? product : em.merge(product));
             em.getTransaction().commit();
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }
     }
 
     @Override
-    public Product updateProductById(int id, Product product)throws Exception{
+    public Product updateProductById(int id, Product product){
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
@@ -66,15 +62,13 @@ public class ProductRepository implements IProductRepository {
             em.merge(productToUpdate);
             em.getTransaction().commit();
             return product;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }
     }
 
     @Override
-    public Review createReviewOnProductById(int id, Review review)throws Exception{
+    public Review createReviewOnProductById(int id, Review review){
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
@@ -83,15 +77,13 @@ public class ProductRepository implements IProductRepository {
             em.persist(review);
             em.getTransaction().commit();
             return review;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }
     }
 
     @Override
-    public List<Product> browseProducts(BrowseVars fields)throws Exception{
+    public List<Product> browseProducts(BrowseVars fields){
         EntityManager em = emf.createEntityManager();
         try{
             String sql = "SELECT * FROM products Where name LIKE CONCAT('%',:search_query,'%') " +
@@ -104,8 +96,6 @@ public class ProductRepository implements IProductRepository {
             query.setParameter("min_rating", fields.getMinRating());
             if(fields.getMaxPrice() > 0) query.setParameter("max_price", fields.getMaxPrice());
             return query.getResultList();
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }

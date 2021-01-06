@@ -21,7 +21,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product getProductById(int id) throws Exception {
+    public Product getProductById(int id) throws IllegalArgumentException {
         if (id < 0) throw new IllegalArgumentException("Id not valid");
         Product product = repository.getProductById(id);
         if (product.getReviews() != null) {
@@ -38,7 +38,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public boolean removeProductById(int id) throws Exception {
+    public boolean removeProductById(int id) throws IllegalArgumentException {
         if (id < 0) throw new IllegalArgumentException("Id not valid");
         Product productToRemove = repository.getProductById(id);
         if (productToRemove == null) return false;
@@ -47,7 +47,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateProductById(int id, Product product) throws Exception {
+    public Product updateProductById(int id, Product product) throws IllegalArgumentException {
         if (product.getDescription() == null ||
                 product.getName() == null ||
                 product.getImage() == null ||
@@ -60,7 +60,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Review createReviewOnProductById(int id, Review review) throws Exception {
+    public Review createReviewOnProductById(int id, Review review) throws IllegalArgumentException {
         if (review.getBody() == null ||
                 review.getCustomer() == null ||
                 review.getRating() == 0 ||
@@ -76,7 +76,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> browseProducts(BrowseVars fields) throws Exception {
+    public List<Product> browseProducts(BrowseVars fields) throws IllegalArgumentException {
         if (!fields.isValid()) throw new IllegalArgumentException("Fields are not valid.");
         List<Product> products = repository.browseProducts(fields);
         for (Product product : products) product.setReviews(null);

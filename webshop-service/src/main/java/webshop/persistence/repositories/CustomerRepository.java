@@ -18,34 +18,30 @@ public class CustomerRepository implements ICustomerRepository {
         emf = entityManagerFactory;
     }
 
-    public Customer saveCustomer(Customer customer)throws Exception{
+    public Customer saveCustomer(Customer customer){
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
             em.persist(customer);
             em.getTransaction().commit();
             return customer;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }
     }
 
     @Override
-    public Customer getCustomerById(int id)throws Exception {
+    public Customer getCustomerById(int id){
         EntityManager em = emf.createEntityManager();
         try{
             return em.find(Customer.class, id);
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally{
             em.close();
         }
     }
 
     @Override
-    public void removeCustomer(Customer customer)throws Exception{
+    public void removeCustomer(Customer customer){
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
@@ -61,15 +57,13 @@ public class CustomerRepository implements ICustomerRepository {
             }
             em.remove(em.contains(customer) ? customer : em.merge(customer));
             em.getTransaction().commit();
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally{
             em.close();
         }
     }
 
     @Override
-    public Customer updateCustomerById(int id, Customer customer)throws Exception{
+    public Customer updateCustomerById(int id, Customer customer){
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
@@ -79,8 +73,6 @@ public class CustomerRepository implements ICustomerRepository {
             customerToUpdate.setAccount(customer.getAccount());
             em.getTransaction().commit();
             return customer;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }

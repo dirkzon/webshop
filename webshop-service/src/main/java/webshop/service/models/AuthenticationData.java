@@ -18,7 +18,7 @@ public class AuthenticationData {
     private UserRole scope;
     private String created;
 
-    public String getAccessToken() {
+    public String getAccess_token() {
         return access_token;
     }
 
@@ -26,7 +26,7 @@ public class AuthenticationData {
         this.access_token = access_token;
     }
 
-    public String getTokenType() {
+    public String getToken_type() {
         return token_type;
     }
 

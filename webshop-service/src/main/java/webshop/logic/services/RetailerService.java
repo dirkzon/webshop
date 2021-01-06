@@ -1,5 +1,6 @@
 package webshop.logic.services;
 
+import javassist.NotFoundException;
 import webshop.logic.interfaces.IRetailerService;
 import webshop.persistence.interfaces.IRetailerRepository;
 import webshop.service.models.*;
@@ -18,13 +19,15 @@ public class RetailerService implements IRetailerService {
     }
 
     @Override
-    public Retailer getRetailerById(int id) throws Exception {
+    public Retailer getRetailerById(int id) throws IllegalArgumentException, NotFoundException {
         if (id < 0) throw new IllegalArgumentException("Invalid id");
-        return repository.getRetailerById(id);
+        Retailer retailer = repository.getRetailerById(id);
+        if(retailer == null) throw new NotFoundException("Retailer not found");
+        return retailer;
     }
 
     @Override
-    public Retailer saveRetailer(Retailer retailer) throws Exception {
+    public Retailer saveRetailer(Retailer retailer) throws IllegalArgumentException {
         retailer.setAvatar(new Image("https://cnaca.ca/wp-content/uploads/2018/10/user-icon-image-placeholder.jpg"));
         if (retailer.getAccount() != null &&
                 retailer.getAvatar() != null) {
@@ -35,11 +38,11 @@ public class RetailerService implements IRetailerService {
     }
 
     @Override
-    public Retailer updateRetailerById(int id, Retailer retailer) throws Exception {
+    public Retailer updateRetailerById(int id, Retailer retailer) throws IllegalArgumentException {
         if (retailer.getAccount() != null &&
                 retailer.getAvatar() != null &&
                 retailer.getId() >= 0) {
-            Retailer oldRetailer = getRetailerById(id);
+            Retailer oldRetailer = repository.getRetailerById(id);
             retailer.getAccount().setJoined(oldRetailer.getAccount().getJoined());
             retailer.getAccount().setRole(UserRole.RETAILER);
             return repository.updateRetailerById(id, retailer);
@@ -48,13 +51,13 @@ public class RetailerService implements IRetailerService {
     }
 
     @Override
-    public void removeRetailerById(int id) throws Exception {
+    public void removeRetailerById(int id){
         Retailer retailerToRemove = repository.getRetailerById(id);
         repository.removeRetailer(retailerToRemove);
     }
 
     @Override
-    public List<Product> getAllProductsInCatalog(int id) throws Exception {
+    public List<Product> getAllProductsInCatalog(int id) throws IllegalArgumentException {
         if (id < 0) throw new IllegalArgumentException("Id not valid");
         List<Product> products = repository.getProductsInCatalog(id);
         for (Product product : products) {
@@ -68,7 +71,7 @@ public class RetailerService implements IRetailerService {
     }
 
     @Override
-    public Product createNewProduct(int id, Product product) throws Exception {
+    public Product createNewProduct(int id, Product product) throws IllegalArgumentException {
         if (product.getDescription() == null ||
                 product.getName() == null ||
                 product.getImage() == null ||

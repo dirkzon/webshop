@@ -35,7 +35,7 @@ public class RetailerResource {
 
     @GET
     @UseAuthorisationFilter
-    @AllowedRoles({UserRole.CUSTOMER})
+    @AllowedRoles({UserRole.RETAILER})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/me")
     public Response getMe(){

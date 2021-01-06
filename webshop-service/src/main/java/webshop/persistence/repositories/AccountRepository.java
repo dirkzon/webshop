@@ -20,7 +20,7 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public List<Account> getAccountByDetails(String details)throws Exception{
+    public List<Account> getAccountByDetails(String details){
         EntityManager em = emf.createEntityManager();
         try{
             String sql = "SELECT * FROM accounts WHERE user_name = :details OR email = :details";
@@ -29,8 +29,6 @@ public class AccountRepository implements IAccountRepository {
             List result =  query.getResultList();
             if (result.isEmpty()) return null;
             return result;
-        }catch (Exception e) {
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }
@@ -38,7 +36,7 @@ public class AccountRepository implements IAccountRepository {
 
     //could be improved if i find a way to make a bidirectional mapping
     //between customer,retailer & account, But this also works.
-    public int getUserIdFromAccountId(int id, UserRole role)throws Exception{
+    public int getUserIdFromAccountId(int id, UserRole role){
         EntityManager em = emf.createEntityManager();
         try{
             String sql;
@@ -51,8 +49,6 @@ public class AccountRepository implements IAccountRepository {
             query.setParameter("id", id);
             var result =  query.getResultList();
             return (int) result.get(0);
-        }catch (Exception e) {
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }

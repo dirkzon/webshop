@@ -1,6 +1,6 @@
 <template>
   <v-card
-      v-if="scope == 'Retailer'"
+      v-if="scope == 'RETAILER'"
       class="mx-8 my-8"
       width="300"
       min-height="400"

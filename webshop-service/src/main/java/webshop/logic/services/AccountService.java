@@ -24,9 +24,8 @@ public class AccountService implements IAccountService {
         this.repository = repository;
     }
 
-    public Account isAccountValid(String details, String password) throws Exception {
-        if (details.isEmpty() || details == null
-                && password.isEmpty() || password == null) throw new NullPointerException("Credentials missing");
+    public Account isAccountValid(String details, String password) throws NullPointerException, NotFoundException {
+        if (details.isEmpty() && password.isEmpty()) throw new NullPointerException("Credentials missing");
         List<Account> accounts = repository.getAccountByDetails(details);
         if (accounts.isEmpty()) throw new NotFoundException("Account not found");
         for (Account account : accounts) {
@@ -37,7 +36,7 @@ public class AccountService implements IAccountService {
         throw new NotFoundException("Account not found");
     }
 
-    public String createToken(Account account) throws Exception {
+    public String createToken(Account account){
         int id = repository.getUserIdFromAccountId(account.getId(), account.getRole());
         Logger.getGlobal().log(Level.INFO, "User with id: " + account.getId() + " has logged in.");
         return Jwts.builder()

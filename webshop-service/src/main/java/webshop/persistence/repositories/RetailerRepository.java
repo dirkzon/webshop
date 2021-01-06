@@ -21,34 +21,30 @@ public class RetailerRepository implements IRetailerRepository {
     }
 
     @Override
-    public Retailer saveRetailer(Retailer retailer)throws Exception{
+    public Retailer saveRetailer(Retailer retailer){
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
             em.persist(retailer);
             em.getTransaction().commit();
             return retailer;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally {
             em.close();
         }
     }
 
     @Override
-    public Retailer getRetailerById(int id)throws Exception{
+    public Retailer getRetailerById(int id){
         EntityManager em = emf.createEntityManager();
         try{
             return em.find(Retailer.class, id);
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally{
             em.close();
         }
     }
 
     @Override
-    public void removeRetailer(Retailer retailer)throws Exception{
+    public void removeRetailer(Retailer retailer){
         EntityManager em = emf.createEntityManager();
         try{
             List<Product> products = getProductsInCatalog(retailer.getId());
@@ -61,8 +57,6 @@ public class RetailerRepository implements IRetailerRepository {
             }
             em.remove(em.contains(retailer) ? retailer : em.merge(retailer));
             em.getTransaction().commit();
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally{
             em.close();
         }
@@ -70,7 +64,7 @@ public class RetailerRepository implements IRetailerRepository {
     }
 
     @Override
-    public Retailer updateRetailerById(int id, Retailer retailer)throws Exception{
+    public Retailer updateRetailerById(int id, Retailer retailer){
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
@@ -79,30 +73,26 @@ public class RetailerRepository implements IRetailerRepository {
             retailerToUpdate.setAccount(retailer.getAccount());
             em.getTransaction().commit();
             return retailer;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally{
             em.close();
         }
     }
 
     @Override
-    public List<Product> getProductsInCatalog(int id)throws Exception{
+    public List<Product> getProductsInCatalog(int id){
         EntityManager em = emf.createEntityManager();
         try{
             String sql = "SELECT * FROM Products WHERE retailer_id = :id";
             Query query = em.createNativeQuery(sql, Product.class);
             query.setParameter("id", id);
             return query.getResultList();
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally{
             em.close();
         }
     }
 
     @Override
-    public Product createNewProductInCatalog(int id, Product product)throws Exception {
+    public Product createNewProductInCatalog(int id, Product product){
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
@@ -110,8 +100,6 @@ public class RetailerRepository implements IRetailerRepository {
             em.persist(product);
             em.getTransaction().commit();
             return product;
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
         }finally{
             em.close();
         }

@@ -6,6 +6,6 @@ import webshop.service.models.UserRole;
 import java.util.List;
 
 public interface IAccountRepository {
-    List<Account> getAccountByDetails(String details)throws Exception;
-    int getUserIdFromAccountId(int id, UserRole role)throws Exception;
+    List<Account> getAccountByDetails(String details);
+    int getUserIdFromAccountId(int id, UserRole role);
 }
