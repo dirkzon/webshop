@@ -17,7 +17,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public Report getReportById(int id) throws IllegalArgumentException {
+    public Report getReportById(int id) {
         if (id < 0) throw new IllegalArgumentException("Invalid id");
         Report report = repository.getReportById(id);
         report.getReview().getCustomer().setReviews(null);
@@ -26,7 +26,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public List<Report> getAllReportsForRetailer(int id) throws IllegalArgumentException {
+    public List<Report> getAllReportsForRetailer(int id) {
         if (id < 0) throw new IllegalArgumentException("Id not valid");
         List<Report> reports = repository.getReportsByRetailer(id);
         for (Report report : reports) {
@@ -38,7 +38,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public Report reportReview(Report report) throws IllegalArgumentException {
+    public Report reportReview(Report report) {
         if (report.getReview().getId() < 0 || report.getRetailer().getId() < 0)
             throw new IllegalArgumentException("Report not valid");
         Report newReport = repository.reportReview(report);
@@ -48,14 +48,14 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public void removeReport(int id) throws IllegalArgumentException {
+    public void removeReport(int id) {
         if (id < 0) throw new IllegalArgumentException("Id not valid");
         Report report = repository.getReportById(id);
         repository.removeReview(report);
     }
 
     @Override
-    public void dismissReport(int id) throws IllegalArgumentException {
+    public void dismissReport(int id) {
         if (id < 0) throw new IllegalArgumentException("Id not valid");
         Report report = repository.getReportById(id);
         repository.dismissReport(report);

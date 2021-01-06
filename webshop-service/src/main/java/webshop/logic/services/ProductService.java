@@ -1,5 +1,6 @@
 package webshop.logic.services;
 
+import javassist.NotFoundException;
 import webshop.logic.interfaces.IProductService;
 import webshop.persistence.interfaces.IProductRepository;
 import webshop.service.models.BrowseVars;
@@ -21,9 +22,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product getProductById(int id) throws IllegalArgumentException {
+    public Product getProductById(int id)throws NotFoundException {
         if (id < 0) throw new IllegalArgumentException("Id not valid");
         Product product = repository.getProductById(id);
+        if(product == null) throw new NotFoundException("Product not found");
         if (product.getReviews() != null) {
             for (Review review : product.getReviews()) {
                 review.setProduct(null);
@@ -38,7 +40,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public boolean removeProductById(int id) throws IllegalArgumentException {
+    public boolean removeProductById(int id) {
         if (id < 0) throw new IllegalArgumentException("Id not valid");
         Product productToRemove = repository.getProductById(id);
         if (productToRemove == null) return false;
@@ -47,7 +49,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateProductById(int id, Product product) throws IllegalArgumentException {
+    public Product updateProductById(int id, Product product) {
         if (product.getDescription() == null ||
                 product.getName() == null ||
                 product.getImage() == null ||
@@ -60,7 +62,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Review createReviewOnProductById(int id, Review review) throws IllegalArgumentException {
+    public Review createReviewOnProductById(int id, Review review) {
         if (review.getBody() == null ||
                 review.getCustomer() == null ||
                 review.getRating() == 0 ||
@@ -76,7 +78,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> browseProducts(BrowseVars fields) throws IllegalArgumentException {
+    public List<Product> browseProducts(BrowseVars fields) {
         if (!fields.isValid()) throw new IllegalArgumentException("Fields are not valid.");
         List<Product> products = repository.browseProducts(fields);
         for (Product product : products) product.setReviews(null);

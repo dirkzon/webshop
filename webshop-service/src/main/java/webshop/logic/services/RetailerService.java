@@ -19,15 +19,15 @@ public class RetailerService implements IRetailerService {
     }
 
     @Override
-    public Retailer getRetailerById(int id) throws IllegalArgumentException, NotFoundException {
+    public Retailer getRetailerById(int id) throws NotFoundException {
         if (id < 0) throw new IllegalArgumentException("Invalid id");
         Retailer retailer = repository.getRetailerById(id);
-        if(retailer == null) throw new NotFoundException("Retailer not found");
+        if (retailer == null) throw new NotFoundException("Retailer not found");
         return retailer;
     }
 
     @Override
-    public Retailer saveRetailer(Retailer retailer) throws IllegalArgumentException {
+    public Retailer saveRetailer(Retailer retailer) {
         retailer.setAvatar(new Image("https://cnaca.ca/wp-content/uploads/2018/10/user-icon-image-placeholder.jpg"));
         if (retailer.getAccount() != null &&
                 retailer.getAvatar() != null) {
@@ -38,7 +38,7 @@ public class RetailerService implements IRetailerService {
     }
 
     @Override
-    public Retailer updateRetailerById(int id, Retailer retailer) throws IllegalArgumentException {
+    public Retailer updateRetailerById(int id, Retailer retailer) {
         if (retailer.getAccount() != null &&
                 retailer.getAvatar() != null &&
                 retailer.getId() >= 0) {
@@ -51,13 +51,13 @@ public class RetailerService implements IRetailerService {
     }
 
     @Override
-    public void removeRetailerById(int id){
+    public void removeRetailerById(int id) {
         Retailer retailerToRemove = repository.getRetailerById(id);
         repository.removeRetailer(retailerToRemove);
     }
 
     @Override
-    public List<Product> getAllProductsInCatalog(int id) throws IllegalArgumentException {
+    public List<Product> getAllProductsInCatalog(int id) {
         if (id < 0) throw new IllegalArgumentException("Id not valid");
         List<Product> products = repository.getProductsInCatalog(id);
         for (Product product : products) {
@@ -71,7 +71,7 @@ public class RetailerService implements IRetailerService {
     }
 
     @Override
-    public Product createNewProduct(int id, Product product) throws IllegalArgumentException {
+    public Product createNewProduct(int id, Product product) {
         if (product.getDescription() == null ||
                 product.getName() == null ||
                 product.getImage() == null ||

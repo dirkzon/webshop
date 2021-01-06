@@ -5,9 +5,9 @@ import webshop.service.models.Report;
 import java.util.List;
 
 public interface IReportService {
-    Report getReportById(int id)throws IllegalArgumentException;
-    List<Report> getAllReportsForRetailer(int id)throws IllegalArgumentException;
-    Report reportReview(Report report)throws IllegalArgumentException;
-    void removeReport(int id)throws IllegalArgumentException;
-    void dismissReport(int id)throws IllegalArgumentException;
+    Report getReportById(int id);
+    List<Report> getAllReportsForRetailer(int id);
+    Report reportReview(Report report);
+    void removeReport(int id);
+    void dismissReport(int id);
 }

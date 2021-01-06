@@ -1,5 +1,6 @@
 package webshop.logic.services;
 
+import javassist.NotFoundException;
 import webshop.logic.interfaces.ICustomerService;
 import webshop.persistence.interfaces.ICustomerRepository;
 import webshop.service.models.*;
@@ -16,9 +17,10 @@ public class CustomerService implements ICustomerService {
         this.repository = repository;
     }
 
-    public Customer getCustomerById(int id) throws IllegalArgumentException {
+    public Customer getCustomerById(int id)throws NotFoundException {
         if (id < 0) throw new IllegalArgumentException("No id");
         Customer customer = repository.getCustomerById(id);
+        if(customer == null) throw new NotFoundException("Customer not found");
         if (customer.getReviews() != null) {
             for (Review review : customer.getReviews()) {
                 review.getProduct().setReviews(null);
@@ -32,7 +34,7 @@ public class CustomerService implements ICustomerService {
         return customer;
     }
 
-    public Customer saveCustomer(Customer customer) throws NullPointerException {
+    public Customer saveCustomer(Customer customer) {
         customer.setAvatar(new Image("https://cnaca.ca/wp-content/uploads/2018/10/user-icon-image-placeholder.jpg"));
         if (customer.getAccount() != null &&
                 customer.getAvatar() != null &&
@@ -43,7 +45,7 @@ public class CustomerService implements ICustomerService {
         throw new NullPointerException("customer not valid");
     }
 
-    public Customer updateCustomerById(int id, Customer customer) throws NullPointerException {
+    public Customer updateCustomerById(int id, Customer customer){
         if (customer.getAccount() != null &&
                 customer.getAvatar() != null &&
                 customer.getAddress() != null &&

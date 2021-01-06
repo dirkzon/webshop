@@ -24,7 +24,7 @@ public class AccountService implements IAccountService {
         this.repository = repository;
     }
 
-    public Account isAccountValid(String details, String password) throws NullPointerException, NotFoundException {
+    public Account isAccountValid(String details, String password) throws NotFoundException {
         if (details.isEmpty() && password.isEmpty()) throw new NullPointerException("Credentials missing");
         List<Account> accounts = repository.getAccountByDetails(details);
         if (accounts.isEmpty()) throw new NotFoundException("Account not found");
