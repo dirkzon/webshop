@@ -30,7 +30,7 @@ create shadowJar:
 build backend image:
   stage: docker_backend
   script:
-    - webshop-service\build\libs
+    - cd webshop-service\build\libs
     - docker build -t dockerjerseyimage .
 
 build frontend:
