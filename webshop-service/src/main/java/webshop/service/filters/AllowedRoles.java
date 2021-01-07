@@ -1,4 +1,4 @@
-package webshop.service;
+package webshop.service.filters;
 
 import webshop.service.models.UserRole;
 

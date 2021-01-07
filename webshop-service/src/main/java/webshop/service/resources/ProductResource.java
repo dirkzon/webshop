@@ -2,7 +2,7 @@ package webshop.service.resources;
 
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.IProductService;
-import webshop.service.AllowedRoles;
+import webshop.service.filters.AllowedRoles;
 import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.*;
 
@@ -49,8 +49,9 @@ public class ProductResource {
                 for(Review review : product.getReviews()){
                     if(review.getCustomer().getId() == userId){
                         product.setCanReview(false);
+                    }else{
+                        review.setCanReport(true);
                     }
-                    review.setCanReport(true);
                 }
             }
             return Response.ok(product).build();

@@ -15,6 +15,6 @@ describe("Browsing products", function () {
                 expect(price * 100).to.be.greaterThan(1000);
                 expect(price * 100).to.be.lessThan(60000);
             })
-        })
+        });
     });
 })

@@ -3,11 +3,13 @@ image: node:10.6.0
 stages:
   - build_backend
   - test_backend
+  - shadow_jar
+  - docker_backend
   - sonarqube
   - build_frontend
   - test_frontend
 
-build site backend:
+build backend:
   stage: build_backend
   script:
     - cd webshop-service
@@ -19,7 +21,19 @@ unit test backend:
     - cd webshop-service
     - ./gradlew check
 
-build site frontend:
+create shadowJar:
+  stage: shadow_jar
+  script:
+    - cd webshop-service
+    - ./gradlew shadowJar
+
+build backend image:
+  stage: docker_backend
+  script:
+    - webshop-service\build\libs
+    - docker build -t dockerjerseyimage .
+
+build frontend:
   image: node:6
   stage: build_frontend
   script:

@@ -2,7 +2,7 @@ package webshop.service.resources;
 
 import org.jvnet.hk2.annotations.Service;
 import webshop.logic.interfaces.IReportService;
-import webshop.service.AllowedRoles;
+import webshop.service.filters.AllowedRoles;
 import webshop.service.filters.UseAuthorisationFilter;
 import webshop.service.models.Report;
 import webshop.service.models.UserRole;

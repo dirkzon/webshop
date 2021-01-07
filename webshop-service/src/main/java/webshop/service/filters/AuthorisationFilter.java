@@ -2,7 +2,6 @@ package webshop.service.filters;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import webshop.service.AllowedRoles;
 import webshop.service.models.UserRole;
 
 import javax.ws.rs.container.ContainerRequestContext;
