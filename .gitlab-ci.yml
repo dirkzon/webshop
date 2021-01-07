@@ -6,7 +6,7 @@ stages:
   - docker_backend
   - sonarqube
   - build_frontend
-  - test_frontend
+  - docker_frontend
 
 build backend:
   stage: build_backend
@@ -28,6 +28,12 @@ build backend image:
     - cd build\libs
     - docker build -t dockerjerseyimage .
 
+sonarqube:
+  stage: sonarqube
+  script:
+    - cd webshop-service
+    - .\gradlew sonarqube
+
 build frontend:
   image: node:6
   stage: build_frontend
@@ -36,8 +42,8 @@ build frontend:
     - npm install
     - npm run build
 
-sonarqube:
-  stage: sonarqube
+build frontend image:
+  stage: docker_frontend
   script:
-    - cd webshop-service
-    - .\gradlew sonarqube
+    - cd webshop-client
+    - docker build -t dockervueimage .
