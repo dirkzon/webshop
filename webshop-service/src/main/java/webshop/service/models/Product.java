@@ -72,11 +72,13 @@ public class Product {
 
     public void calculateRating() {
         double newRating = 0.0;
-        if (!reviews.isEmpty()) {
-            for (Review review : reviews) {
-                newRating += review.getRating();
+        if (reviews != null ) {
+            if(!reviews.isEmpty()){
+                for (Review review : reviews) {
+                    newRating += review.getRating();
+                }
+                newRating = newRating / reviews.size();
             }
-            newRating = newRating / reviews.size();
         }
         rating = newRating;
     }
