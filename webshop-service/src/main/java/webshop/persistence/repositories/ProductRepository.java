@@ -17,41 +17,41 @@ public class ProductRepository implements IProductRepository {
     private final EntityManagerFactory emf;
 
     @Inject
-    public ProductRepository(EntityManagerFactory entityManagerFactory){
+    public ProductRepository(EntityManagerFactory entityManagerFactory) {
         emf = entityManagerFactory;
     }
 
     @Override
-    public Product getProductById(int id){
+    public Product getProductById(int id) {
         EntityManager em = emf.createEntityManager();
-        try{
+        try {
             return em.find(Product.class, id);
-        }finally {
+        } finally {
             em.close();
         }
     }
 
     @Override
-    public void removeProduct(Product product){
+    public void removeProduct(Product product) {
         EntityManager em = emf.createEntityManager();
-        try{
+        try {
             em.getTransaction().begin();
-            for(Review review : product.getReviews()){
+            for (Review review : product.getReviews()) {
                 review.setCustomer(null);
                 em.remove(em.contains(review) ? review : em.merge(review));
             }
             product.setRetailer(null);
             em.remove(em.contains(product) ? product : em.merge(product));
             em.getTransaction().commit();
-        }finally {
+        } finally {
             em.close();
         }
     }
 
     @Override
-    public Product updateProductById(int id, Product product){
+    public Product updateProductById(int id, Product product) {
         EntityManager em = emf.createEntityManager();
-        try{
+        try {
             em.getTransaction().begin();
             Product productToUpdate = em.find(Product.class, id);
             productToUpdate.setPrice(product.getPrice());
@@ -62,41 +62,41 @@ public class ProductRepository implements IProductRepository {
             em.merge(productToUpdate);
             em.getTransaction().commit();
             return product;
-        }finally {
+        } finally {
             em.close();
         }
     }
 
     @Override
-    public Review createReviewOnProductById(int id, Review review){
+    public Review createReviewOnProductById(int id, Review review) {
         EntityManager em = emf.createEntityManager();
-        try{
+        try {
             em.getTransaction().begin();
             review.setCustomer(em.getReference(Customer.class, review.getCustomer().getId()));
             review.setProduct(em.getReference(Product.class, id));
             em.persist(review);
             em.getTransaction().commit();
             return review;
-        }finally {
+        } finally {
             em.close();
         }
     }
 
     @Override
-    public List<Product> browseProducts(BrowseVars fields){
+    public List<Product> browseProducts(BrowseVars fields) {
         EntityManager em = emf.createEntityManager();
-        try{
+        try {
             String sql = "SELECT * FROM products Where name LIKE CONCAT('%',:search_query,'%') " +
                     "And price > :min_price " +
                     "And rating >= :min_rating ";
-            if(fields.getMaxPrice() > 0) sql +="And price < :max_price ";
+            if (fields.getMaxPrice() > 0) sql += "And price < :max_price ";
             Query query = em.createNativeQuery(sql, Product.class);
             query.setParameter("search_query", fields.getQuery());
             query.setParameter("min_price", fields.getMinPrice());
             query.setParameter("min_rating", fields.getMinRating());
-            if(fields.getMaxPrice() > 0) query.setParameter("max_price", fields.getMaxPrice());
+            if (fields.getMaxPrice() > 0) query.setParameter("max_price", fields.getMaxPrice());
             return query.getResultList();
-        }finally {
+        } finally {
             em.close();
         }
     }
