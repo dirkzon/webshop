@@ -74,7 +74,7 @@ public class ProductService implements IProductService {
         review.setCreated(LocalDate.now());
         repository.createReviewOnProductById(id, review);
         Product product = repository.getProductById(id);
-        product.setRating(calculateRating(product.getReviews()));
+        product.calculateRating();
         updateProductById(id, product);
         return review;
     }
@@ -85,16 +85,5 @@ public class ProductService implements IProductService {
         List<Product> products = repository.browseProducts(fields);
         for (Product product : products) product.setReviews(null);
         return products;
-    }
-
-    private double calculateRating(List<Review> reviews) {
-        double output = 0.0;
-        if (reviews != null) {
-            for (Review review : reviews) {
-                output += review.getRating();
-            }
-            output = output / reviews.size();
-        }
-        return output;
     }
 }
