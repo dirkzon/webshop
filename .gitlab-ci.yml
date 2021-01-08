@@ -23,7 +23,6 @@ unit test backend:
 build backend image:
   stage: docker_backend
   script:
-    - docker rmi dockerjerseyimage dockerjerseyimage
     - cd webshop-service
     - ./gradlew shadowJar
     - cd build\libs
@@ -46,6 +45,5 @@ build frontend:
 build frontend image:
   stage: docker_frontend
   script:
-    - docker rmi dockervueimage dockervueimage
     - cd webshop-client
     - docker build -t dockervueimage .
