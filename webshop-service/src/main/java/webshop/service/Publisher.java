@@ -2,9 +2,12 @@ package webshop.service;
 
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 
+import javax.crypto.SecretKey;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static webshop.logic.services.KeyService.GetKey;
 
 /**
  * This class deploys CustomApplicationConfig on a Grizzly server
@@ -16,6 +19,8 @@ class Publisher {
     public static void main(String[] args) {
 
         try {
+            SecretKey secretKey = GetKey("jwt", "Webshop-service\\Keystore.jks");
+
             CustomApplicationConfig customApplicationConfig = new CustomApplicationConfig();
 
             // create and start a grizzly server

@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import webshop.service.models.UserRole;
 
+import javax.crypto.SecretKey;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.List;
 
+import static webshop.logic.services.KeyService.GetKey;
 import static webshop.service.filters.Constants.*;
 
 @UseAuthorisationFilter
@@ -42,8 +44,9 @@ public class AuthorisationFilter implements ContainerRequestFilter {
         Claims credentials;
 
         try {
+            SecretKey secretKey = GetKey("jwt", "Webshop-service\\Keystore.jks");
             credentials = Jwts.parser()
-                    .setSigningKey("eW91IGdvdCB0aGlzIQ==")
+                    .setSigningKey(secretKey)
                     .parseClaimsJws(encodedCredentials)
                     .getBody();
         } catch (Exception e) {

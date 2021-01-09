@@ -7,11 +7,18 @@ import webshop.logic.interfaces.IAccountService;
 import webshop.persistence.interfaces.IAccountRepository;
 import webshop.service.models.Account;
 
+import javax.crypto.SecretKey;
 import javax.inject.Inject;
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static webshop.logic.services.KeyService.GetKey;
 import static webshop.service.filters.Constants.USER_ROLE;
 
 public class AccountService implements IAccountService {
@@ -35,15 +42,17 @@ public class AccountService implements IAccountService {
         throw new NotFoundException("Account not found");
     }
 
-    public String createToken(Account account){
+    public String createToken(Account account) throws UnrecoverableKeyException, CertificateException,
+            NoSuchAlgorithmException, KeyStoreException, IOException {
         int id = repository.getUserIdFromAccountId(account.getId(), account.getRole());
         Logger.getGlobal().fine(String.format("User with id %d has logged in", account.getId()));
+        SecretKey secretKey = GetKey("jwt", "Webshop-service\\Keystore.jks");
         return Jwts.builder()
                 .setSubject(account.getUsername())
                 .setId(Integer.toString(id))
                 .claim(USER_ROLE, account.getRole())
                 .setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, "eW91IGdvdCB0aGlzIQ==")
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 }
