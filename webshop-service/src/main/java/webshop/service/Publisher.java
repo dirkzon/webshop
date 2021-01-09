@@ -19,8 +19,6 @@ class Publisher {
     public static void main(String[] args) {
 
         try {
-            SecretKey secretKey = GetKey("jwt", "Webshop-service\\Keystore.jks");
-
             CustomApplicationConfig customApplicationConfig = new CustomApplicationConfig();
 
             // create and start a grizzly server
