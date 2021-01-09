@@ -2,12 +2,9 @@ package webshop.service;
 
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 
-import javax.crypto.SecretKey;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static webshop.logic.services.KeyService.GetKey;
 
 /**
  * This class deploys CustomApplicationConfig on a Grizzly server
