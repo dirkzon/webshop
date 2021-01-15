@@ -10,7 +10,6 @@ import webshop.service.models.Account;
 
 import javax.crypto.SecretKey;
 import javax.inject.Inject;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -40,7 +39,7 @@ public class AccountService implements IAccountService {
         throw new NotFoundException("Account not found");
     }
 
-    public String createToken(Account account) throws NoSuchAlgorithmException {
+    public String createToken(Account account) {
         SecretKey signingKey = keyStore.getSigningKey();
         int id = repository.getUserIdFromAccountId(account.getId(), account.getRole());
         Logger.getGlobal().fine(String.format("User with id %d has logged in", account.getId()));
