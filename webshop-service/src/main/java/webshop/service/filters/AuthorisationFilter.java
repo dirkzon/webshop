@@ -44,7 +44,7 @@ public class AuthorisationFilter implements ContainerRequestFilter {
         Claims credentials;
 
         try {
-            SecretKey secretKey = getKeyFromStore("jwt", "Webshop-service\\Keystore.jks");
+            SecretKey secretKey = getKeyFromStore("jwt", "webshop-service\\src\\main\\resources\\Keystore.jks");
             credentials = Jwts.parser()
                     .setSigningKey(secretKey)
                     .parseClaimsJws(encodedCredentials)

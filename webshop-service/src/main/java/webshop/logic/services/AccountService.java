@@ -46,7 +46,7 @@ public class AccountService implements IAccountService {
             NoSuchAlgorithmException, KeyStoreException, IOException {
         int id = repository.getUserIdFromAccountId(account.getId(), account.getRole());
         Logger.getGlobal().fine(String.format("User with id %d has logged in", account.getId()));
-        SecretKey secretKey = getKeyFromStore("jwt", "Webshop-service\\Keystore.jks");
+        SecretKey secretKey = getKeyFromStore("jwt", "webshop-service\\src\\main\\resources\\Keystore.jks");
         return Jwts.builder()
                 .setSubject(account.getUsername())
                 .setId(Integer.toString(id))
