@@ -166,7 +166,7 @@ export default {
         }
       })
       await retailerService.updateRetailerById(updatedUser);
-      await window.location.reload();
+      this.retailer = await retailerService.getMe();
     },
     removeAccount: async function(){
       await retailerService.removeRetailerById();

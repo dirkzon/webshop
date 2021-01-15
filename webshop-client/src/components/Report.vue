@@ -32,20 +32,16 @@
 <script>
 import Review from "@/components/Review";
 
-import reportService from "@/services/report-service"
-
 export default {
   name: "Report",
   components: {Review},
   props:["report"],
   methods:{
     removeReview: async function(){
-      await reportService.removeReview(this.report.id);
-      await window.location.reload()
+      this.$emit('remove', this.report.id);
     },
     dismissReport: async function(){
-      await reportService.dismissReport(this.report.id);
-      await window.location.reload()
+      this.$emit('dismiss', this.report.id);
     }
   }
 }
