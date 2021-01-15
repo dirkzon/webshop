@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.List;
 
-import static webshop.logic.services.KeyService.GetKeyFromStore;
+import static webshop.logic.services.KeyService.getKeyFromStore;
 import static webshop.service.filters.Constants.*;
 
 @UseAuthorisationFilter
@@ -44,7 +44,7 @@ public class AuthorisationFilter implements ContainerRequestFilter {
         Claims credentials;
 
         try {
-            SecretKey secretKey = GetKeyFromStore("jwt", "Webshop-service\\Keystore.jks");
+            SecretKey secretKey = getKeyFromStore("jwt", "Webshop-service\\Keystore.jks");
             credentials = Jwts.parser()
                     .setSigningKey(secretKey)
                     .parseClaimsJws(encodedCredentials)

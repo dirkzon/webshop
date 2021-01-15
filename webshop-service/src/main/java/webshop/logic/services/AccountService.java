@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static webshop.logic.services.KeyService.GetKeyFromStore;
+import static webshop.logic.services.KeyService.getKeyFromStore;
 import static webshop.service.filters.Constants.USER_ROLE;
 
 public class AccountService implements IAccountService {
@@ -46,7 +46,7 @@ public class AccountService implements IAccountService {
             NoSuchAlgorithmException, KeyStoreException, IOException {
         int id = repository.getUserIdFromAccountId(account.getId(), account.getRole());
         Logger.getGlobal().fine(String.format("User with id %d has logged in", account.getId()));
-        SecretKey secretKey = GetKeyFromStore("jwt", "Webshop-service\\Keystore.jks");
+        SecretKey secretKey = getKeyFromStore("jwt", "Webshop-service\\Keystore.jks");
         return Jwts.builder()
                 .setSubject(account.getUsername())
                 .setId(Integer.toString(id))

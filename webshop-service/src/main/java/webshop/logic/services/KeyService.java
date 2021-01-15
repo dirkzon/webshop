@@ -14,7 +14,7 @@ public class KeyService {
 
     private static final String PASSWORD = "password";
 
-    public static SecretKey GetKeyFromStore(String alias, String location) throws KeyStoreException, IOException,
+    public static SecretKey getKeyFromStore(String alias, String location) throws KeyStoreException, IOException,
             NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException {
         KeyStore keyStore = KeyStore.getInstance("JCEKS");
         InputStream readStream = new FileInputStream(location);
