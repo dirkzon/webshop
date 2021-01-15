@@ -3,6 +3,7 @@ package webshop.logic.services;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import webshop.logic.interfaces.IAccountService;
+import webshop.logic.interfaces.IKeyService;
 import webshop.persistence.interfaces.IAccountRepository;
 import webshop.service.models.Account;
 import webshop.service.models.UserRole;
@@ -21,11 +22,13 @@ class AccountServiceTests {
     @Context
     static IAccountRepository repository;
     static IAccountService service;
+    static IKeyService keyService;
 
     @BeforeAll
-    static void setUpAccountServiceMock() throws Exception {
+    static void setUpAccountServiceMock() {
         repository = mock(IAccountRepository.class);
-        service = new AccountService(repository);
+        keyService = mock(IKeyService.class);
+        service = new AccountService(repository, keyService);
 
         List<Account> accounts = new ArrayList<>();
 

@@ -2,9 +2,11 @@ package webshop.service.filters;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import webshop.logic.interfaces.IKeyService;
 import webshop.service.models.UserRole;
 
 import javax.crypto.SecretKey;
+import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
@@ -14,11 +16,13 @@ import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.List;
 
-import static webshop.logic.services.KeyService.getKeyFromStore;
 import static webshop.service.filters.Constants.*;
 
 @UseAuthorisationFilter
 public class AuthorisationFilter implements ContainerRequestFilter {
+
+    @Inject
+    IKeyService keyStore;
 
     @Context
     private ResourceInfo resourceInfo;
@@ -44,9 +48,9 @@ public class AuthorisationFilter implements ContainerRequestFilter {
         Claims credentials;
 
         try {
-            SecretKey secretKey = getKeyFromStore("jwt", "webshop-service\\src\\main\\resources\\Keystore.jks");
+            SecretKey SigningKey = keyStore.getSigningKey();
             credentials = Jwts.parser()
-                    .setSigningKey(secretKey)
+                    .setSigningKey(SigningKey)
                     .parseClaimsJws(encodedCredentials)
                     .getBody();
         } catch (Exception e) {

@@ -6,6 +6,7 @@ import webshop.logic.services.*;
 import webshop.persistence.interfaces.*;
 import webshop.persistence.repositories.*;
 
+import javax.inject.Singleton;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -33,6 +34,7 @@ public class DependencyBinder extends AbstractBinder {
         bind(AccountService.class).to(IAccountService.class);
         bind(ProductService.class).to(IProductService.class);
         bind(ReportService.class).to(IReportService.class);
+        bind(KeyService.class).to(IKeyService.class);
 
         //context
         if(context.equals("Memory")){

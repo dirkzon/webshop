@@ -1,24 +1,17 @@
 package webshop.logic.services;
 
+import webshop.logic.interfaces.IKeyService;
+
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
 
-public class KeyService {
+public class KeyService implements IKeyService {
 
-    private static final String PASSWORD = "password";
 
-    public static SecretKey getKeyFromStore(String alias, String location) throws KeyStoreException, IOException,
-            NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException {
-        KeyStore keyStore = KeyStore.getInstance("JCEKS");
-        InputStream readStream = new FileInputStream(location);
-        keyStore.load(readStream, PASSWORD.toCharArray());
-        return (SecretKey) keyStore.getKey(alias, PASSWORD.toCharArray());
+    @Override
+    public SecretKey getSigningKey() throws NoSuchAlgorithmException {
+        KeyGenerator keyGen = KeyGenerator.getInstance("DES");
+        return keyGen.generateKey();
     }
 }
