@@ -56,5 +56,5 @@
     "serve": "vue-cli-service serve",
     "cypress:run": "cypress run",
     "cypress:verify": "cypress verify"
-  },
+  }
 }
