@@ -63,4 +63,3 @@ cypress test frontend:
   script:
     - npm install
     - npm run cypress:verify
-    - npm run cypress:run
