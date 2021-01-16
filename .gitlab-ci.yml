@@ -56,7 +56,7 @@ run docker images:
   stage: run_images
   script:
     - docker run -itd -p 4545:4545 --rm --name dockerjerseyimage dockerjerseyimage
-    - docker run -i -p 2121:80 --rm  --name dockervueimage dockervueimage
+    - docker run -p 2121:80 --rm  --name dockervueimage dockervueimage
 
 cypress test frontend:
   stage: test_frontend
