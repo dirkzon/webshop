@@ -60,6 +60,8 @@ run docker images:
 
 cypress test frontend:
   stage: test_frontend
+  allow_failure: true
   script:
+    - cd webshop-client
     - npm install
     - npm run cypress:verify
