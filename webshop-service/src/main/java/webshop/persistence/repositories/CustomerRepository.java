@@ -53,6 +53,7 @@ public class CustomerRepository implements ICustomerRepository {
                     em.remove(em.contains(report) ? report : em.merge(report));
                 }
                 review.setProduct(null);
+                review.setCustomer(null);
                 em.remove(em.contains(review) ? review : em.merge(review));
             }
             em.remove(em.contains(customer) ? customer : em.merge(customer));
