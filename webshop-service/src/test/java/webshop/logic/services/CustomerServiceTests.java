@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import webshop.logic.interfaces.ICustomerService;
 import webshop.persistence.interfaces.ICustomerRepository;
+import webshop.persistence.interfaces.IProductRepository;
 import webshop.service.models.*;
 
 import javax.ws.rs.core.Context;
@@ -20,11 +21,13 @@ class CustomerServiceTests {
     @Context
     static ICustomerRepository repository;
     static ICustomerService service;
+    static IProductRepository productRepository;
 
     @BeforeAll
-    static void setUpCustomerServiceMock() throws Exception {
+    static void setUpCustomerServiceMock() {
         repository = mock(ICustomerRepository.class);
-        service = new CustomerService(repository);
+        productRepository = mock(IProductRepository.class);
+        service = new CustomerService(repository, productRepository);
 
         List<Customer> customers = new ArrayList<>();
 

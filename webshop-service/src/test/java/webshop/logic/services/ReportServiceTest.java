@@ -3,6 +3,7 @@ package webshop.logic.services;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import webshop.logic.interfaces.IReportService;
+import webshop.persistence.interfaces.IProductRepository;
 import webshop.persistence.interfaces.IReportRepository;
 import webshop.service.models.*;
 
@@ -21,13 +22,15 @@ import static org.mockito.Mockito.when;
 class ReportServiceTest {
 
     @Context
-    static IReportRepository repository;
+    static IReportRepository ReportRepository;
+    static IProductRepository ProductRepository;
     static IReportService service;
 
     @BeforeAll
     static void setUpReportServiceMock()throws Exception{
-        repository = mock(IReportRepository.class);
-        service = new ReportService(repository);
+        ReportRepository = mock(IReportRepository.class);
+        ProductRepository = mock(IProductRepository.class);
+        service = new ReportService(ReportRepository, ProductRepository);
 
         List<Report> reports = new ArrayList<>();
 
@@ -41,9 +44,9 @@ class ReportServiceTest {
         reports.add(new Report(review, retailer));
         reports.get(0).setId(1);
 
-        when(repository.getReportById(anyInt())).thenReturn(reports.get(0));
-        when(repository.getReportsByRetailer(anyInt())).thenReturn(reports);
-        when(repository.reportReview(any(Report.class))).thenReturn(reports.get(0));
+        when(ReportRepository.getReportById(anyInt())).thenReturn(reports.get(0));
+        when(ReportRepository.getReportsByRetailer(anyInt())).thenReturn(reports);
+        when(ReportRepository.reportReview(any(Report.class))).thenReturn(reports.get(0));
     }
 
     @Test

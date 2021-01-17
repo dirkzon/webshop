@@ -13,6 +13,7 @@
           <v-text-field
               v-model="username"
               :rules="userNameRules"
+              @input="clearError"
               outlined
               required
               data-cy="username"
@@ -22,6 +23,7 @@
               :type= "'password'"
               v-model="password"
               :rules="passwordRules"
+              @input="clearError"
               outlined
               required
               data-cy="password"
@@ -79,6 +81,9 @@ export default{
   methods: {
     LogIn: async function(){
       const response = await accountService.login(this.username, this.password);
+      if(response == null){
+        this.errormsg = "Something went wrong, try again."
+      }
       console.log(response);
       let token = `${response.token_type} ${response.access_token}`
       console.log(token)
@@ -87,6 +92,9 @@ export default{
       this.$cookies.set("scope", response.scope, "1d")
       this.$cookies.set("cart", JSON.stringify([]))
       await this.$router.push('/')
+    },
+    clearError(){
+      this.errormsg = "";
     }
 }
 

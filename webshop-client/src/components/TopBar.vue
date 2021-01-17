@@ -41,6 +41,13 @@
         </v-icon>
       </v-btn>
   </v-app-bar>
+    <v-alert v-if="!loggedIn"
+             type="warning"
+             icon="error_outline"
+             style="margin: 0px">
+      You are not logged in.
+      <v-btn v-on:click="$router.push('/login')" small>Log in</v-btn>
+    </v-alert>
   <v-navigation-drawer
       v-model="drawer"
       style="position: fixed"
@@ -106,8 +113,8 @@ export default {
       cartSize: 0,
     }
   },
-  mounted() {
-    let token = this.$cookies.get("access_token");
+  async mounted() {
+    let token = await this.$cookies.get("access_token");
     this.loggedIn = (token != null);
     this.scope = this.$cookies.get("scope");
     this.cartSize = JSON.parse(this.$cookies.get("cart")).length;

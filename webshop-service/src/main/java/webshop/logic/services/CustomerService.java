@@ -3,6 +3,7 @@ package webshop.logic.services;
 import javassist.NotFoundException;
 import webshop.logic.interfaces.ICustomerService;
 import webshop.persistence.interfaces.ICustomerRepository;
+import webshop.persistence.interfaces.IProductRepository;
 import webshop.service.models.*;
 
 import javax.inject.Inject;
@@ -13,10 +14,12 @@ import static webshop.logic.services.Constants.INVALID_ID;
 public class CustomerService implements ICustomerService {
 
     private final ICustomerRepository repository;
+    private final IProductRepository productRepository;
 
     @Inject
-    public CustomerService(ICustomerRepository repository) {
+    public CustomerService(ICustomerRepository repository, IProductRepository productRepository) {
         this.repository = repository;
+        this.productRepository = productRepository;
     }
 
     public Customer getCustomerById(int id)throws NotFoundException {
@@ -60,6 +63,12 @@ public class CustomerService implements ICustomerService {
 
     public void removeCustomerById(int id){
         Customer customer = repository.getCustomerById(id);
+        for (Review review : customer.getReviews()) {
+            Product product  = review.getProduct();
+            product.removeReview(review);
+            product.calculateRating();
+            productRepository.updateProductById(product.getId(), product);
+        }
         repository.removeCustomer(customer);
     }
 }

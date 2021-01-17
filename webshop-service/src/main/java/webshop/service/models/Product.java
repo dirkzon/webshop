@@ -70,6 +70,19 @@ public class Product {
     @Transient
     private boolean canReview = true;
 
+    public void calculateRating() {
+        double newRating = 0.0;
+        if (reviews != null ) {
+            if(!reviews.isEmpty()){
+                for (Review review : reviews) {
+                    newRating += review.getRating();
+                }
+                newRating = newRating / reviews.size();
+            }
+        }
+        rating = newRating;
+    }
+
     public int getId() {
         return id;
     }
@@ -131,6 +144,8 @@ public class Product {
     }
 
     public void addReview(Review review){reviews.add(review);}
+
+    public void removeReview(Review review){reviews.remove(review);}
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;

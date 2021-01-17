@@ -144,7 +144,7 @@ export default {
         customer:{},
       })
       await productService.createReviewOnProductById(this.product.id, newReview)
-      await window.location.reload()
+      this.product = await productService.getProductById(this.$route.params.id);
     },
      addToCart: function(){
       let cart =  JSON.parse(this.$cookies.get("cart"));

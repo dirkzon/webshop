@@ -3,10 +3,11 @@ image: node:10.6.0
 stages:
   - build_backend
   - test_backend
-  - shadow_jar
   - docker_backend
   - sonarqube
   - build_frontend
+  - docker_frontend
+  - run_images
   - test_frontend
 
 build backend:
@@ -21,17 +22,20 @@ unit test backend:
     - cd webshop-service
     - ./gradlew check
 
-create shadowJar:
-  stage: shadow_jar
-  script:
-    - cd webshop-service
-    - ./gradlew shadowJar
-
 build backend image:
   stage: docker_backend
   script:
-    - webshop-service\build\libs
+    - docker rmi dockerjerseyimage
+    - cd webshop-service
+    - ./gradlew shadowJar
+    - cd build\libs
     - docker build -t dockerjerseyimage .
+
+sonarqube:
+  stage: sonarqube
+  script:
+    - cd webshop-service
+    - .\gradlew sonarqube
 
 build frontend:
   image: node:6
@@ -41,8 +45,17 @@ build frontend:
     - npm install
     - npm run build
 
-sonarqube:
-  stage: sonarqube
+build frontend image:
+  stage: docker_frontend
   script:
-    - cd webshop-service
-    - .\gradlew sonarqube
+    - docker rmi dockervueimage
+    - cd webshop-client
+    - docker build -t dockervueimage .
+
+run docker images:
+  stage: run_images
+  only:
+    - origin master
+  script:
+    - docker run -itd -p 4545:4545 --rm --name dockerjerseyimage dockerjerseyimage
+    - docker run -d -p 2121:80 --rm  --name dockervueimage dockervueimage

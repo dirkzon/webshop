@@ -3,11 +3,14 @@ describe("Create review", function () {
     context("Successfully create a review on a product", function () {
         beforeEach(function () {
             cy.server();
+            cy.visit("/login");
             cy.clearCookie("access_token")
-            cy.setCookie("access_token", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZW5rIiwianRpIjoiMSIsIlJvbGUiOiJDdXN0b21lciIsImlhdCI6MTYwOTQwODUwNn0.-FiQD0LTRPqbywjC0Qhp9hbH9S_zkPhkYHvtunER0nA")
-            cy.clearCookie("scope")
-            cy.setCookie("scope", "Customer")
+            cy.get("[data-cy=username]").type("henk");
+            cy.get("[data-cy=password]").type("1234");
+
+            cy.get("[data-cy=loginButton]").click();
             cy.visit("/product/2");
+            cy.wait(2000);
         });
 
         it("Successfully create a review on a product", () => {

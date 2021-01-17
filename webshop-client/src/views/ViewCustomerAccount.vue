@@ -237,7 +237,7 @@ export default {
         }
       })
       await customerService.updateCustomerById(updatedUser)
-      await window.location.reload();
+      this.customer = await customerService.getMe();
     },
     removeAccount: async function() {
       await customerService.removeCustomerById();
