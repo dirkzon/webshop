@@ -54,16 +54,8 @@ build frontend image:
 
 run docker images:
   stage: run_images
+  only:
+    - origin master
   script:
     - docker run -itd -p 4545:4545 --rm --name dockerjerseyimage dockerjerseyimage
     - docker run -d -p 2121:80 --rm  --name dockervueimage dockervueimage
-
-cypress test frontend:
-  stage: test_frontend
-  allow_failure: true
-  script:
-    - cd webshop-client
-    - npm install
-    - npm install cypress
-    - npm run cypress:verify
-    - npm run cypress:run
