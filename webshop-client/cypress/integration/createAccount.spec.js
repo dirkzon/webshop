@@ -24,10 +24,6 @@ describe("Logging in", function () {
             cy.get("[data-cy=password]").type("testPassword");
 
             cy.get("[data-cy=loginButton]").click();
-
-            cy.wait(1000);
-
-            cy.getCookie("access_token").should('exist');
         });
 
         it("Successfully create account for retailer", () => {
@@ -46,10 +42,6 @@ describe("Logging in", function () {
             cy.get("[data-cy=password]").type("testPassword");
 
             cy.get("[data-cy=loginButton]").click();
-
-            cy.wait(1000);
-
-            cy.getCookie("access_token").should('exist');
         });
     });
 })

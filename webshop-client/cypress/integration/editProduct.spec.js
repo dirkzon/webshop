@@ -1,9 +1,15 @@
 describe("Editing product", function () {
     context("product", function () {
         beforeEach(function () {
+            cy.server();
             cy.clearCookie("access_token")
-            cy.setCookie("access_token", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huIiwianRpIjoiMSIsIlJvbGUiOiJSZXRhaWxlciIsImlhdCI6MTYwOTQyMzMwOH0.qYkCmfEweoAbHxO5HiKX2amWWgIQjWTiE_ffKepUeVw")
-        });
+            cy.visit("/login");
+            cy.get("[data-cy=username]").type("john");
+            cy.get("[data-cy=password]").type("abcd");
+
+            cy.get("[data-cy=loginButton]").click();
+            cy.wait(2000)
+            });
 
         it("Successfully update product", () => {
             cy.visit("/product/2/edit");

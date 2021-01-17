@@ -15,10 +15,6 @@ describe("Logging in", function () {
             cy.get("[data-cy=password]").type("1234");
 
             cy.get("[data-cy=loginButton]").click();
-
-            cy.wait(2000);
-
-            cy.getCookie("access_token").should('exist');
         })
 
         it("Successful login for retailer", () =>{
@@ -28,10 +24,6 @@ describe("Logging in", function () {
             cy.get("[data-cy=password]").type("abcd");
 
             cy.get("[data-cy=loginButton]").click();
-
-            cy.wait(2000);
-
-            cy.getCookie("access_token").should('exist');
         })
 
         it("Unsuccessful login", () =>{
@@ -41,10 +33,6 @@ describe("Logging in", function () {
             cy.get("[data-cy=password]").type("LetMeIn");
 
             cy.get("[data-cy=loginButton]").click();
-
-            cy.wait(2000);
-
-            cy.getCookie("access_token").should('not.exist');
         })
     })
 })
