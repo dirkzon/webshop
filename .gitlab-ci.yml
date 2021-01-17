@@ -64,5 +64,6 @@ cypress test frontend:
   script:
     - cd webshop-client
     - npm install
+    - npm install cypress
     - npm run cypress:verify
     - npm run cypress:run
