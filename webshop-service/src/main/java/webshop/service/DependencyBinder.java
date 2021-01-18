@@ -6,7 +6,6 @@ import webshop.logic.services.*;
 import webshop.persistence.interfaces.*;
 import webshop.persistence.repositories.*;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
